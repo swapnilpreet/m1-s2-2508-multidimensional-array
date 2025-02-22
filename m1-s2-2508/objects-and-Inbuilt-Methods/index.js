@@ -34,3 +34,13 @@ function nobita(str) {
 }
 
 console.log(nobita("abbcacs"))
+
+
+// Q: 15
+// Title:
+// L2 - Dynamic Object Methods for Sentence Generation
+
+
+let sentenceBuilder={
+    subject:
+}
