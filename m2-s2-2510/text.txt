@@ -1,0 +1,453 @@
+Introduction to Asynchronous JavaScript and the Event Loop
+1. Introduction to Synchronous vs Asynchronous JavaScript
+Synchronous Programming
+In synchronous programming, code is executed line by line, one task is completed before the next one begins. If a task takes time (e.g., reading a large file or fetching data from the internet), it blocks further code execution until it's finished.
+
+Example: Synchronous Code
+console.log("Task 1");
+console.log("Task 2");
+console.log("Task 3");
+// Output: Task 1, Task 2, Task 3 (in sequence)
+If a long-running task is part of synchronous code, it will block the rest of the operations.
+
+Asynchronous Programming
+Asynchronous programming allows JavaScript to handle tasks that might take a long time (e.g., network requests, file I/O) without blocking the execution of other code. It lets tasks run in the background while the rest of the code continues executing.
+
+Example: Asynchronous Code
+console.log("Task 1");
+
+setTimeout(() => {
+  console.log("Task 2 (after delay)");
+}, 1000);
+
+console.log("Task 3");
+// Output: Task 1, Task 3, Task 2 (after delay)
+Here, Task 3 runs before Task 2 even though it appears later in the code, because Task 2 is executed asynchronously with a delay.
+
+2. Why Asynchronous JavaScript?
+JavaScript is single-threaded, meaning it can handle only one task at a time in the call stack. Without asynchronous programming, tasks like fetching data from a server or reading files would block the rest of the operations, leading to poor performance.
+
+Asynchronous operations solve this problem by allowing tasks to happen in the background without blocking the main thread. This is crucial for modern web applications, where tasks like network requests, database queries, and user interactions often need to happen concurrently.
+
+3. The JavaScript Event Loop: How Asynchronous Code Works
+The event loop is the core mechanism in JavaScript that enables non-blocking asynchronous operations, despite being single-threaded. It manages how asynchronous tasks like timers, I/O operations, and promises are executed.
+
+Key Components:
+Call Stack: This is where JavaScript keeps track of the currently executing function. It's last-in, first-out (LIFO), meaning the last function pushed onto the stack is executed first.
+Web APIs: These are provided by the browser (or Node.js) and allow asynchronous functions like setTimeout, fetch, and XMLHttpRequest to run in the background.
+Task Queue (Callback Queue): When an asynchronous operation (e.g., a timer) finishes, its callback function is moved to the task queue.
+Microtask Queue: This queue holds microtasks, such as promises and mutation observers. Microtasks have a higher priority than tasks in the regular task queue.
+Event Loop: The event loop constantly checks if the call stack is empty. If it is, it takes the first task from the microtask queue or task queue and pushes it onto the call stack for execution.
+Example: How the Event Loop Works
+console.log("Start");
+
+setTimeout(() => {
+  console.log("Task from setTimeout");
+}, 0);
+
+Promise.resolve().then(() => {
+  console.log("Task from Promise");
+});
+
+console.log("End");
+
+// Output: Start, End, Task from Promise, Task from setTimeout
+Explanation:
+"Start" and "End" are printed first because they are synchronous.
+The promise is a microtask, so it gets added to the microtask queue, which is processed before the task queue.
+The setTimeout callback is added to the task queue and executed after all microtasks have been handled.
+4. Asynchronous Patterns in JavaScript
+4.1 Callbacks
+Callbacks are functions passed as arguments to other functions and executed once a task completes. They were the traditional way to handle asynchronous tasks in JavaScript.
+
+Example: Using Callbacks
+function fetchData(callback) {
+  setTimeout(() => {
+    callback("Data received");
+  }, 1000);
+}
+
+fetchData((data) => {
+  console.log(data);  // Output: Data received (after 1 second)
+});
+Disadvantage: Callbacks can lead to callback hell, where multiple nested callbacks make the code difficult to read and maintain.
+
+4.2 Promises
+Promises provide a more structured way to handle asynchronous operations. A promise represents the eventual result of an asynchronous operation.
+
+Example: Using Promises
+const fetchData = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("Data received");
+  }, 1000);
+});
+
+fetchData.then((data) => {
+  console.log(data);  // Output: Data received (after 1 second)
+});
+Promises can be chained and handle both success (resolve) and failure (reject), making them more powerful than callbacks.
+
+4.3 Async/Await
+Introduced in ES8, async/await is built on top of promises but provides a synchronous-looking syntax for handling asynchronous operations.
+
+Example: Using Async/Await
+function fetchData() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve("Data received");
+    }, 1000);
+  });
+}
+
+async function displayData() {
+  const data = await fetchData();
+  console.log(data);  // Output: Data received (after 1 second)
+}
+
+displayData();
+With async/await, you can write asynchronous code in a linear and more readable way. The await keyword pauses the function execution until the promise resolves.
+
+5. Call Stack, Task Queue, and Microtask Queue
+Call Stack
+The call stack manages the execution of functions. When a function is invoked, it’s pushed onto the stack. When it returns, it’s popped off the stack.
+
+Task Queue
+Asynchronous functions like setTimeout, fetch, and DOM events send their callbacks to the task queue when completed.
+
+Microtask Queue
+Promises and certain other async operations (like MutationObserver) use the microtask queue. Microtasks have a higher priority and are executed before tasks in the task queue.
+
+Example: Tasks and Microtasks
+console.log("Start");
+
+setTimeout(() => {
+  console.log("Task from setTimeout");
+}, 0);
+
+Promise.resolve().then(() => {
+  console.log("Microtask from Promise");
+});
+
+console.log("End");
+
+// Output: Start, End, Microtask from Promise, Task from setTimeout
+7. Practice Exercises
+Exercise 1: Simulate an Asynchronous Task
+Create a function that simulates fetching data asynchronously using a promise. After a 2-second delay, the promise should resolve with a message: "Data Fetched".
+
+Exercise 2: Use Async/Await for Fetch
+Write an async function that fetches data using promises and logs the result using await.
+
+Exercise 3: Understanding the Event Loop
+Create an example that demonstrates how a microtask (promise) runs before a regular task (setTimeout).
+
+8. Summary
+Synchronous JavaScript executes code line by line, while asynchronous JavaScript allows long-running tasks to execute in the background.
+The event loop enables non-blocking operations by managing the call stack, task queue, and microtask queue.
+Promises and async/await are modern ways to handle asynchronous code, avoiding issues like callback hell.
+Understanding the event loop and how tasks and microtasks are managed is key to mastering asynchronous JavaScript.
+9. Additional Resources
+MDN Web Docs: Asynchronous JavaScript
+MDN Web Docs: Promises
+Web APIs: setTimeout and setInterval in JavaScript
+1. What are Web APIs in JavaScript?
+Web APIs (Application Programming Interfaces) are built-in browser features that provide additional capabilities to JavaScript, such as the ability to interact with the Document Object Model (DOM), make HTTP requests, handle timers, and more.
+
+While JavaScript is a programming language, Web APIs extend its functionality, especially when interacting with the browser environment.
+
+Common Web APIs:
+DOM API for manipulating HTML and CSS.
+Fetch API for making network requests.
+Timers API for controlling time-based operations (setTimeout, setInterval).
+In this lesson, we will focus on the Timers API, which includes the setTimeout and setInterval methods.
+
+2. setTimeout: Delaying Code Execution
+Definition
+setTimeout is a Web API that allows you to delay the execution of a function by a specified amount of time (in milliseconds). It runs the code once after the timer expires.
+
+Syntax:
+setTimeout(function, delay, ...arguments);
+function: The function to execute after the delay.
+delay: Time in milliseconds (1000ms = 1 second) to wait before executing the function.
+...arguments: Additional arguments to pass to the function (optional).
+Example: Basic Usage of setTimeout
+console.log("Task 1");
+
+setTimeout(() => {
+  console.log("Task 2 executed after 2 seconds");
+}, 2000);
+
+console.log("Task 3");
+
+// Output:
+// Task 1
+// Task 3
+// Task 2 executed after 2 seconds
+Explanation:
+The function inside setTimeout is executed after 2 seconds (2000 milliseconds).
+Meanwhile, other tasks (Task 1 and Task 3) are executed immediately.
+2.1 Cancelling a Timeout with clearTimeout
+You can cancel a timeout if needed using the clearTimeout method. This is useful when you don’t want the delayed action to be executed anymore.
+
+Example: Cancelling a Timeout
+let timeoutId = setTimeout(() => {
+  console.log("This will not be logged because the timeout is cleared");
+}, 5000);
+
+// Cancel the timeout before it executes
+clearTimeout(timeoutId);
+3. setInterval: Repeating Code Execution
+Definition
+setInterval is another Web API that allows you to run a function repeatedly at a specified interval (in milliseconds). It continues executing the function at regular intervals until it is stopped.
+
+Syntax:
+setInterval(function, interval, ...arguments);
+function: The function to execute repeatedly.
+interval: Time in milliseconds between each function execution.
+...arguments: Additional arguments to pass to the function (optional).
+Example: Basic Usage of setInterval
+let counter = 0;
+
+let intervalId = setInterval(() => {
+  counter++;
+  console.log(`Count: ${counter}`);
+
+  if (counter === 5) {
+    clearInterval(intervalId);  // Stop the interval after 5 iterations
+  }
+}, 1000);
+
+// Output:
+// Count: 1 (after 1 second)
+// Count: 2 (after 2 seconds)
+// Count: 3 (after 3 seconds)
+// Count: 4 (after 4 seconds)
+// Count: 5 (after 5 seconds)
+Explanation:
+The function inside setInterval is executed every 1 second (1000 milliseconds).
+Once the counter reaches 5, we stop the interval using clearInterval.
+3.1 Stopping an Interval with clearInterval
+To stop an interval, use the clearInterval method, passing the intervalId returned by setInterval.
+
+Example: Stopping an Interval
+let intervalId = setInterval(() => {
+  console.log("This will be printed every second");
+}, 1000);
+
+// Stop the interval after 3 seconds
+setTimeout(() => {
+  clearInterval(intervalId);
+  console.log("Interval cleared after 3 seconds");
+}, 3000);
+
+// Output:
+// This will be printed every second
+// This will be printed every second
+// Interval cleared after 3 seconds
+4. Differences Between setTimeout and setInterval
+Feature	setTimeout	setInterval
+Execution	Executes a function once after a delay	Executes a function repeatedly at intervals
+Usage	Use when you want a delayed action	Use when you want a repeating action
+Cancelling	clearTimeout	clearInterval
+5. Practical Examples of setTimeout and setInterval
+Example 1: Simulating a Countdown Timer with setInterval
+function countdown(seconds) {
+  let remainingTime = seconds;
+
+  let intervalId = setInterval(() => {
+    console.log(`Time remaining: ${remainingTime} seconds`);
+    remainingTime--;
+
+    if (remainingTime < 0) {
+      clearInterval(intervalId);
+      console.log("Time's up!");
+    }
+  }, 1000);
+}
+
+countdown(5);
+
+// Output:
+// Time remaining: 5 seconds
+// Time remaining: 4 seconds
+// Time remaining: 3 seconds
+// Time remaining: 2 seconds
+// Time remaining: 1 second
+// Time remaining: 0 seconds
+// Time's up!
+In this example, the setInterval function is used to decrease the countdown by 1 second at a time, and when the timer reaches 0, the interval is stopped.
+
+Example 2: Delaying a Popup Message with setTimeout
+function showPopup() {
+  alert("This is your popup message after 3 seconds!");
+}
+
+setTimeout(showPopup, 3000);  // Show popup after 3 seconds
+In this case, setTimeout is used to show an alert after 3 seconds.
+
+Example 3: Stopping Repeated Animation with clearInterval
+let xPosition = 0;
+
+let intervalId = setInterval(() => {
+  xPosition += 5;
+  console.log(`Object moved to position ${xPosition}px`);
+
+  if (xPosition >= 50) {
+    clearInterval(intervalId);  // Stop animation after 50px
+  }
+}, 500);
+In this example, setInterval moves an object by 5px every 500 milliseconds, and stops after the object has moved 50px.
+
+6. Common Pitfalls and Best Practices
+6.1 Memory Leaks
+Be careful when using multiple setInterval calls without stopping them, as this can cause memory leaks and degrade performance. Always clear intervals when they are no longer needed using clearInterval.
+6.2 Avoiding Overuse of Timers
+While setTimeout and setInterval are useful, overusing them (especially setInterval) can lead to performance issues. Only use them when necessary, and make sure to manage timer cancellations properly.
+6.3 Accuracy of Timers
+JavaScript timers are not precise. Delays in execution may occur due to various factors such as browser performance, system load, or other asynchronous tasks. If you need high accuracy for time-based operations, other methods such as requestAnimationFrame may be more appropriate.
+7. Practice Exercises
+Exercise 1: Simple Reminder
+Create a function that sends a reminder message to the console every 10 seconds. After 1 minute, stop the reminders.
+
+Exercise 2: Progressive Countdown
+Write a countdown timer that starts at a given number and prints the time remaining every second. When it reaches zero, print "Time’s up!" and stop the timer.
+
+Exercise 3: Staggered Messages
+Using setTimeout, display three different messages at staggered intervals: one after 2 seconds, another after 5 seconds, and the final message after 8 seconds.
+
+8. Summary
+setTimeout is used to execute a function after a specified delay.
+setInterval is used to execute a function repeatedly at regular intervals.
+Both functions can be stopped using clearTimeout and clearInterval, respectively.
+Proper management of timers is crucial to prevent memory leaks and ensure optimal performance in web applications.
+9. Additional Resources
+MDN Web Docs: setTimeout
+MDN Web Docs: setInterval
+Function Currying in JavaScript
+Learning Objectives
+By the end of this lesson, you will understand:
+
+What function currying is and why it's useful.
+The use cases of currying in JavaScript and its real-world applications.
+The difference between synchronous and asynchronous programming in JavaScript.
+How asynchronous JavaScript helps manage non-blocking operations.
+The role of the JavaScript Event Loop in handling asynchronous tasks.
+How the call stack, task queue, and microtask queue work together in the event loop.
+What Web APIs are in JavaScript and how they extend the language.
+How to use the setTimeout function to delay the execution of code.
+How to use the setInterval function to repeat code execution at specified intervals.
+1. What is Function Currying?
+Function currying is a technique in functional programming where a function, instead of taking all arguments at once, takes them one at a time. A curried function returns a new function that takes the next argument, and so on, until all arguments have been provided.
+
+Example: Regular Function vs. Curried Function
+Regular Function:
+A function that takes all its arguments at once:
+
+function add(a, b) {
+  return a + b;
+}
+
+console.log(add(2, 3));  // Output: 5
+Curried Function:
+A curried function that takes arguments one by one:
+
+function add(a) {
+  return function(b) {
+    return a + b;
+  };
+}
+
+console.log(add(2)(3));  // Output: 5
+In the curried version, the add() function returns a new function that takes the second argument.
+
+2. How Does Currying Work?
+Currying transforms a function with multiple arguments into a sequence of functions, each taking a single argument.
+
+Basic Currying Example:
+Example 1: Adding Three Numbers (Curried)
+function add(a) {
+  return function(b) {
+    return function(c) {
+      return a + b + c;
+    };
+  };
+}
+
+console.log(add(2)(3)(4));  // Output: 9
+Here, the add() function is curried to take three arguments. Each function call takes one argument and returns a new function until all arguments are provided.
+
+3. Why is Currying Useful?
+Currying is useful because it allows you to:
+
+Reuse functions by partially applying arguments.
+Create more specific functions from generic ones by supplying some arguments in advance.
+Improve readability and composition of functions, especially in functional programming.
+Use Case 1: Partially Applying Arguments
+With currying, you can create specialized functions by partially applying some arguments, while leaving the rest for future use.
+
+Example 2: Multiplication Curried Function
+function multiply(a) {
+  return function(b) {
+    return a * b;
+  };
+}
+
+const double = multiply(2);  // Partially applying the argument 2
+console.log(double(5));      // Output: 10
+console.log(double(10));     // Output: 20
+In this example, double is a specialized version of multiply that always multiplies a number by 2.
+
+4. Practical Examples of Currying
+Example 3: Currying for Logging with Prefixes
+Imagine you want to create logging functions that prefix each log message with a certain tag.
+
+function logger(prefix) {
+  return function(message) {
+    console.log(`[${prefix}] ${message}`);
+  };
+}
+
+const infoLogger = logger("INFO");
+const errorLogger = logger("ERROR");
+
+infoLogger("Application started.");  // Output: [INFO] Application started.
+errorLogger("Failed to load resource.");  // Output: [ERROR] Failed to load resource.
+In this example, the logger() function is curried to create specialized logging functions with different prefixes.
+
+Example 4: Currying for URL Generation
+You can use currying to generate URLs based on specific parameters.
+
+function createUrl(domain) {
+  return function(path) {
+    return `https://${domain}/${path}`;
+  };
+}
+
+const githubUrl = createUrl("github.com");
+console.log(githubUrl("user/repo"));  // Output: https://github.com/user/repo
+console.log(githubUrl("pulls"));      // Output: https://github.com/pulls
+Here, createUrl() is curried to generate URLs with a fixed domain but variable paths.
+
+5. Advantages of Currying
+Reusability: Currying allows functions to be reused by fixing certain arguments and creating specialized versions.
+Modularity: Currying helps break down complex functions into smaller, more manageable units.
+Readability: Curried functions are often easier to read and understand when working with multiple transformations or processes.
+6. Challenges with Currying
+Over-Currying: While currying is useful, overusing it may lead to convoluted code, especially when functions become deeply nested.
+Performance: Currying involves returning multiple functions, which can impact performance in cases where large numbers of function calls are chained.
+7. Practice Exercises
+Exercise 1: Currying for Summation
+Create a curried function that adds three numbers. The function should return a curried function for each argument.
+
+Exercise 2: Create a Discount Calculator
+Write a curried function that takes a discount percentage and returns a function to calculate the discounted price for any product price.
+
+Exercise 3: Partial Application of Arguments
+Create a function that takes three arguments and returns their product. Then, use currying to partially apply the first argument and create a specialized function.
+
+8. Summary
+Currying is the process of transforming a function with multiple arguments into a series of functions that each take a single argument.
+Currying helps to reuse functions, create specialized versions, and improve readability in functional programming.
+You can use currying in real-world scenarios like logging, URL generation, and partial application of arguments.
+Avoid over-currying, as it can lead to unnecessarily complex and nested code.
+9. Additional Resources
