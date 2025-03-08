@@ -44,6 +44,11 @@ const people = [
 
 console.log(result);
 
+// or
+console.log(":new ans")
+const ansnew = people.map(({name,address:{city,street:{name:streetName}}}) =>`${name} lives is ${city} on ${streetName}`);
+
+console.log(ansnew);
 
 
 // Q: 14
