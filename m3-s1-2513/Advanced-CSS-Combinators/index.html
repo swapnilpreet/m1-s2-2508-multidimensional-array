@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      div p {
+        color: blue;
+      }
+      div > p {
+        font-weight: bold;
+      }
+
+      div:nth-child(2) {
+        color: red;
+      }
+      .heighlight {
+        color: blue;
+      }
+      #special {
+        color: green;
+      }
+      ol:hover{
+        cursor: pointer;
+      }
+      ol li:first-child{
+        font-weight: bold;
+      }
+      ol li:first-child+li{
+        background-color: yellow;
+      }
+      ol li:nth-child(3) ~ li{
+        font-style: italic;
+      }
+      ol li:hover{
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- question 11 -->
+    <div>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi distinctio
+        asperiores unde! Veniam beatae odio perferendis enim quos harum
+        officiis? Totam a odit, quidem sunt esse officiis laboriosam nam sequi!
+      </p>
+      <section>
+        <p>
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Alias quod
+          eligendi voluptas dolore itaque praesentium, quaerat nihil aliquam
+          ratione suscipit laudantium facere quibusdam ab modi vitae qui, at
+          excepturi dolorem.
+        </p>
+      </section>
+    </div>
+    <!-- question 12  -->
+    <div id="special" class="highlight">
+      Q: 12 Title: L0 - Basic Specificity Practice: Applying Priority in CSS
+      Problem Statement
+    </div>
+
+    <!-- question 13 -->
+
+    <ol>
+      <li>product-1</li>
+      <li>product-2</li>
+      <li>product-3</li>
+      <li>product-4</li>
+      <li>product-5</li>
+    </ol>
+
+
+  </body>
+</html>
