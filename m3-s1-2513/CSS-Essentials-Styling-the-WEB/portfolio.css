@@ -1,0 +1,66 @@
+*{
+    margin: 0%;
+    padding: 0%;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+section{
+    padding: 20px;
+}
+section:nth-child(1){
+    background-color: rgb(228, 85, 49);
+    height: 100px;
+}
+section:nth-child(6){
+    background-color: rgb(228, 85, 49);
+    height: 100px;
+}
+nav{
+    text-align: center;
+    /* padding: 10px;
+    margin: 0%; */
+}
+nav > h1{
+    color: blue;
+    padding: 0%;
+    
+}
+nav > a{
+    padding: 10px;
+    text-decoration: none;
+    color: white;
+    
+}
+
+.aboutme img{
+    /* width: 400px;
+    height: 400px; */
+    width: 100%;
+    height: 100%;
+}
+
+.project-container{
+    border: 2px solid rgb(228, 225, 225);
+    padding: 20px;
+    line-height: 30px;
+}
+.project-blog-img{
+    height: 200px;
+    border: 1px solid gray;
+}
+.project-blog-img img{
+    height: 100%;
+    width: 100%;
+}
+.project-container h2{
+    font-weight: bold;
+    font-size: large;
+}
+.project-container ul{
+    padding-left: 40px;
+}
+.bottam{
+    text-align: center;
+    color: aliceblue;
+}
