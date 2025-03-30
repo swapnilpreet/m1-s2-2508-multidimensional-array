@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>How the Internet Works</title>
+    <style>
+        body{
+            padding: 20px;
+        }
+        header{
+            text-align: center;
+            border-bottom: 2px solid darkblue;
+            padding: 5px;
+        }
+        nav > a{
+            padding: 0 10px;
+            text-decoration: none;
+        }
+        nav > a:hover{
+            color: darkblue;
+        }
+    </style>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+
+  </head>
+  <body>
+    <!-- should include topics like Client & Server, Web Development, User Interface (UI), HTML Structure, Text Formatting, Lists, Tables, Forms, and CSS Styling. -->
+
+    <header>
+      <nav>
+        <h1>How the Internet Works.</h1>
+        <a href="#">Client & Server</a><a href="#">Web Development</a
+        ><a href="#">User Interface (UI)</a>
+      </nav>
+    </header>
+
+
+
+    <section>
+      <h1>Client & Server</h1>
+
+      <h3>What is Client ?</h3>
+      <p>
+        the hardware or software (like a web browser) that requests resources or services from a server.
+        The Client interface represents an executable context such as a Worker, or a SharedWorker. Window clients are represented by the more-specific WindowClient. You can get Client/WindowClient objects from methods such as Clients.matchAll() and Clients.get().
+      </p>
+      <hr />
+      <h3>What is Server ?</h3>
+      <p>
+        A server is a software or hardware offering a service to a user, usually referred to as client. A hardware server is a shared computer on a network, usually powerful and housed in a data center. A software server (often running on a hardware server) is a program that provides services to client programs or a user interface to human clients.
+      </p>
+      <hr />
+      <h3>How Client and Server communicate ?</h3>
+      <p>
+        Client and server communication typically follows a request-response pattern, where the client initiates a request to the server, and the server responds with the requested data or service, using protocols like HTTP, WebSockets, or gRPC.
+      </p>
+      <hr />
+      
+
+      <ol>
+        <i>How Web request Works steps by steps :
+        </i></p>
+        <ol>
+          <li>
+            User <u><b> Click the URL</b></u
+            > . in the Browser
+          </li>
+          <li>
+            the browser sends an <u><b> Http request</b></u> to and web server.
+          </li>
+          <li>when web server recived a request,and then processing it.</li>
+          <li>
+            if request needs data from DB. so server
+            <u><b>fechtched that data from DB . </b></u
+            >
+          </li>
+          <li>
+            then as a response of the request, <u
+              ><b>send the data to client as reponse</b></u
+            >
+          </li>
+          <li>
+            after getting <u><b> parse data</b></u> to readable format then
+            <u><b>show it to user</b></u>
+          </li>
+        </ol>
+      </ol>
+
+      <!-- <div class="table"> -->
+          <table>
+            <thead>
+              <tr>
+                <th>Function</th>
+                <th>Client</th>
+                <th>Server</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Defination</td>
+                <td>Requests services or resources.</td>
+                <td>Provides services or resources.</td>
+              </tr>
+              <tr>
+                <td>Communication</td>
+                <td>Yes, Its send requests</td>
+                <td>No, its waiting for the requests</td>
+              </tr>
+              <tr>
+                <td>Security</td>
+                <td>Client Don't have that much control and security</td>
+                <td>
+                  Server has more Security becouse of
+                  authentication,authorization,etc..
+                </td>
+              </tr>
+              <tr>
+                <td>Processing</td>
+                <td>Handle UI/UX and make user Interation</td>
+                <td>Process user Data and logic for business and user also</td>
+              </tr>
+              <tr>
+                <td>Capacity</td>
+                <td>Client store tempory data of user.</td>
+                <td>
+                  Server store expensive data of the user.and make it private fro
+                  all.
+                </td>
+              </tr>
+            </tbody>
+            <tfoot></tfoot>
+          </table>
+      <!-- </div> -->
+<br>
+<br>
+<div class="img">
+    <h2>Illustrative diagram of how the client and server interact.</h2>
+          <figure>
+            <img
+              src="https://i0.wp.com/javachallengers.com/wp-content/uploads/2023/07/client-server-2.png?resize=1128%2C484&ssl=1"
+              alt="client-and-server-interact"
+              width="800px"
+              height="400px"
+              style="border: 1px solid black; border-radius: 20px"
+            />
+            <figcaption>
+              <i>Showing how the client and server interact</i>
+            </figcaption>
+          </figure>
+
+</div>
+
+
+      <div id="mcq">
+        <h2>What is a client?</h2>
+        <br>
+        <form>
+          <input type="radio" name="client" value="A" /> Client is Person.
+          <br />
+          <input type="radio" name="client" value="B" /> Client is Company's Employee.
+          <br />
+          <input type="radio" name="client" value="C" /> Client is user that visits the
+          website.
+          <br />
+          <input type="radio" name="client" value="D" /> None of them.
+        </form>
+      </div>
+
+      <div id="feedback">
+          <h5>Please Provides Your Feedback.</h5>
+    
+          <form action="#">
+            <label for="feedback">Give some Feedback</label>
+            <br />
+            <input type="text" placeholder="Give some feedback" />
+            <button type="submit">submit</button>
+          </form>
+      </div>
+    </section>
+    <hr />
+    <hr />
+    <br>
+    <br>
+    <br>
+    <article>
+      <h3>Journey of a Web Request</h3>
+      <h4>from browser to server</h4>
+      <p>
+        DNS Lookup: The very first step is for the browser to understand the address you’ve given it. The Domain Name System (DNS) acts as the internet’s phone book. It translates human-friendly web addresses (like www.example.com) into computer-friendly IP addresses (like 192.0.2.1). This is crucial because, in the vast network of the internet, resources are located by their IP addresses.
+        IP Routing: With the IP address resolved, your request is now ready to travel. But it doesn’t go straight to the destination. Instead, it hops across multiple routers, each time getting closer to the target server. This journey is guided by Internet Protocol (IP) routing, where each router makes a decision on how to forward the request based on the destination IP.
+        Edge Caching: Before your request reaches its final destination, it might hit an edge server. Edge caching is a technique where frequently requested content is stored on servers that are geographically closer to the user. This can significantly reduce load times and bandwidth usage. If the requested data is available in the cache, it’s returned to the user immediately, without ever reaching the target server.
+      </p>
+      <hr />
+      <br>
+      <br>
+
+      <table border>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Static</th>
+            <th>Dynamic</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Content</td>
+            <td>content are in fixed</td>
+            <td>content getting from server-side and dynamic update</td>
+          </tr>
+          <tr>
+            <td>Interation</td>
+            <td>Less, Interation in Static website</td>
+            <td>High, Interactivity with user</td>
+          </tr>
+          <tr>
+            <td>Maitenance</td>
+            <td>Much simpler than dynamic.</td>
+            <td>it require more time to update dynamic</td>
+          </tr>
+        </tbody>
+        <tfoot></tfoot>
+      </table>
+<br>
+      <ul>
+        <li>Keys Terms</li>
+        <ul>
+          <li>HTTP</li>
+          <li>DNS</li>
+          <li>TCP</li>
+          <li>IP</li>
+        </ul>
+      </ul>
+
+      <br>
+      <div class="video">
+          <h4>Now Let's see How web communicate !</h4>
+          <iframe
+            width="912"
+            height="513"
+            src="https://www.youtube.com/embed/dZ5DaYFC328"
+            title="overview of client server | web communication | web technology | lesson 8"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          ></iframe>
+      </div>
+    </article>
+    <aside>
+        <p>Instance properties
+            Client.frameType Read only
+            The client's frame type as a string. It can be "auxiliary", "top-level", "nested", or "none".
+            
+            Client.id Read only
+            The universally unique identifier of the client as a string.
+            
+            Client.type Read only
+            The client's type as a string. It can be "window", "worker", or "sharedworker".
+            
+            Client.url Read only
+            The URL of the client as a string.</p>
+    </aside>
+    <footer>
+        <p>
+
+            @copy; 
+        </p>
+    </footer>
+  </body>
+</html>
