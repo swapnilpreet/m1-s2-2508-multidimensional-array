@@ -85,3 +85,12 @@ article h4{
     text-align: center;
 }
 
+.aside{
+    color: black;
+}
+.aside::after{
+    color: brown;
+}
+.aside::before{
+    color: black;
+}
