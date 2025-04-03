@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .gallery {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            border-radius: 10px;
+            background: #fff;
+            padding: 20px;
+        }
+        .left, .right {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .left {
+            width: 60%;
+            justify-content: center;
+        }
+        .left img {
+            width: calc(25% - 10px);
+            aspect-ratio: 1/1;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .right {
+            width: 35%;
+            flex-direction: column;
+            align-items: center;
+        }
+        .right img {
+            width: 250px;
+            aspect-ratio: 3/1;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+        @media (max-width: 768px) {
+            .gallery {
+                flex-direction: column;
+                align-items: center;
+            }
+            .left {
+                width: 100%;
+                justify-content: center;
+            }
+            .left img {
+                width: calc(33.33% - 10px);
+            }
+            .right {
+                width: 100%;
+            }
+            .right img {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="gallery">
+        <div class="left">
+            <img src="https://picsum.photos/100" alt="circle">
+            <img src="https://picsum.photos/100" alt="circle">
+            <img src="https://picsum.photos/100" alt="circle">
+            <img src="https://picsum.photos/100" alt="circle">
+            <img src="https://picsum.photos/100" alt="circle">
+            <img src="https://picsum.photos/100" alt="circle">
+            <img src="https://picsum.photos/100" alt="circle">
+            <img src="https://picsum.photos/100" alt="circle">
+            <img src="https://picsum.photos/100" alt="circle">
+            <img src="https://picsum.photos/100" alt="circle">
+            <img src="https://picsum.photos/100" alt="circle">
+            <img src="https://picsum.photos/100" alt="circle">
+        </div>
+        <div class="right">
+            <img src="https://picsum.photos/300/100" alt="rectangle">
+            <img src="https://picsum.photos/300/100" alt="rectangle">
+            <img src="https://picsum.photos/300/100" alt="rectangle">
+            <img src="https://picsum.photos/300/100" alt="rectangle">
+        </div>
+    </div>
+</body>
+</html>

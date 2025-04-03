@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .container {
+        height: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid red;
+        gap: 10px;
+      }
+      .container > div {
+        height: 50px;
+        width: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid red;
+      }
+      .container-2 {
+        margin-top: 50px;
+        border: 1px solid black;
+        /* height: 100px; */
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      /* initialy flex-dreaction is row but we want our box in each row we want each box that a resone we are using colums and we get extra properth like reverse-row-colums as well if any condition we want to show the reverse format of or box that time we will used it reverse-row-col  */
+      .container-2 > div {
+        height: 50px;
+        width: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid red;
+      }
+
+      .main-container {
+        padding: 10px;
+        /* border: 1px solid blue; */
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-around;
+        background-color: rgb(204, 202, 202);
+      }
+      .main-container > div {
+        padding: 5px;
+        /* border: 1px solid black; */
+        width: 45%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 20px;
+        background-color: aliceblue;
+      }
+      .main-container > div > div {
+        /* border: 1px solid green; */
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 calc(50% - 20px);
+        height: 170px;
+        justify-content: center;
+        align-items: center;
+      }
+      .main-container > div > div > img {
+        height: 75%;
+        width: 100%;
+      }
+      p {
+        padding: 0%;
+        margin: 0%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+    </div>
+    <!-- question 12 -->
+    <div class="container-2">
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+    </div>
+
+    <!-- question 13 -->
+    <div class="main-container">
+        <div class="first-container">
+        <div>
+          <img
+            src="https://img.drz.lazcdn.com/static/lk/p/11c2c47267de30b39b97d70f8f8e1152.jpg_720x720q80.jpg"
+            alt="Cushon cover"
+          />
+          <p>Cushon cover bedsheet and more</p>
+        </div>
+        <div>
+            <img
+            src="https://img.drz.lazcdn.com/static/lk/p/11c2c47267de30b39b97d70f8f8e1152.jpg_720x720q80.jpg"
+            alt="Cushon cover"
+          />
+          <p>Cushon cover bedsheet and more</p>
+        </div>
+        <div>
+            <img
+            src="https://img.drz.lazcdn.com/static/lk/p/11c2c47267de30b39b97d70f8f8e1152.jpg_720x720q80.jpg"
+            alt="Cushon cover"
+          />
+          <p>Cushon cover bedsheet and more</p>
+        </div>
+        <div>
+            <img
+            src="https://img.drz.lazcdn.com/static/lk/p/11c2c47267de30b39b97d70f8f8e1152.jpg_720x720q80.jpg"
+            alt="Cushon cover"
+          />
+          <p>Cushon cover bedsheet and more</p>
+        </div>
+      </div>
+      <div class="second-container">
+        <div>
+            <img
+              src="https://img.drz.lazcdn.com/static/lk/p/11c2c47267de30b39b97d70f8f8e1152.jpg_720x720q80.jpg"
+              alt="Cushon cover"
+            />
+            <p>Cushon cover bedsheet and more</p>
+          </div>
+          <div>
+            <img
+              src="https://img.drz.lazcdn.com/static/lk/p/11c2c47267de30b39b97d70f8f8e1152.jpg_720x720q80.jpg"
+              alt="Cushon cover"
+            />
+            <p>Cushon cover bedsheet and more</p>
+          </div>
+          <div>
+            <img
+              src="https://img.drz.lazcdn.com/static/lk/p/11c2c47267de30b39b97d70f8f8e1152.jpg_720x720q80.jpg"
+              alt="Cushon cover"
+            />
+            <p>Cushon cover bedsheet and more</p>
+          </div>
+          <div>
+            <img
+              src="https://img.drz.lazcdn.com/static/lk/p/11c2c47267de30b39b97d70f8f8e1152.jpg_720x720q80.jpg"
+              alt="Cushon cover"
+            />
+            <p>Cushon cover bedsheet and more</p>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
