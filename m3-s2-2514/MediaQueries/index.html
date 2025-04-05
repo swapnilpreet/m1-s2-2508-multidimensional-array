@@ -4,7 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=menu"
+    />
     <style>
+      * {
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+      }
       .container {
         border: 1px solid;
         display: grid;
@@ -26,40 +41,121 @@
       h3 {
         font-size: 16px;
       }
-      @media (width < 600px) {
-        h1,
-        h3 {
-          font-size: 14px;
-          line-height: 1.5px;
+
+      .container-wd {
+        max-width: 1100px;
+        margin: auto;
+      }
+      nav {
+        border: 1px solid;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      nav div {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      nav div button {
+        background-color: red;
+        height: 30px;
+        width: 100px;
+        border: none;
+        border-radius: 25px;
+      }
+      nav div a {
+        text-decoration: none;
+        color: black;
+        font-size: large;
+      }
+      .material-symbols-outlined {
+        display: none;
+      }
+      @media only screen and (max-width: 768px) {
+        .second {
+          display: none;
+        }
+        .material-symbols-outlined {
+          display: block;
         }
       }
-      @media (width > 786px) {
-        .container {
-          grid-template-columns: repeat(2, 1fr);
+
+      @media only screen and (min-width: 768px) and (max-width: 1023px) {
+        nav {
+          display: block;
+          text-align: center;
         }
-      }
-      @media (width > 1024px) {
-        .container {
-          grid-template-columns: repeat(3, 1fr);
+        nav div {
+          display: inline-block;
+          height: 100%;
+        }
+
+        @media (width < 600px) {
+          h1,
+          h3 {
+            font-size: 14px;
+            line-height: 1.5px;
+          }
+        }
+        @media (width > 786px) {
+          .container {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+        @media (width > 1024px) {
+          .container {
+            grid-template-columns: repeat(3, 1fr);
+          }
         }
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <div>1</div>
-      <div>2</div>
-      <div>3</div>
-      <div>4</div>
-      <div>5</div>
-      <div>6</div>
-      <div>7</div>
-      <div>8</div>
-    </div>
+    <!-- question 13 -->
 
-    <div class="container-2">
-      <h1>Problem Statement</h1>
-      <h3>Submission Guidelines</h3>
+    <header>
+      <div class="container-wd">
+        <nav>
+          <span class="material-symbols-outlined"> menu </span>
+          <div>
+            <img
+              style="width: 150px; height: 50px"
+              src="https://stirring-capybara-7db57a.netlify.app/assets/img/swapnillogo.jpg"
+              alt="logo"
+            />
+            <button>Register</button>
+          </div>
+
+          <div class="second">
+            <a href="">Home</a>
+            <a href="">About</a>
+            <a href="">contact</a>
+            <a href="">Details</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- question 11 -->
+    <div class="container-wd">
+      <div class="container">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+        <div>8</div>
+      </div>
+    </div>
+    <!-- question 12 -->
+    <div class="container-wd">
+      <div class="container-2">
+        <h1>Problem Statement</h1>
+        <h3>Submission Guidelines</h3>
+      </div>
     </div>
   </body>
 </html>

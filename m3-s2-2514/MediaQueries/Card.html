@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+      }
+      body {
+        margin: 0;
+        text-align: center;
+      }
+
+      h1 {
+        margin-bottom: 20px;
+      }
+
+      .card {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 20px;
+      }
+      .card div {
+        border: 1px solid rgb(168, 163, 163);
+        height: 450px;
+        border-radius: 20px;
+      }
+      .card div img {
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        height: 280px;
+        width: 100%;
+      }
+ 
+      @media (min-width: 600px) {
+        .card {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+ 
+      @media (min-width: 1024px) {
+        .card {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Creating a Fully Responsive Card Layout with Mobile-First Design</h1>
+
+    <div class="card">
+      <div class="card-item">
+        <img
+          src="https://images.pexels.com/photos/60597/dahlia-red-blossom-bloom-60597.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          alt=""
+        />
+        <h3>Creating a</h3>
+        <p>Creating a Fully Responsive Card Layout with Mobile-First Design</p>
+        <button>Add to cart</button>
+      </div>
+      <div class="card-item">
+        <img
+          src="https://images.pexels.com/photos/459203/pexels-photo-459203.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          alt=""
+        />
+        <h3>Creating a</h3>
+        <p>Creating a Fully Responsive Card Layout with Mobile-First Design</p>
+        <button>Add to cart</button>
+      </div>
+      <div class="card-item">
+        <img
+          src="https://images.pexels.com/photos/45853/grey-crowned-crane-bird-crane-animal-45853.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          alt=""
+        />
+        <h3>Creating a</h3>
+        <p>Creating a Fully Responsive Card Layout with Mobile-First Design</p>
+        <button>Add to cart</button>
+      </div>
+      <div class="card-item">
+        <img
+          src="https://images.pexels.com/photos/1654760/pexels-photo-1654760.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          alt=""
+        />
+        <h3>Creating a</h3>
+        <p>Creating a Fully Responsive Card Layout with Mobile-First Design</p>
+        <button>Add to cart</button>
+      </div>
+      <div class="card-item">
+        <img
+          src="https://images.pexels.com/photos/1563355/pexels-photo-1563355.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          alt=""
+        />
+        <h3>Creating a</h3>
+        <p>Creating a Fully Responsive Card Layout with Mobile-First Design</p>
+        <button>Add to cart</button>
+      </div>
+      <div class="card-item">
+        <img
+          src="https://images.pexels.com/photos/33045/lion-wild-africa-african.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          alt=""
+        />
+        <h3>Creating a</h3>
+        <p>Creating a Fully Responsive Card Layout with Mobile-First Design</p>
+        <button>Add to cart</button>
+      </div>
+      <div class="card-item">
+        <img
+          src="https://images.pexels.com/photos/326055/pexels-photo-326055.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          alt=""
+        />
+        <h3>Creating a</h3>
+        <p>Creating a Fully Responsive Card Layout with Mobile-First Design</p>
+        <button>Add to cart</button>
+      </div>
+      <div class="card-item">
+        <img
+          src="https://images.pexels.com/photos/36762/scarlet-honeyeater-bird-red-feathers.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          alt=""
+        />
+        <h3>Creating a</h3>
+        <p>Creating a Fully Responsive Card Layout with Mobile-First Design</p>
+        <button>Add to cart</button>
+      </div>
+    </div>
+  </body>
+</html>
