@@ -1,11 +1,286 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    
-</body>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=ios" />
+    <style>
+      * {
+        margin: 0%;
+        padding: 0%;
+        font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+
+      }
+      nav {
+        width: 100%;
+        background-color: rgb(32, 29, 29);
+      }
+      .layout {
+        width: 50%;
+        /* border: 1px solid red; */
+        padding: 10px;
+        margin: auto;
+      }
+      .nav-div {
+        /* border: 1px solid; */
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      .nav-div img {
+        width: 20%;
+      }
+      .nav-div a {
+        text-decoration: none;
+        font-size: large;
+        font-weight: 800;
+        color: aliceblue;
+      }
+
+      main {
+        background-color: rgb(29, 43, 46);
+      }
+      .main-inp{
+        display: flex;
+        justify-content: space-between;
+        /* border: 1px solid; */
+        /* padding: 10px; */
+      }
+      .main-inp div{
+        /* c/olor: aliceblue; */
+        display: flex;
+        gap: 30px;
+        align-items: center;
+      }
+      .main-inp div a{
+        color: aliceblue;
+        text-decoration: none;
+        font-weight: 700;
+
+      }
+      .main-inp>input{
+        width: 25%;
+        height: 30px;
+      }
+      .h1{
+        color: #d8cfcf;
+      }
+      .display-box{
+        margin-top: 40px;
+        display: flex;
+        justify-content: space-between;
+      }
+      .display-box div{
+        height: 300px;
+        background-color: aquamarine;
+      }
+      .heading{
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        color: #cfc7c7;
+      }
+      .grid-four{
+        margin-top: 20px;
+        display:grid;
+        /* border: 1px solid red; */
+        grid-template-columns: repeat(4,1fr);
+      }
+      .grid-four>div{
+        /* border: 1px solid rgb(231, 224, 224); */
+        width: 100%;
+      }
+      .grid-four>div>img{
+        width: 100%;
+      }
+
+      .grid-row{
+        width: 60%;
+        /* border: 1px solid rgb(0, 255, 170); */
+      }
+      .grid-row>div{
+        display: flex;
+        border: 1px solid rgb(112, 111, 110);
+        gap: 10px;
+        margin-top: 10px;
+      }
+      .grid-row>div>div{
+        color: aliceblue;
+        /* border: 1px solid red; */
+      }
+      .grid-row>div>div>img{
+        width: 100%;
+        height: 100%;
+      }
+      .contain{
+        display: block;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="layout">
+          <div class="nav-div">
+            <img
+              src="https://store.fastly.steamstatic.com/public/shared/images/header/logo_steam.svg?t=962016"
+              alt=""
+            />
+            <a href="#">STORE</a>
+            <a href="#">COMMUNITY</a>
+            <a href="#">ABOUT</a>
+            <a href="#">SUPPORT</a>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <div class="layout">
+        <div class="main-inp">
+          <div>
+            <a href="#">Your Store</a>
+            <a href="#">New & Noteworhy</a>
+            <a href="#">Categories</a>
+            <a href="#">Points Shop</a>
+            <a href="#">News</a>
+            <a href="#">Labs</a>
+          </div>
+          <input type="text" placeholder="search"/>
+        </div>
+        <h1 class="h1">Upcoming Releases</h1>
+        <div class="display-box">
+            <div>
+                <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1962700/header.jpg?t=1743647323" alt="">
+                <h1>Top Wishlists</h1>
+            </div>
+            <div>
+                <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2109770/header.jpg?t=1742932432" alt="">
+                <h1>Top Wishlists</h1>
+            </div>
+        </div>
+        <div class="heading">
+            <p>Top Wishlists Popular wishlisted games</p>
+            <div>
+                <button>BROWSER ALL</button>
+            </div>
+        </div>
+        <div class="grid-four">
+            <div><img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2622380/header_292x136.jpg?t=1742521322" alt=""></div>
+            <div><img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2622380/header_292x136.jpg?t=1742521322" alt=""></div>
+            <div><img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2622380/header_292x136.jpg?t=1742521322" alt=""></div>
+            <div><img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2622380/header_292x136.jpg?t=1742521322" alt=""></div>
+        </div>
+
+        <div class="grid-row">
+            <div>
+                <div>
+                    <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2138560/capsule_184x69.jpg?t=1743683610" alt="">
+                </div>
+                <div class="contain">
+                    <h4>Dissent on Mars</h4>
+                    <span class="material-symbols-outlined">ios</span>
+                    <p>Action Roguelike,Roguelike,Twin, Stick Shooter</p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2138560/capsule_184x69.jpg?t=1743683610" alt="">
+                </div>
+                <div class="contain">
+                    <h4>Dissent on Mars</h4>
+                    <span class="material-symbols-outlined">ios</span>
+                    <p>Action Roguelike,Roguelike,Twin, Stick Shooter</p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2138560/capsule_184x69.jpg?t=1743683610" alt="">
+                </div>
+                <div class="contain">
+                    <h4>Dissent on Mars</h4>
+                    <span class="material-symbols-outlined">ios</span>
+                    <p>Action Roguelike,Roguelike,Twin, Stick Shooter</p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2138560/capsule_184x69.jpg?t=1743683610" alt="">
+                </div>
+                <div class="contain">
+                    <h4>Dissent on Mars</h4>
+                    <span class="material-symbols-outlined">ios</span>
+                    <p>Action Roguelike,Roguelike,Twin, Stick Shooter</p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2138560/capsule_184x69.jpg?t=1743683610" alt="">
+                </div>
+                <div class="contain">
+                    <h4>Dissent on Mars</h4>
+                    <span class="material-symbols-outlined">ios</span>
+                    <p>Action Roguelike,Roguelike,Twin, Stick Shooter</p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2138560/capsule_184x69.jpg?t=1743683610" alt="">
+                </div>
+                <div class="contain">
+                    <h4>Dissent on Mars</h4>
+                    <span class="material-symbols-outlined">ios</span>
+                    <p>Action Roguelike,Roguelike,Twin, Stick Shooter</p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2138560/capsule_184x69.jpg?t=1743683610" alt="">
+                </div>
+                <div class="contain">
+                    <h4>Dissent on Mars</h4>
+                    <span class="material-symbols-outlined">ios</span>
+                    <p>Action Roguelike,Roguelike,Twin, Stick Shooter</p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2138560/capsule_184x69.jpg?t=1743683610" alt="">
+                </div>
+                <div class="contain">
+                    <h4>Dissent on Mars</h4>
+                    <span class="material-symbols-outlined">ios</span>
+                    <p>Action Roguelike,Roguelike,Twin, Stick Shooter</p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2138560/capsule_184x69.jpg?t=1743683610" alt="">
+                </div>
+                <div class="contain">
+                    <h4>Dissent on Mars</h4>
+                    <span class="material-symbols-outlined">ios</span>
+                    <p>Action Roguelike,Roguelike,Twin, Stick Shooter</p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2138560/capsule_184x69.jpg?t=1743683610" alt="">
+                </div>
+                <div class="contain">
+                    <h4>Dissent on Mars</h4>
+                    <span class="material-symbols-outlined">ios</span>
+                    <p>Action Roguelike,Roguelike,Twin, Stick Shooter</p>
+                </div>
+            </div>
+        </div>
+      </div>
+    </main>
+  </body>
 </html>
