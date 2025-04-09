@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .container {
+        width: 400px;
+        height: 400px;
+        background-color: lightseagreen;
+      }
+      .completed {
+      text-decoration: line-through;
+      color: gray;
+    }
+    </style>
+  </head>
+  <body>
+    <h1 id="heading">Heading</h1>
+    <p>swapnil-1</p>
+    <p>swapnil-2</p>
+    <p>swapnil-3</p>
+    <p>swapnil-4</p>
+    <div class="container"></div>
+
+    <button id="btn">Add Item</button>
+    <ul>
+      <li>pre-list</li>
+      <li>pre-list</li>
+      <li>pre-list</li>
+      <li>pre-list</li>
+    </ul>
+
+    <input id="colorbg" type="text" placeholder="enter color"/>
+    <input id="text" type="text" placeholder="enter text content"/>
+
+    <button id="updatebg">Change Background</button>
+
+    <button id="updatetext">Update text</button>
+
+    <div class="div-change">
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit
+      illo at voluptate earum unde assumenda tempore, vel blanditiis amet id
+      porro vero doloribus provident sunt pariatur esse dolorem recusandae
+      tenetur
+    </div>
+
+    <input type="text" id="taskInput" placeholder="Enter your task" />
+    <button id="addTaskBtn">Add Task</button>
+    <ul id="taskList"></ul>
+
+  </body>
+</html>
+<script>
+  let h1 = document.getElementById("heading");
+  h1.innerText = "Welcome to the Dom World!";
+
+  let allp = document.getElementsByTagName("p");
+
+  for (let i = 0; i < allp.length; i++) {
+    allp[i].style.color = "blue";
+  }
+
+  let div1 = document.querySelector(".container");
+  div1.style.backgroundColor = "Yellow";
+
+  let ulget = document.querySelector("ul");
+
+  let btn = document.getElementById("btn");
+
+  btn.addEventListener("click", () => {
+    // alert("click")
+    let newli = document.createElement("li");
+    newli.innerText = "New Item";
+    ulget.appendChild(newli);
+    addeds();
+  });
+
+  function addeds() {
+    let allli = document.querySelectorAll("li");
+    console.log(allli);
+
+    for (let i = 0; i < allli.length; i++) {
+      if (i % 2 == 0) {
+        allli[i].style.color = "red";
+        allli[i].style.fontstyle = "italic";
+      } else {
+        allli[i].style.color = "blue";
+        allli[i].style.fontWeight = "bold";
+      }
+    }
+  }
+  addeds();
+
+
+  const textInput = document.getElementById("text");
+  const colorInput = document.getElementById("colorbg");
+  const addtextbtn = document.getElementById("updatetext");
+  const addcolorbtn = document.getElementById("updatebg");
+  const divchange = document.querySelector(".div-change");
+
+
+  addcolorbtn.addEventListener('click',()=>{
+    let colourtext=colorInput.value.trim();
+    divchange.style.backgroundColor=colourtext;
+    colorInput.value="";
+  })
+
+  addtextbtn.addEventListener("click", () => {
+    const inputText = textInput.value.trim();
+    if (inputText !=="") {
+      divchange.innerText = "";
+      divchange.innerText = inputText;
+      textInput.value = "";
+    }else{
+        alert("Please enter some text!")
+    }
+  });
+
+
+    const taskInput = document.getElementById("taskInput");
+    const addTaskBtn = document.getElementById("addTaskBtn");
+    const taskList = document.getElementById("taskList");
+
+    addTaskBtn.addEventListener("click", () => {
+      const taskText = taskInput.value.trim();
+
+      if (taskText === "") {
+        alert("Please enter a task!");
+        return;
+      }
+
+      const li = document.createElement("li");
+      const span = document.createElement("span");
+      span.textContent = taskText;
+
+      const completeBtn = document.createElement("button");
+      completeBtn.textContent = "Complete";
+      completeBtn.addEventListener("click", () => {
+        span.classList.toggle("completed");
+      });
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "Delete";
+      deleteBtn.addEventListener("click", () => {
+        taskList.removeChild(li);
+      });
+
+      li.appendChild(span);
+      li.appendChild(completeBtn);
+      li.appendChild(deleteBtn);
+      taskList.appendChild(li);
+
+      taskInput.value = "";
+      taskInput.focus();
+    });
+
+
+</script>
