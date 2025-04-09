@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="addbtn">Add Paragraph</button>
+    <button id="removebtn">Remove Last Paragraph</button>
+    <div id="container"></div>
+
+    <div id="containersecond">
+      <ul id="list">
+        <li id="item1">Item 1</li>
+        <li id="item2">Item 2</li>
+        <li id="item3">Item 3</li>
+      </ul>
+    </div>
+  </body>
+</html>
+<script>
+  const addbtn = document.getElementById("addbtn");
+  const removebtn = document.getElementById("removebtn");
+  const container = document.getElementById("container");
+
+  addbtn.addEventListener("click", () => {
+    const newP = document.createElement("p");
+    newP.textContent = "This is a new paragraph.";
+    container.appendChild(newP);
+  });
+  removebtn.addEventListener("click", () => {
+    const para = container.getElementsByTagName("p");
+    if (para.length > 0) {
+      const lastP = para[para.length - 1];
+      container.removeChild(lastP);
+    }
+  });
+
+  const item2 = document.getElementById("item2");
+
+  item2.addEventListener("click", () => {
+    const parent = item2.parentNode;
+    alert("Parent text content:"+parent.textContent.trim());
+    const prevSibling = item2.previousElementSibling;
+    const nextSibling = item2.nextElementSibling;
+    if (prevSibling) {
+      console.log("Previous Sibling:", prevSibling.textContent);
+    }
+
+    if (nextSibling) {
+      console.log("Next Sibling:", nextSibling.textContent);
+    }
+  });
+</script>
