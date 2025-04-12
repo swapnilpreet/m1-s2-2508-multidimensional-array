@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+    </style>
+</head>
+<body>
+    <input id="searchtodos" type="text" placeholder="seach todos here...">
+    <br>
+    <input id="newtasks" type="text" placeholder="add todos here...">
+    <button onclick="addtaskfn()">Add todos</button>
+
+    <ul id="tasklist"></ul>
+
+</body>
+</html>
+<script>
+    let alltasks=JSON.parse(localStorage.getItem('tasks'))||[];
+    let seachvalue=document.getElementById('searchtodos')
+    console.log(seachvalue,"seachvalue")
+    document.getElementById('searchtodos').addEventListener('input',(e)=>{
+        rendertasks(e.target.value)
+    })
+    rendertasks()
+    function addtaskfn() {
+        let input=document.getElementById('newtasks');
+        let values=input.value.trim();
+        console.log(values)
+        if(values==""){
+            alert("input must have text")
+            return;
+        }
+        alltasks.push({id:Date.now().toString(),text:values,completion:false});
+        savetodos()
+        input.value="";
+        rendertasks()
+    }
+
+    function savetodos(){
+        localStorage.setItem('tasks',JSON.stringify(alltasks));
+        console.log("all",alltasks)
+    }
+
+    function rendertasks(search="") {
+        let displaylist=document.getElementById('tasklist');
+        displaylist.innerText=""
+
+        alltasks.filter((ele,ind)=>ele.text.includes(search)).forEach((ele,index)=>{
+            let deletebtn=document.createElement('button');
+            let completebtn=document.createElement('button');
+            let editbtn=document.createElement('button');
+            let li=document.createElement('li');
+            let span=document.createElement('span');
+            span.innerText=ele.text;
+            deletebtn.innerText="Delete";
+            completebtn.innerText='Complete'
+            editbtn.innerText='Edit'
+            deletebtn.onclick=()=>deletetasks(ele.id)
+            completebtn.onclick=()=>completetasks(ele.id)
+            editbtn.onclick=()=>edittasks(ele.id);
+            li.appendChild(span);
+            li.appendChild(deletebtn);
+            li.appendChild(completebtn);
+            li.appendChild(editbtn);
+            displaylist.appendChild(li)
+
+        })
+    }
+
+    function edittasks() {
+        
+    }
+
+    function deletetasks(id){
+        alltasks=alltasks.filter((ele,ind)=>{
+            return ele.id!=id
+        })
+        savetodos();
+        rendertasks();
+    }
+
+    function completetasks(id) {
+        alltasks=alltasks.map((ele,ind)=>{
+            return ele.id===id ? {...ele,completion:!ele.completion}:ele
+        })
+        savetodos()
+    }
+
+     
+
+
+</script>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body.light {
+        background-color: #fff;
+        color: #000;
+      }
+      body.dark {
+        background-color: #333;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="notearea" placeholder="Write your notes here..."></textarea
+    ><br />
+    <button id="savebutton" onclick="savefn()">Save Notes</button>
+    <button id="loadbutton" onclick="loadfn()">Load Notes</button>
+    <button id="clearbutton" onclick="clearfn()">Clear Notes</button>
+    <div id="notedisplay">No notes saved yet.</div>
+
+    <h1>queestion 12</h1>
+    <!-- queestion 12 -->
+    <select id="selecttheme">
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+      <option value="blue">Blue</option>
+    </select>
+  </body>
+</html>
+<script>
+  let notearea = document.getElementById("notearea");
+  let savebutton = document.getElementById("savebutton");
+  let loadbutton = document.getElementById("loadbutton");
+  let clearbutton = document.getElementById("clearbutton");
+  let notedisplay = document.getElementById("notedisplay");
+  let selecttheme = document.getElementById("selecttheme");
+
+  // console.log(selecttheme.value)
+  loadfn();
+  function savefn() {
+    let notesinp = notearea.value.trim();
+    if (notesinp.length === 0) {
+      alert("fill note area");
+    } else {
+      let savedata = JSON.parse(localStorage.getItem("notes")) || [];
+      savedata.push(notesinp);
+      notearea.value = "";
+      localStorage.setItem("notes", JSON.stringify(savedata));
+      // loadfn()
+    }
+  }
+
+  function loadfn() {
+    notedisplay.innerHTML = "";
+    let savedata = JSON.parse(localStorage.getItem("notes"));
+    for (let i = 0; i < savedata?.length; i++) {
+      let p = document.createElement("p");
+      p.innerText = savedata[i];
+      notedisplay.appendChild(p);
+    }
+  }
+
+  function clearfn() {
+    localStorage.removeItem("notes");
+    notearea.value = "";
+    loadfn();
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    let savedtheme = sessionStorage.getItem("theme") || "light";
+    selecttheme.value=savedtheme;
+    addtheme(savedtheme);
+  });
+ 
+  function addtheme(theme) {
+    if (theme == "dark") {
+      document.body.style.backgroundColor = "gray";
+      document.body.style.color = "white";
+    } else if (theme == "blue") {
+      document.body.style.backgroundColor = "lightblue";
+      document.body.style.color = "black";
+    } else {
+      document.body.style.backgroundColor = "white";
+      document.body.style.color = "darkgray";
+    }
+  }
+
+  selecttheme.addEventListener("change", function () {
+      sessionStorage.setItem("theme", this.value);
+      addtheme(this.value);
+  });
+</script>
