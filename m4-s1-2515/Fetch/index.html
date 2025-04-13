@@ -58,17 +58,14 @@
     </div>
 
     <div>
-      <h2>Create a New Post</h2>
-
+      <h2>Create a New Post Q 14</h2>
       <form id="weatherForm">
         <label for="city">Enter city:</label>
         <input type="text" id="city" name="city" />
         <br />
-         
         <button type="submit">Submit</button>
       </form>
-
-      <div id="response" class="response"></div>
+      <div id="weather"></div>
     </div>
   </body>
 </html>
@@ -183,10 +180,10 @@
 
 
 
-  const weatherForm = document.getElementById('weatherForm');
+const weatherForm = document.getElementById('weatherForm');
 const cityInput = document.getElementById('city');
 const weatherDisplay = document.getElementById('weather');
-const YOUR_API_KEY="12ea4dcc17b96eac557bc806d9a2cca1"
+const YOUR_API_KEY='12ea4dcc17b96eac557bc806d9a2cca1'
 weatherForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const city = cityInput.value;
@@ -194,8 +191,8 @@ weatherForm.addEventListener('submit', (e) => {
   fetchWeather(city);
 });
 
-async function fetchWeather(city) {
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&access_key=${YOUR_API_KEY}`;
+async function fetchWeather(city){
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${YOUR_API_KEY}`;
   const response = await fetch(url);
   const data = await response.json();
   console.log(data)
