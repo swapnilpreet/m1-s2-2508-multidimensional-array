@@ -13,7 +13,7 @@ header {
 }
 body{
     background: #2A7B9B;
-background: linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 100%);
+    background: radial-gradient(circle, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%);
 }
 header nav {
   margin-top: 10px;
@@ -45,11 +45,28 @@ header nav a {
 }
 
 #recipeform{
-    text-align: center;
+    border-radius: 10px;
+    margin: auto;
+    border: 1px solid rgb(141, 133, 133);
+    width: max-content;
     justify-content: center;
+    padding: 10px;
+    box-shadow: rgba(16, 16, 20, 0.2) 0px 9px 29px 0px;
+}
+#recipeform label{
+    margin-top: 10px;
 }
 #recipeform input{
     margin-top: 10px;
+    height: 30px;
+    width: 100%;
+    margin-top: 10px;
+}
+button{
+    margin: auto;
+    width: 30%;
+    height: 40px;
+    padding: 10px;
 }
 
 @media (max-width: 400px) {

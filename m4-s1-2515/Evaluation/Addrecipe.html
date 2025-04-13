@@ -15,12 +15,14 @@
         <a href="./Viewrecipe.html">View Recipe</a>
       </nav>
     </header>
-
+    <br>
     <h1>Add Recipe</h1>
+    <br>
     <main>
       <section>
         <form action="" id="recipeform">
-          <label for="recipename">Recipe Name</label>
+          <label for="recipename">Recipe Name:</label>
+          <br>
           <input
             type="text"
             id="recipename"
@@ -29,6 +31,7 @@
           />
           <br />
           <label for="ingredients">Add Ingredients</label>
+          <br>
           <input
             type="text"
             id="ingredients"
@@ -36,7 +39,9 @@
             required
           />
           <br />
-          <label for="category"></label>
+          <br>
+          <label for="category">Category</label>
+           
           <select name="" id="category" required>
             <option value="Breakfast">Breakfast</option>
             <option value="Lunch">Lunch</option>
@@ -44,7 +49,7 @@
             <option value="Drinks">Drinks</option>
             <option value="Dessert">Dessert</option>
           </select>
-          <br>
+          
 
           <label for="Preparationstpes">Preparation</label>
           <textarea
@@ -53,7 +58,7 @@
             placeholder="write a preparaion stps ahere.."
             required
           ></textarea>
-
+<br><br>
           <button type="submit">Submit</button>
         </form>
       </section>
@@ -83,7 +88,7 @@
     let recipes=JSON.parse(localStorage.getItem("Recipes")) || [];
     recipes.push(Recipe);
     localStorage.setItem("Recipes",JSON.stringify(recipes));
-    
+    alert("Recipe added")
   });
 
 </script>
