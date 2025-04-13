@@ -1,96 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <header>
-        <h1>Recipe Sharing Web Application</h1>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="./Addrecipe.html">Add Recipe</a>
-            <a href="./Viewrecipe.html">View Recipe</a>
-        </nav>
+      <h1>Recipe Sharing Web Application</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="./Addrecipe.html">Add Recipe</a>
+        <a href="./Viewrecipe.html">View Recipe</a>
+      </nav>
     </header>
-    <br>
+    <br />
     <h1>View Recipe</h1>
-    <br>
+    <br />
     <label for="">Filter by Category</label>
     <select name="" id="categoryFilter" onchange="filterbycat()">
-        <option value="All">All</option>
-        <option value="Breakfast">Breakfast</option>
-        <option value="Lunch">Lunch</option>
-        <option value="Dinner">Dinner</option>
-        <option value="Drinks">Drinks</option>
-        <option value="Dessert">Dessert</option>
+      <option value="All">All</option>
+      <option value="Breakfast">Breakfast</option>
+      <option value="Lunch">Lunch</option>
+      <option value="Dinner">Dinner</option>
+      <option value="Drinks">Drinks</option>
+      <option value="Dessert">Dessert</option>
     </select>
-    <br>
-    <br>
+    <br />
+    <br />
     <section>
-            <div id="displayRecipes">
-            </div>
+      <div id="displayRecipes"></div>
     </section>
 
-
-    <footer>
-        
-    </footer>
-</body>
+    <footer></footer>
+  </body>
 </html>
 <script>
-filterbycat()
-    function filterbycat() {
-        let displayRecipes=document.getElementById('displayRecipes')
-        let selectedcat=document.getElementById("categoryFilter").value;
-        let allRecipes=JSON.parse(localStorage.getItem('Recipes')) || [];
-        displayRecipes.innerHTML="";
+  filterbycat();
+  function filterbycat() {
+    let displayRecipes = document.getElementById("displayRecipes");
+    let selectedcat = document.getElementById("categoryFilter").value;
+    let allRecipes = JSON.parse(localStorage.getItem("Recipes")) || [];
+    displayRecipes.innerHTML = "";
 
-        console.log(selectedcat)
-        let filterres=selectedcat==='All' ? allRecipes :allRecipes.filter((ele,index)=>{
-            console.log(ele.Category,selectedcat)
-            return ele.Category===selectedcat;
-        })
+    console.log(selectedcat);
+    let filterres =
+      selectedcat === "All"
+        ? allRecipes
+        : allRecipes.filter((ele, index) => {
+            console.log(ele.Category, selectedcat);
+            return ele.Category === selectedcat;
+          });
 
-        if(filterres.length===0){
-            alert("recipes not avilable")
-            return
-        }
-        displayCard(filterres)
+    if (filterres.length === 0) {
+      alert("recipes not avilable");
+      return;
     }
+    displayCard(filterres);
+  }
 
-    
-    function displayCard(filterres) {
-        let displayRecipes=document.getElementById('displayRecipes');
+  function displayCard(filterres) {
+    let displayRecipes = document.getElementById("displayRecipes");
 
-        let allRecipes=JSON.parse(localStorage.getItem('Recipes')) || [];
+    let allRecipes = JSON.parse(localStorage.getItem("Recipes")) || [];
 
-        displayRecipes.innerHTML="";
+    displayRecipes.innerHTML = "";
 
-        filterres?.forEach((ele,index)=>{
-            let EachCard=document.createElement('div');
-            let title=document.createElement('h3')
-            let category=document.createElement('span')
-            let desc=document.createElement('p');
-            let table=document.createElement('table');
-            let thead=document.createElement('thead');
-            let tbody=document.createElement('tbody');
-            title.innerText="Recipe title : "+ele?.RecipeName
-            category.innerText=ele?.Category
-            desc.innerText=ele?.Preparationstpes
-            thead.innerHTML=`<tr> <th>No.</th><th>Ingridients</th></tr>`
-            ele.Ingredients.forEach((childele,index)=>{
-                let tr=document.createElement('tr');
-                tr.innerHTML=`<td>${index+1}</td><td>${childele}</td>`
-                tbody.appendChild(tr);
-            })
-            EachCard.append(title,category,desc)
-            table.appendChild(thead);
-            table.appendChild(tbody)
-            EachCard.appendChild(table);
-            displayRecipes.appendChild(EachCard);
-        });
-    }
+    filterres?.forEach((ele, index) => {
+      let EachCard = document.createElement("div");
+      let title = document.createElement("h3");
+      let category = document.createElement("span");
+      let desc = document.createElement("p");
+      let table = document.createElement("table");
+      let thead = document.createElement("thead");
+      let tbody = document.createElement("tbody");
+      title.innerText = "Recipe title : " + ele?.RecipeName;
+      category.innerText = ele?.Category;
+      desc.innerText = ele?.Preparationstpes;
+      thead.innerHTML = `<tr> <th>No.</th><th>Ingridients</th></tr>`;
+      ele.Ingredients.forEach((childele, index) => {
+        let tr = document.createElement("tr");
+        tr.innerHTML = `<td>${index + 1}</td><td>${childele}</td>`;
+        tbody.appendChild(tr);
+      });
+      EachCard.append(title, category, desc);
+      table.appendChild(thead);
+      table.appendChild(tbody);
+      EachCard.appendChild(table);
+      displayRecipes.appendChild(EachCard);
+    });
+  }
 </script>

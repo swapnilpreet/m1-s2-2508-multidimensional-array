@@ -15,14 +15,14 @@
         <a href="./Viewrecipe.html">View Recipe</a>
       </nav>
     </header>
-    <br>
+    <br />
     <h1>Add Recipe</h1>
-    <br>
+    <br />
     <main>
       <section>
         <form action="" id="recipeform">
           <label for="recipename">Recipe Name:</label>
-          <br>
+          <br />
           <input
             type="text"
             id="recipename"
@@ -31,7 +31,7 @@
           />
           <br />
           <label for="ingredients">Add Ingredients</label>
-          <br>
+          <br />
           <input
             type="text"
             id="ingredients"
@@ -39,9 +39,9 @@
             required
           />
           <br />
-          <br>
+          <br />
           <label for="category">Category</label>
-           
+
           <select name="" id="category" required>
             <option value="Breakfast">Breakfast</option>
             <option value="Lunch">Lunch</option>
@@ -49,7 +49,6 @@
             <option value="Drinks">Drinks</option>
             <option value="Dessert">Dessert</option>
           </select>
-          
 
           <label for="Preparationstpes">Preparation</label>
           <textarea
@@ -58,7 +57,7 @@
             placeholder="write a preparaion stps ahere.."
             required
           ></textarea>
-<br><br>
+          <br /><br />
           <button type="submit">Submit</button>
         </form>
       </section>
@@ -71,24 +70,25 @@
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     let RecipeName = document.getElementById("recipename").value;
-    let Preparationstpes = document.getElementById("Preparationstpes").value.trim();
+    let Preparationstpes = document
+      .getElementById("Preparationstpes")
+      .value.trim();
     let Category = document.getElementById("category").value;
     let ingredients = document.getElementById("ingredients");
 
-    let ingredientsvalue =ingredients.value.trim().split(' ');
-    console.log(ingredientsvalue,Category,RecipeName,Preparationstpes);
-     
-    const Recipe={
-        RecipeName,
-        Ingredients:ingredientsvalue,
-        Category,
-        Preparationstpes,
-    }
-    // console.log("RR",Recipe)
-    let recipes=JSON.parse(localStorage.getItem("Recipes")) || [];
-    recipes.push(Recipe);
-    localStorage.setItem("Recipes",JSON.stringify(recipes));
-    alert("Recipe added")
-  });
+    let ingredientsvalue = ingredients.value.trim().split(" ");
+    console.log(ingredientsvalue, Category, RecipeName, Preparationstpes);
 
+    const Recipe = {
+      RecipeName,
+      Ingredients: ingredientsvalue,
+      Category,
+      Preparationstpes,
+    };
+    // console.log("RR",Recipe)
+    let recipes = JSON.parse(localStorage.getItem("Recipes")) || [];
+    recipes.push(Recipe);
+    localStorage.setItem("Recipes", JSON.stringify(recipes));
+    alert("Recipe added");
+  });
 </script>
