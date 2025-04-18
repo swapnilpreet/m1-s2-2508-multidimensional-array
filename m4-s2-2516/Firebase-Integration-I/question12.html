@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Add New User</h1>
+    <form id="userform">
+        <label for="name">Name:</label>
+        <br>
+        <input type="text" id="name" placeholder="Enter user name..">
+        <br>
+        <label for="email">Email:</label>
+        <br>
+        <input type="email" id="email" placeholder="Enter your email here..">
+        <br>
+        <button type="submit">Add User</button>
+    </form>
+
+    <p id="displaymessage"></p>
+</body>
+</html>
+<script>
+    const URL="https://users-39d80-default-rtdb.asia-southeast1.firebasedatabase.app/users.json";
+
+    document.getElementById('userform').addEventListener('submit',async (e)=>{
+        e.preventDefault();
+        const name=document.getElementById('name').value;
+        const email=document.getElementById('email').value;
+        const displaymessage=document.getElementById('displaymessage');
+        const user={name,email};
+        try{
+            const response=await fetch(URL,{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify(user)
+            });
+            if(response){
+                displaymessage.innerText="User added Successfully"
+                document.getElementById('userform').reset();
+            }else{
+                throw new Error("Failed to add user")
+            }
+        }catch(error){
+            displaymessage.innerText=error.message
+        }
+    })
+
+</script>

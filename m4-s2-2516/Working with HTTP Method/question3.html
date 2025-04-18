@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #displayuser div p {
+        margin: 0%;
+        padding: 0%;
+      }
+      #displayuser div {
+        display: flex;
+        gap: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <form id="regiform">
+        <input type="text" id="name" placeholder="Name" required />
+        <input type="email" id="email" placeholder="Email" required />
+        <button type="submit">Register</button>
+      </form>
+    </section>
+
+    <section>
+      <div id="displayuser">
+        <ol>
+          <li>email <span>name</span></li>
+        </ol>
+      </div>
+    </section>
+  </body>
+</html>
+<script>
+  let forminput = document.getElementById("regiform");
+
+  forminput.addEventListener("submit",(e)=>{
+    e.preventDefault();
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    if (!name||!email) {
+      showMessage("fields are required!", "error");
+      return;
+    }
+    
+    const newUser = {
+      name: name,
+      email: email,
+      password: "1245664",
+    };
+    fetch("https://67ffc553b72e9cfaf725da7f.mockapi.io/Users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newUser),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data && data.id) {
+          document.getElementById("name").value="";
+          document.getElementById("email").value="";
+          getallUsers();
+          showMessage("User Add Successfull");
+        } else {
+          showMessage("Error occuur during added user", data);
+        }
+      })
+      .catch((error) => {
+        showMessage("An error occurred. please try again later.", error);
+      });
+  });
+  
+  getallUsers();
+
+  function getallUsers() {
+    let currentData = [];
+    fetch("https://67ffc553b72e9cfaf725da7f.mockapi.io/Users")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data) {
+          currentData=data;
+          Displayuser(currentData);
+          showMessage("User Add Successfull");
+        } else {
+          showMessage("Error occuur during added user");
+        }
+      })
+      .catch((error) => {
+        showMessage("An error occurred. please try again later.", error);
+      });
+      return currentData;
+  }
+
+  function Displayuser(data) {
+    let displayuser = document.getElementById("displayuser");
+    displayuser.innerHTML = "";
+    let ol = document.createElement("ol");
+    data.forEach((ele) => {
+      let li = document.createElement("li");
+      li.innerHTML = `${ele.name} <span>${ele.email}</span>`;
+      ol.appendChild(li);
+    });
+    displayuser.appendChild(ol);
+  }
+
+  function showMessage(msg, error) {
+    console.log(msg);
+  }
+</script>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Register</h2>
+      <form id="regiform">
+        <input type="text" id="name" placeholder="Name" required />
+        <input type="email" id="email" placeholder="Email" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <button type="submit">Register</button>
+      </form>
+      <div id="message" class="message"></div>
+    </div>
+  </body>
+</html>
+<script>
+  document.getElementById("regiform").addEventListener("submit",function(event) {
+      event.preventDefault();
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      if (!name || !email || !password) {
+        showMessage("fields are required!", "error");
+        return;
+      }
+      const formvalues = {
+        name: name,
+        email: email,
+        password: password,
+      };
+      fetch("https://67ffc553b72e9cfaf725da7f.mockapi.io/Users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formvalues),
+      })
+        .then((response)=>response.json())
+        .then((data)=>{
+          if (data&&data.id) {
+            showMessage("Registration successfull", "success");
+          } else {
+            showMessage("Registration failed. Please try again.", "error");
+          }
+        })
+        .catch((error)=>{
+          showMessage("An error occurred. Please try again later.", "error");
+        });
+    });
+
+  function showMessage(message,type) {
+    const messageElement=document.getElementById("message");
+    messageElement.textContent=message;
+    messageElement.className=`message ${type}`;
+  }
+</script>

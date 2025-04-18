@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Firebase User Management</title>
+  <style>
+    table, th, td {
+      border: 1px solid black;
+      padding: 5px;
+    }
+     input,button{
+      padding: 5px;
+    }
+    #editForm {
+      display: none;
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Add New User</h2>
+  <form id="userForm">
+    <input type="text" id="name" placeholder="Name" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <button type="submit">Add User</button>
+  </form>
+  <p id="message"></p>
+
+  <h2>Users</h2>
+  <table id="userTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+  </table>
+
+  <div id="editForm">
+    <h3>Edit User</h3>
+    <form id="updateForm">
+      <input type="text" id="editName" required>
+      <input type="email" id="editEmail" required>
+      <button type="submit">Update</button>
+    </form>
+  </div>
+
+  <script>
+    const firebaseBaseURL="https://users-39d80-default-rtdb.asia-southeast1.firebasedatabase.app/users";
+
+    document.getElementById("userForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+
+      const res = await fetch(`${firebaseBaseURL}.json`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email })
+      });
+
+      if (res) {
+        document.getElementById("message").textContent = "User added successfully!";
+        document.getElementById("userForm").reset();
+        fetchUsers();
+      } else {
+        document.getElementById("message").textContent = "Failed to add user.";
+      }
+    });
+
+    const tableBody = document.querySelector("#userTable tbody");
+    let currentEditId = null;
+
+    function editUser(id, name, email) {
+      currentEditId = id;
+      document.getElementById("editName").value = name;
+      document.getElementById("editEmail").value = email;
+      document.getElementById("editForm").style.display = "block";
+    }
+
+    document.getElementById("updateForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("editName").value;
+      const email = document.getElementById("editEmail").value;
+
+      if (!currentEditId) return;
+      const res = await fetch(`${firebaseBaseURL}/${currentEditId}.json`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email })
+      });
+      if (res) {
+        fetchUsers();
+      } else {
+        alert("Failed to update user.");
+      }
+    });
+
+    async function fetchUsers() {
+      const res = await fetch(`${firebaseBaseURL}.json`);
+      const data = await res.json();
+      tableBody.innerHTML = "";
+      
+      if (data) {
+        Object.entries(data).forEach(([id, user]) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${user.name}</td>
+            <td>${user.email}</td>
+            <td>
+              <button onclick="editUser('${id}', '${user.name}', '${user.email}')">Edit User</button>
+            </td>
+          `;
+          tableBody.appendChild(row);
+        });
+      }
+      document.getElementById("editForm").style.display = "none";
+    }
+
+    fetchUsers();
+  </script>
+</body>
+</html>
