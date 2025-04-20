@@ -1,0 +1,29 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f8f8f8;
+  /* overflow: scroll; */
+}
+
+#gallery {
+  list-style: none;
+  display: grid;
+  height: 100vh;
+  grid-template-columns: repeat(4,1fr);
+  gap: 15px;
+  padding: 20px;
+  border: 1px solid;
+
+}
+
+#gallery div {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+#gallery img {
+  width: 100%;
+  display: block;
+}
