@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        font-family: Arial;
+        padding: 20px;
+      }
+      h2 {
+        margin-top: 40px;
+      }
+      input,
+      select,
+      button {
+        padding: 5px;
+      }
+      #booksList {
+        border: 1px solid #cd2828;
+        padding: 10px;
+        margin: 5px 0;
+        border-radius: 8px;
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+        gap: 10px;
+      }
+      p{
+        padding: 0%;
+        margin: 0%;
+        font-size: small;
+      }
+      #booksList div{
+        border: 1px solid;
+        text-align: center;
+      }
+      .pagination button {
+        margin: 0 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Library CRUD (Books & Members)</h1>
+
+    <h2>📚 Book Form</h2>
+
+      <input id="bookId" placeholder="ID" readonly/>
+      <input id="title" placeholder="Title" />
+      <input id="author" placeholder="Author" />
+      <input id="genre" placeholder="Genre" />
+      <input id="year" type="number" placeholder="Published Year" />
+      <select id="available">
+        <option value="true">Available</option>
+        <option value="false">Unavailable</option>
+      </select>
+      <button onclick="addandupdate()">Save Book</button>
+   
+    <!-- Filters -->
+<div>
+  <select id="filterGenre">
+    <option value="">All Genres</option>
+  </select>
+  <select id="filterAuthor">
+    <option value="">All Authors</option>
+  </select>
+  <select id="filterAvailable">
+    <option value="">All</option>
+    <option value="true">Available</option>
+    <option value="false">Unavailable</option>
+  </select>
+</div>
+
+<!-- Sorting -->
+<div>
+  <select id="sortBy">
+    <option value="">Sort By</option>
+    <option value="title">Title</option>
+    <option value="author">Author</option>
+    <option value="publishedYear">Published Year</option>
+  </select>
+</div>
+
+<!-- Pagination Controls -->
+<div>
+  <label>Items per page:
+    <select id="itemsPerPage">
+      <option value="2">2</option>
+      <option value="5" selected>5</option>
+      <option value="10">10</option>
+    </select>
+  </label>
+  <button onclick="prevPage()">Prev</button>
+  <span id="pageInfo"></span>
+  <button onclick="nextPage()">Next</button>
+</div>
+
+
+    <div id="booksList"></div>
+    <div id="booksPagination"></div>
+
+    <h2>👤 Member Form</h2>
+    <form id="memberForm">
+      <input id="memberId" placeholder="ID" readonly class="readonly" />
+      <input id="memberName" placeholder="Name" />
+      <input id="membershipDate" type="date" placeholder="Membership Date" />
+      <select id="active">
+        <option value="true">Active</option>
+        <option value="false">Inactive</option>
+      </select>
+      <button type="submit">Save Member</button>
+    </form>
+    <div id="membersList"></div>
+    <div id="membersPagination"></div>
+  </body>
+</html>
+<script src="main.js"></script>
