@@ -103,13 +103,4 @@ async function deletebooks(id) {
   displaybooksfn()
 }
 
-
-
-
-
-
-
-
-
-
- 
+}
