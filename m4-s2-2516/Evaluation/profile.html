@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="profile.html">Profile</a>
+          <a href="setting.html">Settings</a>
+        </nav>
+      </header>
+      
+    <h1>Profile Page</h1>
+    <form id="editstudentform">
+        <input type="text" id="studentsid" readonly>
+        <input type="text" id="name" placeholder="Name">
+        <input type="number" id="age" placeholder="Age">
+        <input type="email" id="email" placeholder="Email">
+        <select  id="course">
+            <option value="BSC">BSC</option>
+            <option value="MSC">MSC</option>
+            <option value="Mtech">Mtech</option>
+            <option value="Btech">Btech</option>
+        </select>
+        <input id="gender" name="gender" type="radio" value="Male">Male
+        <input id="gender" name="gender" type="radio" value="Female">Female
+
+        <input name="skills" type="checkbox" value="FSD">FSD
+        <input name="skills" type="checkbox" value="MSD">MSD
+        <input name="skills" type="checkbox" value="FD">FD
+        <input name="skills" type="checkbox" value="BD">BD
+        <input type="text" id="imageurl" placeholder="add image url">
+        <button type="submit">Update user</button>
+    </form>
+</body>
+</html>
+<script src="index.js"></script>
