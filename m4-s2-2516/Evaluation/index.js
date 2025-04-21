@@ -59,7 +59,7 @@ editstudentform?.addEventListener("submit", async (e) => {
   let skilscheck = document.querySelectorAll("input[name='skills']:checked");
   let skills = Array.from(skilscheck).map((skill) => skill.value);
 
-  console.log(id, name, age, email, course, imageurl, gender, skills);
+//   console.log(id, name, age, email, course, imageurl, gender, skills);
 
   const studentData = {
     name,
@@ -100,6 +100,8 @@ editstudentform?.addEventListener("submit", async (e) => {
   }
   let selectskill = document.querySelectorAll("input[name='skills']:checked");
   selectskill.forEach((skill) => (skill.checked = false));
+  displaystudentinprofilefn()
+  displaystudentsfn()
 });
 
 function sortStudentbyname(students) {
@@ -147,3 +149,53 @@ async function filterStudents() {
     });
 
 }
+
+
+
+function createRowtableprofile(student) {
+    console.log('svudent',student)
+  const tr = document.createElement("tr");
+  tr.innerHTML = `
+      <td><img src="${student.imageurl}" alt="${student.name}"></td>
+    <td>${student.id}</td>
+    <td>${student.name}</td>
+            <td>${student.age}</td>
+              <td>${student.email}</td>
+                <td>${student.course}</td>
+                  <td>${student.gender}</td>
+                    <td>${(student.skills || []).join(", ")}</td>
+                    <td><button onclick="editstudent('${student.id}','${student.imageurl}')">Edit</button></td>
+                    <td> <button onclick="deletestudent('${student.id}')">Delete</button></td>
+    `;
+
+    return tr;
+}
+async function  displaystudentinprofilefn(){
+    let getAllstudents=await fetchstudents();
+
+    localStorage.setItem("studentsData",JSON.stringify(getAllstudents));
+    // console.log("getAllstudents",getAllstudents)
+    const tbody=document.getElementById('displayDatainprofile');
+    tbody.innerHTML="";
+    getAllstudents.forEach((student)=>{
+        const tr=createRowtableprofile(student);
+        tbody.appendChild(tr);
+    });
+}
+
+displaystudentinprofilefn()
+
+async function deletestudent(id) {
+    console.log("id delete",id)
+    await fetch(`${baseurl}/${id}.json`,{
+      method:"DELETE"
+    })
+    displaystudentinprofilefn()()
+  }
+
+  async function editstudent(editid,imageurl) {
+    let id = document.getElementById("studentsid");
+    id.value=editid
+    let imageurlup = document.getElementById("imageurl");
+    imageurlup.value=imageurl;
+  }

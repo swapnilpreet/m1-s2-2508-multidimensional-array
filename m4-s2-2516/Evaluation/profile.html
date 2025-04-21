@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
@@ -13,7 +14,7 @@
           <a href="setting.html">Settings</a>
         </nav>
       </header>
-      
+
     <h1>Profile Page</h1>
     <form id="editstudentform">
         <input type="text" id="studentsid" readonly>
@@ -26,16 +27,38 @@
             <option value="Mtech">Mtech</option>
             <option value="Btech">Btech</option>
         </select>
-        <input id="gender" name="gender" type="radio" value="Male">Male
-        <input id="gender" name="gender" type="radio" value="Female">Female
+        <input id="gender" name="gender" type="radio" value="Male"> Male
+        <input id="gender" name="gender" type="radio" value="Female"> Female
 
-        <input name="skills" type="checkbox" value="FSD">FSD
-        <input name="skills" type="checkbox" value="MSD">MSD
-        <input name="skills" type="checkbox" value="FD">FD
-        <input name="skills" type="checkbox" value="BD">BD
+        <input name="skills" type="checkbox" value="FSD"> FSD
+        <input name="skills" type="checkbox" value="MSD"> MSD
+        <input name="skills" type="checkbox" value="FD"> FD
+        <input name="skills" type="checkbox" value="BD"> BD
         <input type="text" id="imageurl" placeholder="add image url">
         <button type="submit">Update user</button>
     </form>
+
+    <section>
+        <main>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Email</th>
+                        <th>Course</th>
+                        <th>Gender</th>
+                        <th>Skills</th>
+                    </tr>
+                </thead>
+                <tbody id="displayDatainprofile">
+                 
+                </tbody>
+            </table>
+        </main>
+    </section>
 </body>
 </html>
 <script src="index.js"></script>
