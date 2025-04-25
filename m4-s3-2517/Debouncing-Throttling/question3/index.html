@@ -91,6 +91,7 @@
 
   function displayimage(nextnumber) {
     const random = Math.floor(Math.random()*1000);
+    // console.log(random)
     let image = document.getElementById("image");
     image.src = `https://picsum.photos/600/400?random={nextnumber}`;
   }

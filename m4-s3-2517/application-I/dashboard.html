@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <h1>dashboard</h1>
+    <p id="user-email"></p><p id="user-role"></p>
+    <button id="logout-btn">Logout</button>
+
+    <div id="notes-container">
+        <h2>Sticky Notes</h2>
+        <textarea name="" id="note-input" placeholder="Write a Note"></textarea>
+        <button id="add-note-btn">Add Notes</button>
+        <div id="notes-list"></div>
+    </div>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>

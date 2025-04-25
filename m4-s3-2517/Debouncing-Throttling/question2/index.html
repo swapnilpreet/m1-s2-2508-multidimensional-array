@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>Search Movies</h2>
+    <input type="text" id="searchInput" placeholder="Type movie name..." />
+    <div id="results"></div>
+  </body>
+</html>
+<script>
+  const input = document.getElementById("searchInput");
+  const resultsDiv = document.getElementById("results");
+  let debounce;
+  const API_KEY = "d09f6c8c";
+  input.addEventListener("input", () => {
+    clearTimeout(debounce);
+    debounce = setTimeout(() => {
+      let value = input.value.trim();
+      if (value.length > 0) {
+        fetchMovies(value);
+      } else {
+        resultsDiv.innerHTML = "";
+      }
+    }, 500);
+  });
+
+  async function fetchMovies(value) {
+    try {
+      const response = await fetch(
+        `https://www.omdbapi.com/?apikey=${API_KEY}&s=${value}`
+      );
+      const data = await response.json();
+      // console.log(data)
+      if (data.Response === "True") {
+        displayResults(data.Search);
+      } else {
+        resultsDiv.innerHTML = `<p> No results found. </p>`;
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      resultsDiv.innerHTML = `<p>Error fetching data.</p>`;
+    }
+  }
+
+  function displayResults(movies) {
+    resultsDiv.innerHTML = "";
+    movies?.forEach((ele) => {
+      let p = document.createElement("p");
+      p.innerText = ele.Title;
+      resultsDiv.appendChild(p);
+    });
+  }
+</script>
