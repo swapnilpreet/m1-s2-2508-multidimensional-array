@@ -1,8 +1,10 @@
 
 **Project description**
+<br/>
 In this project, you will create a web-based Rick and Morty character encyclopedia by fetching data from the Rick and Morty API. Your application will display character information in a user-friendly format with pagination and detailed character views.
 
 **Setup instructions**
+<br/>
 Requirements
 Main Page (Character Gallery)
 Create a responsive webpage that displays Rick and Morty characters in a 3×2 grid (6 characters per page).
@@ -54,10 +56,5 @@ Create a "Random Character" button that loads a random character's detail page.
 
 
 **Screenshots of your application**
-<img src="https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white" align="center" alt="html5">
-<img src="https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white" align="center" alt="html5">
-<img src="https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white" align="center" alt="html5">
-<img src="https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white" align="center" alt="html5">
-
-
-<a href="https://amazing-sunburst-1799d7.netlify.app/">Live Link</a>
+<br/>
+<a href="https://amazing-sunburst-1799d7.netlify.app/">Live Link Application</a>
