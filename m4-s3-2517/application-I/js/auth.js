@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded",()=>{
             }
         })
     }
-
+    
     if(signupbtn){
         signupbtn.addEventListener('click',async()=>{
             const email=document.getElementById('signup-email').value;
