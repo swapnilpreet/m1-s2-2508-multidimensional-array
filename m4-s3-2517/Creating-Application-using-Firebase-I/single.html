@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Single Character Details</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Details Character</h1>
+    <div id="detailsCard"></div>
+</body>
+</html>
+<script>
+    let charId=localStorage.getItem('charId');
+    const savedTheme = localStorage.getItem("theme") || "light";
+    document.body.className = savedTheme;
+    console.log("charId",charId)
+    async function loadDetails() {
+        if(!charId) return;
+
+        let response=await fetch(`https://rickandmortyapi.com/api/character/${charId}`);
+        let data=await response.json();
+        console.log("details",data)
+        const card = document.getElementById('detailsCard');
+      card.innerHTML = `
+        <img src="${data.image}" alt="${data.name}">
+        <div class="card-content">
+          <h2>${data.name}</h2>
+          <p>Status: ${data.status}</p>
+          <p>Species: ${data.species}</p>
+          <p>Type: ${data.type !=="" ? data.type : "Not Found"}</p>
+          <p>Gender: ${data.gender}</p>
+          <p>Origin: ${data.origin.name}</p>
+          <p>Location: ${data.location.name}</p>
+          <p>Episodes: ${data.episode.length}</p>
+        </div>
+      `;
+    }
+    loadDetails() 
+</script>

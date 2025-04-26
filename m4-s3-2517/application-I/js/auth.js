@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded",()=>{
         loginbtn.addEventListener("click",async()=>{
             const email=document.getElementById('login-email').value;
             const password=document.getElementById('login-password').value;
-
             try {
                 await signInWithEmailAndPassword(auth,email,password)
                 window.open("dashboard.html",'_black')
@@ -32,7 +31,6 @@ document.addEventListener("DOMContentLoaded",()=>{
             const email=document.getElementById('signup-email').value;
             const password=document.getElementById('signup-password').value;
             const role=document.getElementById('role').value;
-
             try {
                 const userCredentials= await createUserWithEmailAndPassword(auth,email,password)
                 await setDoc(doc(db,'users',userCredentials.user.uid),{email,role});
@@ -42,7 +40,6 @@ document.addEventListener("DOMContentLoaded",()=>{
             }
         })
     }
-
     if(logoutbtn){
         logoutbtn.addEventListener('click',async()=>{
             await signOut(auth);
