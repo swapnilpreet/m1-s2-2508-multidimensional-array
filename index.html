@@ -1,26 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-        .box{
-            width: 100px;
-            height: 100px;
-            padding: 40px;
-            border: 5px solid red;
-            margin: 20px;
-            box-sizing: border-box;
-            /* display: none; */
-        }
-    </style>
-</head>
-<body>
-                                                                  
-    <div class="box">
+      div {
+        width: 150px;
+        height: 80px;
+        margin: 20px;
+        padding: 10px;
+        background-color: lightblue;
+        border: 2px solid navy;
+        box-sizing: border-box;
+      }
 
+      .static {
+        position: static;
+      }
+
+      .relative {
+        position: relative;
+        top: 20px;
+        left: 173px;
+        background-color: lightgreen;
+      }
+
+      .absolute-container {
+        position: relative;
+        height: 200px;
+        background-color: lightgray;
+      }
+
+      .absolute {
+        position: absolute;
+        /* top: 0; */
+        left: 20px;
+        /* bottom: 150px; */
+        background-color: pink;
+      }
+
+      .fixed {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        background-color: orange;
+      }
+
+      .sticky {
+        position: sticky;
+        top: 0px;
+        background-color: yellow;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="static">Static</div>
+    <div class="relative">Relative</div>
+    <div class="absolute-container">
+      <div class="absolute">Absolute</div>
     </div>
-  
-</body>
+    <div class="fixed">Fixed</div>
+    <div class="sticky">Sticky</div>
+  </body>
 </html>
