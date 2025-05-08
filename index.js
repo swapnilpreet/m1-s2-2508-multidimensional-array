@@ -1,15 +1,7 @@
+let str="swapnil";
+let obj={};
 
-function cart() {
-    let cart = [];
 
-    cart.push("Apples", "Bananas", "Bread", "Milk");
-    let removeElement=cart.pop();
+// for(let i=0;i<str.length;i++){
 
-    return {
-        totalItems: cart.length,
-        items: cart,
-        removedItem: removeElement
-    }
-}
-
-console.log("Cart", cart())
+// }

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Blog Page</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      .blog {
+        border: 1px solid #ccc;
+        padding: 16px;
+        margin: 10px 0;
+        border-radius: 8px;
+      }
+      .featured {
+        background-color: lightyellow;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const blogs = [
+        { title: "React Basics", content: "Learn the basics of React.", isFeatured: true },
+        { title: "Advanced React", content: "Delve deeper into React.", isFeatured: false },
+        { title: "React Performance Tips", content: "Optimize your React apps.", isFeatured: true },
+      ];
+
+      function BlogList({ blogs }) {
+        return (
+          <div>
+            <h1>Blog Posts</h1>
+            {blogs.map((blog, index) => (
+              <div
+                key={index}
+                className={`blog ${blog.isFeatured ? "featured" : ""}`}
+              >
+                <h2>{blog.title}</h2>
+                <p>{blog.content}</p>
+              </div>
+            ))}
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<BlogList blogs={blogs} />);
+    </script>
+  </body>
+</html>
