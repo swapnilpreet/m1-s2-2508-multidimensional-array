@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Document</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .email-input { margin-bottom: 10px; }
+    .invalid { border: 1px solid red; }
+    .error-msg { color: red; font-size: 0.9rem; margin-top: 2px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    function DynamicEmailForm() {
+      const [emails, setEmails] = useState(['']);
+
+      const handleAddEmail = () => {
+        setEmails([...emails, '']);
+      };
+
+      const handleChange = (index, value) => {
+        const newEmails = [...emails];
+        newEmails[index] = value;
+        setEmails(newEmails);
+      };
+
+       const isValidEmail = (email) => {
+        return email.includes('@');
+      };
+      return (
+        <div style={{ maxWidth: '500px', margin: 'auto' }}>
+          <h2>Validated Email Form</h2>
+          {emails.map((email, index) => {
+            const showError = email && !isValidEmail(email);
+            return (
+              <div key={index} className="email-input">
+                <input
+                  type="text"
+                  value={email}
+                  onChange={(e) => handleChange(index, e.target.value)}
+                  className={showError ? 'invalid' : ''}
+                  style={{ width: '100%', padding: '8px' }}
+                />
+                {showError && <div className="error-msg">Invalid email format</div>}
+              </div>
+            );
+          })}
+
+          <button onClick={handleAddEmail}>Add Email</button>
+
+          <h3>Entered Emails:</h3>
+          <ul>
+            {emails.map((email, i) => (
+              <li key={i} style={{ color: email && !isValidEmail(email) ? 'red' : 'black' }}>
+                {email}
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<DynamicEmailForm />);
+  </script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 40px;
+    }
+    input[type="text"] {
+      padding: 8px;
+      font-size: 16px;
+      margin-right: 10px;
+    }
+    button {
+      padding: 8px 12px;
+      margin: 5px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    li {
+      margin: 10px;
+      list-style: none;
+    }
+    .completed {
+      text-decoration: line-through;
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    function TodoList() {
+      const [task, setTask] = React.useState('');
+      const [tasks, setTasks] = React.useState([]);
+
+      const addTask = () => {
+        if (task.trim() === '') return;
+        setTasks([...tasks, { text: task, completed: false }]);
+        setTask('');
+      };
+
+      const toggleComplete = (index) => {
+        setTasks(tasks.map((t, i) =>
+          i === index ? { ...t, completed: !t.completed } : t
+        ));
+      };
+
+      const deleteTask = (index) => {
+        setTasks(tasks.filter((_, i) => i !== index));
+      };
+
+      return (
+        <div>
+          <h2>To-Do List</h2>
+          <input
+            type="text"
+            value={task}
+            onChange={e => setTask(e.target.value)}
+            placeholder="Enter a task"
+          />
+          <button onClick={addTask}>Add Task</button>
+
+          <ul>
+            {tasks.map((t, index) => (
+              <li key={index}>
+                <input
+                  type="checkbox"
+                  checked={t.completed}
+                  onChange={() => toggleComplete(index)}
+                />
+                <span className={t.completed ? 'completed' : ''} style={{ marginLeft: '10px' }}>
+                  {t.text}
+                </span>
+                <button onClick={() => deleteTask(index)} style={{ marginLeft: '10px' }}>
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<TodoList />);
+  </script>
+</body>
+</html>
+
+<!-- notes -->
+
+<!-- add a trim method to check non empty value in addtask fn trim will solve first issue -->
+<!--  adding input checkbox that resolved completed isuue this input toggle completed or not completed tasks so it will resolved second bugs-->
+<!-- adding filter method to deleted accurete task so 3rd bugs resolve using filter-->

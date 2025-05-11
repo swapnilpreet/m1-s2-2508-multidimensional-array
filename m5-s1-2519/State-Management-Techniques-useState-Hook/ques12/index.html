@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    button, input {
+      margin: 10px;
+      padding: 10px 15px;
+      font-size: 16px;
+    }
+    input {
+      width: 60px;
+      text-align: center;
+    }
+    h2 {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    function CounterWithStep() {
+      const [count, setCount] = React.useState(0);
+      const [step, setStep] = React.useState(1);
+
+      const handleIncrease = () => {
+        setCount((prev) => prev+ Number(step));
+      };
+
+      const handleDecrease = () => {
+        setCount((prev) =>Math.max(0,prev-Number(step)));
+      };
+
+      const handleStepChange = (e) => {
+        const value =+e.target.value;
+        setStep(isNaN(value) || value <= 0 ? 1 : value);
+      };
+
+      return (
+        <div>
+          <h2>Counter: {count}</h2>
+          <div>
+            <button onClick={handleDecrease}>Decrease</button>
+            <button onClick={handleIncrease}>Increase</button>
+          </div>
+          <div>
+            <label>
+              Step:
+              <input
+                type="number"
+                value={step}
+                onChange={handleStepChange}
+                min="1"
+              />
+            </label>
+          </div>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<CounterWithStep />);
+  </script>
+</body>
+</html>

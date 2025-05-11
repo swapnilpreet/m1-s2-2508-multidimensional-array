@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      font-family: Arial;
+      padding: 2rem;
+    }
+    input, button {
+      margin: 0.3rem;
+      padding: 0.4rem;
+    }
+    li {
+      margin-bottom: 0.6rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+
+    const BASE_URL = "https://evaluation-dc683-default-rtdb.asia-southeast1.firebasedatabase.app/users";
+
+    function UserManagement() {
+      const [users, setUsers] = React.useState({});
+      const [formdata, setformdata] = React.useState({ name: "", email: "" });
+      const [editId, setEditId] = React.useState(null);
+      const [error, setError] = React.useState("");
+
+      React.useEffect(() => {
+        fetchUsers();
+      }, []);
+
+      const fetchUsers = async () => {
+        try {
+          const res = await axios.get(`${BASE_URL}.json`);
+          setUsers(res.data || {});
+        } catch (err) {
+          console.error("Fetch error:", err);
+        }
+      };
+
+      const validateForm = () => {
+        const { name, email } = formdata;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!name || !email) return "All fields are required.";
+        if (!emailRegex.test(email)) return "Invalid email format.";
+        return "";
+      };
+
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        const validationError = validateForm();
+        if (validationError) return setError(validationError);
+        setError("");
+
+        try {
+          if (editId) {
+            await axios.patch(`${BASE_URL}/${editId}.json`, formdata);
+            setEditId(null);
+          } else {
+            await axios.post(`${BASE_URL}.json`, formdata);
+          }
+          setformdata({ name: "", email: "" });
+          fetchUsers();
+        } catch (err) {
+          console.error("Submit error:", err);
+        }
+      };
+
+      const handleEdit = (id, data) => {
+        setformdata(data);
+        setEditId(id);
+      };
+
+      const handleDelete = async (id) => {
+        try {
+          await axios.delete(`${BASE_URL}/${id}.json`);
+          fetchUsers();
+        } catch (err) {
+          console.error("Delete error:", err);
+        }
+      };
+
+      return (
+        <div>
+          <h2>User Management</h2>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Name"
+              value={formdata.name}
+              onChange={(e) => setformdata({ ...formdata, name: e.target.value })}
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              value={formdata.email}
+              onChange={(e) => setformdata({ ...formdata, email: e.target.value })}
+            />
+            <button type="submit">{editId ? "Update User" : "Add User"}</button>
+            {error && <p style={{ color: "red" }}>{error}</p>}
+          </form>
+
+          <ul>
+            {Object.entries(users).map(([id, user]) => (
+              <li key={id}>
+                {user.name} - {user.email}
+                <button onClick={() => handleEdit(id, user)}>Edit</button>
+                <button onClick={() => handleDelete(id)}>Delete</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<UserManagement />);
+
+  </script>
+</body>
+</html>

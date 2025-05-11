@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+    p {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    function ToggleMessage() {
+      const [isVisible, setIsVisible] = React.useState(false);
+
+      const toggle = () => {
+        setIsVisible((prev)=>!prev);
+      };
+
+      return (
+        <div>
+          <button onClick={toggle}>
+            {isVisible ? 'Hide' : 'Show'}
+          </button>
+          {isVisible && (
+            <p>Hello, welcome to React state management!</p>
+          )}
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<ToggleMessage />);
+  </script>
+</body>
+</html>
