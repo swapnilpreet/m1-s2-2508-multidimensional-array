@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    input,button{
+      padding: 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    function TodoListApp() {
+      const [tasks, setTasks] = useState(["Buy milk", "Study React"]);
+      const [input, setInput] = useState("");
+
+      const addTask = () => {
+        const trimmed = input.trim();
+        if (trimmed !== "") {
+          setTasks([...tasks, trimmed]);
+          setInput("");
+        }else{
+          alert("Please add text in input")
+        }
+      };
+
+      const clearAll = () => {
+        setTasks([]);
+      };
+
+      return (
+        <div>
+          <h1>Todo List</h1>
+          <input
+            type="text"
+            placeholder="Enter task..."
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+          />
+          <button className="add" onClick={addTask}>Add</button>
+          <button className="clear" onClick={clearAll}>Clear All</button>
+
+          {tasks.length === 0 ? (
+            <p className="empty-message">No tasks available.</p>
+          ) : (
+            <ul>
+              {tasks.map((task, index) => (
+                <li key={index}>{task}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<TodoListApp />);
+  </script>
+</body>
+</html>

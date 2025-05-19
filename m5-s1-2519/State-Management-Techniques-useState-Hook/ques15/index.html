@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Document</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 40px;
+      background-color: #f9f9f9;
+    }
+
+    select, button {
+      padding: 8px 12px;
+      margin: 10px;
+      font-size: 16px;
+    }
+
+    .student {
+      margin: 10px auto;
+      width: 300px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .present {
+      background-color: #d4edda;
+      color: green;
+    }
+
+    .absent {
+      background-color: #f8d7da;
+      color: red;
+    }
+
+    .summary {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    function AttendanceManager() {
+      const [students, setStudents] = useState([
+        { id: 1, name: "Alice", present: true },
+        { id: 2, name: "Bob", present: false },
+        { id: 3, name: "Charlie", present: true },
+        { id: 4, name: "Diana", present: false },
+        { id: 5, name: "Ethan", present: true }
+      ]);
+
+      const [filter, setFilter] = useState("All");
+
+      const toggleAttendance = (id) => {
+        setStudents(prev =>
+          prev.map(student =>
+            student.id === id ? { ...student, present: !student.present } : student
+          )
+        );
+      };
+
+      const getFilteredStudents = () => {
+        if (filter === "Present") return students.filter(s => s.present);
+        if (filter === "Absent") return students.filter(s => !s.present);
+        return students;
+      };
+
+      const presentCount = students.filter(s => s.present).length;
+
+      return (
+        <div>
+          <h1>Attendance Manager</h1>
+
+          <label>
+            Filter:
+            <select value={filter} onChange={(e) => setFilter(e.target.value)}>
+              <option>All</option>
+              <option>Present</option>
+              <option>Absent</option>
+            </select>
+          </label>
+
+          {getFilteredStudents().map(student => (
+            <div
+              key={student.id}
+              className={`student ${student.present ? "present" : "absent"}`}
+            >
+              <span>{student.name} - {student.present ? "Present" : "Absent"}</span>
+              <button onClick={() => toggleAttendance(student.id)}>Toggle</button>
+            </div>
+          ))}
+
+          <div className="summary">
+            Total Present: {presentCount} / {students.length}
+          </div>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<AttendanceManager />);
+  </script>
+</body>
+</html>

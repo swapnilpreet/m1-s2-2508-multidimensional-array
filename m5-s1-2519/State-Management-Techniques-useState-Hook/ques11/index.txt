@@ -1,0 +1,8 @@
+1 The "Add Task" button sometimes adds empty tasks.
+ans: handleadd function check that input value is not !taskvalue like empty if found value is empty then show alert or console.log(error) 
+
+2 Completed tasks are not visually distinguishable (no strike-through).
+ans: add className for this issue but className must have condition based on satus and iscompleted if complted true and style complted add property line through.
+
+3 The "Delete Task" button deletes the wrong task occasionally.
+ans: used unique id in data for delete and add filter check id ! notequal to id in handleDalete function. 

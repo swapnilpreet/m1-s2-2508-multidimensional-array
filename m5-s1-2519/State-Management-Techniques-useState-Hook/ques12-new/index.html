@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        max-width: 600px;
+        margin: auto;
+      }
+      .high {
+        background-color: #ffdddd;
+      }
+      .completed {
+        text-decoration: line-through;
+        color: gray;
+      }
+      .filters {
+        margin-top: 20px;
+      }
+      input,
+      select,
+      button {
+        padding: 8px;
+        margin: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const AddTaskForm = ({
+        title,
+        priority,
+        setTitle,
+        setPriority,
+        addTask,
+      }) => (
+        <div>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Task title"
+          />
+          <select
+            value={priority}
+            onChange={(e) => setPriority(e.target.value)}
+          >
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+          <button onClick={addTask}>Add Task</button>
+        </div>
+      );
+
+      const Filterstask = ({
+        filterPriority,
+        setFilterPriority,
+        filterStatus,
+        setFilterStatus,
+      }) => (
+        <div className="filters">
+          <label>
+            Filter by Priority:
+            <select
+              value={filterPriority}
+              onChange={(e) => setFilterPriority(e.target.value)}
+            >
+              <option value="All">All</option>
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
+          </label>
+          <label>
+            Filter by Status:
+            <select
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+            >
+              <option value="All">All</option>
+              <option value="Completed">Completed</option>
+              <option value="Incomplete">Incomplete</option>
+            </select>
+          </label>
+        </div>
+      );
+
+      const TaskItem = ({ task, toggleCompletion, deleteTask }) => (
+        <li
+          className={`${task.priority === "High" ? "high" : ""} ${
+            task.completed ? "completed" : ""
+          }`}
+          style={{
+            margin: "10px 0",
+            padding: "10px",
+            border: "1px solid #ccc",
+            borderRadius: "5px",
+          }}
+        >
+          <strong>{task.title}</strong> ({task.priority})
+          <div>
+            <button onClick={() => toggleCompletion(task.id)}>
+              {task.completed ? "Mark Incomplete" : "Mark Complete"}
+            </button>
+            <button onClick={() => deleteTask(task.id)}>Delete</button>
+          </div>
+        </li>
+      );
+
+      const DisplayTaskList = ({ tasks, toggleCompletion, deleteTask }) => (
+        <ul style={{ listStyle: "none", padding: 0 }}>
+          {tasks.map((task) => (
+            <TaskItem
+              key={task.id}
+              task={task}
+              toggleCompletion={toggleCompletion}
+              deleteTask={deleteTask}
+            />
+          ))}
+        </ul>
+      );
+
+      const App = () => {
+        const [tasks, setTasks] = React.useState([]);
+        const [title, setTitle] = React.useState("");
+        const [priority, setPriority] = React.useState("Medium");
+        const [filterPriority, setFilterPriority] = React.useState("All");
+        const [filterStatus, setFilterStatus] = React.useState("All");
+
+        const addTask = () => {
+          if (title.trim() === "") return;
+          const newTask = {
+            id: Date.now(),
+            title,
+            priority,
+            completed: false,
+          };
+          setTasks((prev) => sortTasks([...prev, newTask]));
+          setTitle("");
+          setPriority("Medium");
+        };
+
+        const toggleCompletion = (id) => {
+          setTasks((prev) =>
+            sortTasks(
+              prev.map((task) =>
+                task.id === id ? { ...task, completed: !task.completed } : task
+              )
+            )
+          );
+        };
+
+        const deleteTask = (id) => {
+          setTasks((prev) => prev.filter((task) => task.id !== id));
+        };
+
+        const sortTasks = (taskList) => {
+          const priorityOrder = { High: 1, Medium: 2, Low: 3 };
+          return taskList.sort(
+            (a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]
+          );
+        };
+
+        const filteredTasks = tasks.filter((task) => {
+          const priorityMatch =
+            filterPriority === "All" || task.priority === filterPriority;
+          const statusMatch =
+            filterStatus === "All" ||
+            (filterStatus === "Completed" && task.completed) ||
+            (filterStatus === "Incomplete" && !task.completed);
+          return priorityMatch && statusMatch;
+        });
+
+        return (
+          <div>
+            <h2>Advanced Task Manager</h2>
+            <AddTaskForm
+              title={title}
+              priority={priority}
+              setTitle={setTitle}
+              setPriority={setPriority}
+              addTask={addTask}
+            />
+            <Filterstask
+              filterPriority={filterPriority}
+              setFilterPriority={setFilterPriority}
+              filterStatus={filterStatus}
+              setFilterStatus={setFilterStatus}
+            />
+            <DisplayTaskList
+              tasks={filteredTasks}
+              toggleCompletion={toggleCompletion}
+              deleteTask={deleteTask}
+            />
+          </div>
+        );
+      };
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>
