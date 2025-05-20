@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Document</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      transition: background 0.3s, color 0.3s;
+    }
+    .app.light {
+      background: #f9f9f9;
+      color: #111;
+    }
+    .app.dark {
+      background: #121212;
+      color: #fff;
+    }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      justify-content: center;
+    }
+    input, select, button {
+      padding: 0.5rem;
+      font-size: 14px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .dark .card {
+      background: #1e1e1e;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+    }
+    .loading, .error, .no-results {
+      text-align: center;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    .dark input, .dark select, .dark button {
+      background: #333;
+      color: white;
+      border: 1px solid #555;
+    }
+    .toggle-btn {
+      padding: 0.5rem 1rem;
+      background: #007bff;
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    
+    function MemeCard({ meme }) {
+      return (
+        <div className="card">
+          <img src={meme.url} alt={meme.name} />
+          <p>{meme.name}</p>
+        </div>
+      );
+    }
+
+ 
+    function MemeGrid({ memes }) {
+      return (
+        <div className="grid">
+          {memes.map((meme) => (
+            <MemeCard key={meme.id} meme={meme} />
+          ))}
+        </div>
+      );
+    }
+
+    
+    function Controls({
+      fetchMemes,
+      search,
+      setSearch,
+      sortBy,
+      setSortBy,
+      filter,
+      setFilter,
+      toggleTheme,
+      theme
+    }) {
+      return (
+        <div className="controls">
+          <button onClick={fetchMemes}>Load Memes</button>
+          <input
+            type="text"
+            placeholder="Search memes..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+            <option value="">Sort By</option>
+            <option value="name">Name</option>
+            <option value="width">Width</option>
+          </select>
+          <select value={filter} onChange={(e) => setFilter(e.target.value)}>
+            <option value="">Filter</option>
+            <option value="width">Width > 500</option>
+            <option value="height">Height > 500</option>
+          </select>
+          <button className="toggle-btn" onClick={toggleTheme}>
+            Toggle Theme ({theme})
+          </button>
+        </div>
+      );
+    }
+
+    
+    function App() {
+      const [memes, setMemes] = useState([]);
+      const [filteredMemes, setFilteredMemes] = useState([]);
+      const [search, setSearch] = useState("");
+      const [sortBy, setSortBy] = useState("");
+      const [filter, setFilter] = useState("");
+      const [loading, setLoading] = useState(false);
+      const [error, setError] = useState("");
+      const [theme, setTheme] = useState("light");
+
+      const fetchMemes = async () => {
+        setLoading(true);
+        setError("");
+        try {
+          const res = await axios.get("https://api.imgflip.com/get_memes");
+          const memesData = res.data.data.memes;
+          setMemes(memesData);
+          setFilteredMemes(memesData);
+        } catch (err) {
+          setError("Failed to fetch memes.");
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      const filterMemes = (memes, search, sortBy, filter) => {
+        let result = [...memes];
+        if (search) {
+          result = result.filter(m =>
+            m.name.toLowerCase().includes(search.toLowerCase())
+          );
+        }
+        if (filter === "width") {
+          result = result.filter(m => m.width > 500);
+        } else if (filter === "height") {
+          result = result.filter(m => m.height > 500);
+        }
+        if (sortBy === "name") {
+          result.sort((a, b) => a.name.localeCompare(b.name));
+        } else if (sortBy === "width") {
+          result.sort((a, b) => b.width - a.width);
+        }
+        return result;
+      };
+
+      const updateFilteredMemes = (s, so, f) => {
+        setFilteredMemes(filterMemes(memes, s, so, f));
+      };
+
+      React.useEffect(() => {
+        updateFilteredMemes(search, sortBy, filter);
+      }, [search, sortBy, filter, memes]);
+
+      const toggleTheme = () => {
+        setTheme(prev => (prev === "light" ? "dark" : "light"));
+      };
+
+      return (
+        <div className={`app ${theme}`}>
+          <Controls
+            fetchMemes={fetchMemes}
+            search={search}
+            setSearch={setSearch}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+            filter={filter}
+            setFilter={setFilter}
+            toggleTheme={toggleTheme}
+            theme={theme}
+          />
+          {loading && <div className="loading">Loading memes...</div>}
+          {error && <div className="error">{error}</div>}
+          {!loading && !error && filteredMemes.length === 0 && (
+            <div className="no-results">No memes found.</div>
+          )}
+          <MemeGrid memes={filteredMemes} />
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>

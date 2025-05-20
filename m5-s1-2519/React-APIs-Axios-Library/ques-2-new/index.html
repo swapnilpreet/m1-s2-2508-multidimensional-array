@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Document</title>
+   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      margin: 0;
+      background: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+    }
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .loading, .error {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .error {
+      color: red;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .card img {
+      max-width: 100px;
+      height: auto;
+      margin-bottom: 0.5rem;
+    }
+
+    .card h3 {
+      font-size: 16px;
+      height: 40px;
+      overflow: hidden;
+    }
+
+    .card p {
+      font-weight: bold;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState } = React;
+
+    function App() {
+      const [products, setProducts] = useState([]);
+      const [loading, setLoading] = useState(false);
+      const [error, setError] = useState("");
+
+      const fetchProducts = async () => {
+        setLoading(true);
+        setError("");
+        try {
+          const res = await fetch("https://fakestoreapi.com/products");
+          if (!res.ok) throw new Error("Failed to fetch products");
+          const data = await res.json();
+          setProducts(data);
+        } catch (err) {
+          setError(err.message);
+          setProducts([]);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      const clearProducts = () => {
+        setProducts([]);
+        setError("");
+      };
+
+      return (
+        <div>
+          <h1>FakeStore Products</h1>
+          <div className="buttons">
+            <button onClick={fetchProducts}>Load Products</button>
+            {products.length > 0 && <button onClick={clearProducts}>Clear Products</button>}
+          </div>
+
+          {loading && <p className="loading">Loading...</p>}
+          {error && <p className="error">Error: {error}</p>}
+          {!loading && products.length === 0 && !error && <p style={{textAlign: "center"}}>No products to display.</p>}
+
+          <div className="grid">
+            {products.map(product => (
+              <div className="card" key={product.id}>
+                <img src={product.image} alt={product.title} />
+                <h3>{product.title}</h3>
+                <p>${product.price.toFixed(2)}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>
