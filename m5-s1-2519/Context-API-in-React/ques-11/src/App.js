@@ -5,7 +5,6 @@ import { ThemeContext } from './store/Theme';
 
 function App() {
   const {theme,setTheme,handletogglebtn}=useContext(ThemeContext);
-  // console.log(theme,setTheme,handletogglebtn)
   return (
     <div className="App">
       <header className= {theme==='dark'?"dark":"light"}>
