@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+      .container {
+        max-width: 800px;
+        margin: auto;
+      }
+      .user-card {
+        background: white;
+        padding: 16px;
+        border-radius: 8px;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+        margin-bottom: 16px;
+        transition: all 0.3s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+<script type="text/babel">
+  const { useState, useEffect } = React;
+
+  const UserCard = ({ name, email, city }) => (
+    <div className="user-card">
+      <div className="user-name">{name}</div>
+      <div className="user-info">Email: {email}</div>
+      <div className="user-info">City: {city}</div>
+    </div>
+  );
+
+  const App = () => {
+    const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+      fetch("https://jsonplaceholder.typicode.com/users")
+        .then((res) => {
+          if (!res.ok) throw new Error("Failed to fetch");
+          return res.json();
+        })
+        .then((data) => {
+          setUsers(data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setError(err.message);
+          setLoading(false);
+        });
+    }, []);
+
+    return (
+      <div className="container">
+        <h2>User Profiles</h2>
+        {loading && <p>Loading user profiles...</p>}
+        {error && <p style={{ color: "red" }}>Error: {error}</p>}
+        {!loading &&
+          !error &&
+          users.map((user) => (
+            <UserCard
+              key={user.id}
+              name={user.name}
+              email={user.email}
+              city={user.address.city}
+            />
+          ))}
+      </div>
+    );
+  };
+
+  ReactDOM.createRoot(document.getElementById("root")).render(
+    <App/>
+  );
+</script>

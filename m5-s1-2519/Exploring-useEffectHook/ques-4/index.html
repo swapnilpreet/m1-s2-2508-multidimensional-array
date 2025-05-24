@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+   <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js">
+  </script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+ 
+ <style>
+    .btn {
+      padding: 5px 10px;
+      background: #69a76b;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .btn:disabled {
+      background: #aaa;
+      cursor: not-allowed;
+    }
+ </style>
+</head>
+<body>
+  <div id="root"></div>
+ 
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    function App() {
+      const [seconds, setSeconds] = useState(0);
+      const [isRunning, setIsRunning] = useState(false);
+      const audioRef = useRef(null);
+
+      useEffect(() => {
+        let timer;
+        if (isRunning) {
+          timer = setInterval(() => {
+            setSeconds(prev=>{
+              const next=prev+1;
+              if (next===10){
+                if (audioRef.current) {
+                  audioRef.current.play();
+                } else {
+                  console.log("Sound Triggered at 10 seconds!");
+                }
+              }
+              return next;
+            });
+          }, 1000);
+        }
+
+        return () => clearInterval(timer);
+      }, [isRunning]);
+
+      const startTimer = () => setIsRunning(true);
+      const stopTimer = () => setIsRunning(false);
+
+      return (
+        <div>
+          <h3>React App</h3>
+          <div className="timer">{seconds}s</div>
+          <button className="btn" onClick={startTimer} disabled={isRunning}>Start</button>
+          <button className="btn" onClick={stopTimer} disabled={!isRunning}>Stop</button>
+          <audio ref={audioRef} src="https://www.soundjay.com/button/beep-07.mp3" preload="auto" />
+        </div>
+      );
+    }
+    
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>

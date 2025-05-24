@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Document</title>
+   <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    .togglebtn {
+      padding: 10px 20px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+  </style>
+
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const ThemedBox = ({ theme, children }) => {
+    
+      const boxStyle = {
+        padding: '5px',
+        margin: '10px 0',
+        borderRadius: '8px',
+        backgroundColor: theme === 'dark' ? '#333' : '#eee',
+        color: theme === 'dark' ? '#fff' : '#000',
+        textAlign: 'center',
+      };
+
+      return <div style={boxStyle}>{children}</div>;
+    };
+    
+    function App() {
+      const [theme, setTheme] = useState(() => {
+        return localStorage.getItem('theme') || 'light';
+      });
+
+      useEffect(() => {
+        localStorage.setItem('theme', theme);
+      }, [theme]);
+
+      const toggleTheme = () => {
+        setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
+      };
+
+      const buttonStyle = {
+        backgroundColor: theme === 'dark' ? '#555' : '#ddd',
+        color: theme === 'dark' ? '#fff' : '#000',
+      };
+
+      return (
+        <div>
+          <button className="togglebtn" style={buttonStyle} onClick={toggleTheme}>
+            Switch to {theme === 'light' ? 'Dark' : 'Light'} Theme
+          </button>
+
+          <ThemedBox theme={theme}>Box 1: Hello World!</ThemedBox>
+          <ThemedBox theme={theme}>Box 2: Theme is {theme}</ThemedBox>
+          <ThemedBox theme={theme}>Box 3: Reusable Component</ThemedBox>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
