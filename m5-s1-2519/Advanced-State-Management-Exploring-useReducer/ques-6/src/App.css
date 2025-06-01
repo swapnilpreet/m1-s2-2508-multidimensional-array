@@ -1,0 +1,15 @@
+.App {
+  text-align: center;
+}
+.Light {
+  background-color: #ffffff;
+  color: #000000;
+}
+.Dark {
+  min-height: 100vh;
+  background-color: #1a1a1a;
+  color: #f0f0f0;
+}
+h1{
+  margin: 0;
+}
