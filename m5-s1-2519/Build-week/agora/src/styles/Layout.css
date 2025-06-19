@@ -1,0 +1,13 @@
+.layout-container {
+  max-width: 50%;
+  margin: 90px auto;
+  border: 1px solid red;
+}
+
+
+@media (max-width: 620px) {
+  .layout-container {
+    max-width: 90%;
+    margin-left: 50px;
+  }
+}

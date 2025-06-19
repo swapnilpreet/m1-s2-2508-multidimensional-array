@@ -1,0 +1,159 @@
+
+/* General container for centering */
+.login-container,
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* The main login/signup card */
+.login-card,
+.signup-card {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 8px; /* Slightly rounded corners */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  width: 100%;
+  max-width: 400px; /* Max width for the card to prevent it from getting too wide on large screens */
+  text-align: center;
+}
+
+h2 {
+  font-size: 28px;
+  margin-bottom: 30px;
+  color: #1a1a1b;
+  font-weight: bold;
+}
+
+/* Form layout */
+.login-form,
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Spacing between input fields and button */
+}
+
+input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #d3d6da; /* Light grey border */
+  border-radius: 4px; /* Slightly rounded input fields */
+  font-size: 16px;
+  box-sizing: border-box; /* Include padding in the element's total width */
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: #0079d3; /* Reddit blue focus border */
+  box-shadow: 0 0 0 2px rgba(0, 121, 211, 0.2); /* Soft blue shadow on focus */
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 12px 15px;
+  background-color: #ff4500; /* Reddit orange button */
+  color: white;
+  border: none;
+  border-radius: 20px; /* More rounded button, like Reddit's buttons */
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  -webkit-appearance: none; /* Remove default button styles for consistency */
+}
+
+button[type="submit"]:hover:not(:disabled) {
+  background-color: #e03c00; /* Darker orange on hover */
+}
+
+button[type="submit"]:disabled {
+  background-color: #cccccc; /* Grey for disabled state */
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Styles for in-page messages */
+.message {
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  font-size: 14px;
+  text-align: left;
+}
+
+.message.success {
+  background-color: #e6ffe6; /* Light green for success */
+  color: #008000; /* Dark green text */
+  border: 1px solid #008000;
+}
+
+.message.error {
+  background-color: #ffe6e6; /* Light red for error */
+  color: #cc0000; /* Dark red text */
+  border: 1px solid #cc0000;
+}
+
+/* Styles for "Sign Up", "Forgot Password" links, and privacy terms (shared) */
+.login-links,
+.signup-links {
+  margin-top: 25px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #5a5a5b; /* Slightly lighter grey for general text in this section */
+}
+
+.login-links p,
+.signup-links p {
+  margin-bottom: 8px; /* Spacing between paragraphs of links */
+}
+
+.login-links a,
+.signup-links a {
+  color: #0079d3; /* Reddit blue for links */
+  text-decoration: none;
+  transition: text-decoration 0.2s ease;
+}
+
+.login-links a:hover,
+.signup-links a:hover {
+  text-decoration: underline;
+}
+
+.privacy-terms {
+  font-size: 12px;
+  margin-top: 20px;
+  color: #878a8c; /* Even lighter grey for terms and conditions text */
+}
+
+/* Responsive adjustments (shared) */
+@media (max-width: 600px) {
+  .login-card,
+  .signup-card {
+    padding: 25px; /* Reduce padding on smaller screens */
+  }
+
+  h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  input,
+  button[type="submit"] {
+    padding: 10px 12px; /* Adjust input and button padding */
+    font-size: 15px;
+  }
+
+  .login-links,
+  .signup-links {
+    font-size: 13px;
+  }
+
+  .privacy-terms {
+    font-size: 11px;
+  }
+}
