@@ -18,7 +18,7 @@ Profilerouter.post('/add-profile',async(req,res)=>{
         if(existingProfile){
             res.status(404).json({message:"Profile alredy exists for this user"})
         }
-        
+
         const profile=await ProfileModel.create({bio,socialMediaLinks,user});
         res.status(201).json({message:"profile created",profile});
 
