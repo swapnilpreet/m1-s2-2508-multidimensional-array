@@ -7,3 +7,64 @@ path module
 url module
 events module
 timers module
+
+
+
+Objective
+Build a modular, RESTful API for managing books and authors using Node.js, Express, MongoDB, and Mongoose. The API will include CRUD for both entities and ensure proper relationships between authors and books.
+
+Project Structure (Required)
+/controllers – Business logic for books & authors
+/routes – Express routers for modular API
+/models – Mongoose schemas and models
+/middlewares – Logger, error handler, and validation
+server.js – App entry point
+Data Models (using Mongoose)
+You must define the following Mongoose models:
+
+Author Schema
+name (String, required)
+birthYear (Number)
+nationality (String)
+Book Schema
+title (String, required)
+author (ObjectId, ref to Author, required)
+year (Number)
+genre (String)
+available (Boolean, default: true)
+Maintain a relationship between Book and Author using ObjectId references (ref).
+
+API Endpoints
+Authors
+| Route | Method | Description | | -------------- | ------ | ------------------- | | /authors | GET | List all authors | | /authors/:id | GET | Get author by ID | | /authors | POST | Add a new author | | /authors/:id | PUT | Update author by ID | | /authors/:id | DELETE | Delete author by ID |
+
+Books
+| Route | Method | Description | | ------------ | ------ | ----------------- | | /books | GET | List all books | | /books/:id | GET | Get book by ID | | /books | POST | Add a new book | | /books/:id | PUT | Update book by ID | | /books/:id | DELETE | Delete book by ID |
+
+Book–Author Relationship Routes
+| Route | Method | Description | | --------------------------------- | ------ | -------------------------------------------- | | /books/:authorId | GET | Get all books written by a specific author | | /books/:authorId?available=true | GET | Get all available books by a specific author |
+
+Requirements & Constraints
+Use MVC architecture: separate routes, controllers, and models
+
+Use Mongoose to interact with MongoDB
+
+Middleware to:
+
+Log method, URL, and timestamp of each request
+Validate inputs on POST/PUT (required fields, types, author existence)
+Centralized error handler to catch and respond to all errors
+Maintain referential integrity:
+
+❌ Cannot add a book for a non-existing author (validate before saving)
+
+❌ Cannot delete an author if they have books (return an error)
+
+❌ Limit: An author can have at most 5 books
+
+Before adding a new book, check how many books the author has
+If the author already has 5 books, return a graceful error message (e.g., 400 Bad Request with reason)
+Use RESTful conventions and appropriate HTTP status codes
+
+Write clear, modular, and well-commented code
+
