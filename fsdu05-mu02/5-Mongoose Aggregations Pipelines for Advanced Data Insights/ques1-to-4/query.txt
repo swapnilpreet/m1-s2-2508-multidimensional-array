@@ -1,0 +1,319 @@
+Q: 1-L0: Mongo Aggregations Sales Data Analysis
+
+db.sales.aggregate([{$group:{_id:"$category",totalSales:{$sum:"$amount"}}}]);
+
+db.sales.aggregate([{$addFields:{month:{$substr:["$date",5,2]}}},{$group:{_id:"$month",totalSales:{$sum:"$amount"}}},{$sort:{_id:1}}]);
+
+db.sales.aggregate([{$group:{_id:"$product",revenue:{$sum:"$amount"}}},
+{$sort:{revenue:-1}},{$limit:1}]);
+
+db.sales.aggregate([{$group:{_id:null,avgAmount:{$avg:"$amount"}}}]);
+
+db.sales.aggregate([{$addFields:{month:{$substr:["$date",5,2]}}},
+  {$group:{_id:"$month",count:{$sum:1}}},{$sort:{_id:1}}
+]);
+
+db.sales.aggregate([
+  { $group: { _id: "$region", totalSales: { $sum: "$amount" } } }
+]);
+
+db.sales.aggregate([
+  { $group: { _id: "$product", totalRevenue: { $sum: "$amount" } } },
+  { $sort: { totalRevenue: -1 } },
+  { $limit: 3 }
+]);
+
+db.sales.aggregate([
+  { $group: { _id: "$category", transactionCount: { $sum: 1 } } }
+]);
+
+db.sales.aggregate([
+  { $group: { _id: "$region", avgAmount: { $avg: "$amount" } } }
+]);
+
+db.sales.aggregate([
+  { $match: { category: { $in: ["Electronics", "Fashion"] } } },
+  { $group: { _id: "$category", totalSales: { $sum: "$amount" } } }
+]);
+
+
+Q: 2-L0: Mongo Aggregations Customers and Order Analysis
+
+
+db.orders.aggregate([
+  {
+    $group: {
+      _id: "$customerId",
+      totalAmountSpent: { $sum: "$amount" }
+    }
+  },
+  {
+    $lookup: {
+      from: "customers",
+      localField: "_id",
+      foreignField: "_id",
+      as: "customerInfo"
+    }
+  },
+  {
+    $unwind: "$customerInfo"
+  },
+  {
+    $project: {
+      _id: 0,
+      customerName: "$customerInfo.name",
+      totalAmountSpent: 1
+    }
+  },
+  {
+    $sort: { totalAmountSpent: -1 }
+  }
+])
+
+
+db.orders.aggregate([
+  {
+    $lookup: {
+      from: "customers",
+      localField: "customerId",
+      foreignField: "_id",
+      as: "customerDetails"
+    }
+  },
+  {
+    $unwind: "$customerDetails" // Unwind to deconstruct the array created by $lookup
+  },
+  {
+    $project: {
+      _id: 0,
+      orderId: "$_id",
+      amount: 1,
+      product: 1,
+      customerName: "$customerDetails.name",
+      customerCity: "$customerDetails.city"
+    }
+  }
+])
+
+
+db.orders.aggregate([
+  {
+    $match: {
+      amount: { $gt: 500 }
+    }
+  },
+  {
+    $project: {
+      _id: 0,
+      orderId: "$_id",
+      customerId: 1,
+      amount: 1,
+      product: 1
+    }
+  }
+])
+
+
+db.orders.aggregate([
+  {
+    $group: {
+      _id: "$customerId",
+      averageOrderAmount: { $avg: "$amount" }
+    }
+  },
+  {
+    $lookup: {
+      from: "customers",
+      localField: "_id",
+      foreignField: "_id",
+      as: "customerInfo"
+    }
+  },
+  {
+    $unwind: "$customerInfo"
+  },
+  {
+    $project: {
+      _id: 0,
+      customerName: "$customerInfo.name",
+      averageOrderAmount: { $round: ["$averageOrderAmount", 2] } // Round to 2 decimal places
+    }
+  },
+  {
+    $sort: { averageOrderAmount: -1 }
+  }
+]);
+
+
+
+
+
+// Q: 3-L1: Mongo Aggregations–E-Commerce Sales Data Analysis
+
+db.orders.aggregate([
+  {
+    $group: {
+      _id: "$productName",
+      totalQuantitySold: { $sum: "$quantity" }
+    }
+  },
+  {
+    $sort: { totalQuantitySold: -1 }
+  },
+  {
+    $limit: 3
+  }
+])
+
+
+db.orders.aggregate([
+  {
+    $group: {
+      _id: "$category",
+      totalRevenue: { $sum: "$totalPrice" }
+    }
+  },
+  {
+    $sort: { totalRevenue: -1 }
+  }
+])
+
+
+db.orders.aggregate([
+  {
+    $group: {
+      _id: null, // To calculate the average across all documents
+      averageTotalPrice: { $avg: "$totalPrice" }
+    }
+  },
+  {
+    $project: {
+      _id: 0, // Exclude the _id field
+      averageTotalPrice: { $round: ["$averageTotalPrice", 2] } // Round to 2 decimal places
+    }
+  }
+])
+
+
+db.orders.aggregate([
+  {
+    $group: {
+      _id: {
+        year: { $year: "$orderDate" },
+        month: { $month: "$orderDate" }
+      },
+      numberOfOrders: { $sum: 1 }
+    }
+  },
+  {
+    $sort: { "_id.year": 1, "_id.month": 1 }
+  }
+])
+
+
+db.orders.aggregate([
+  {
+    $group: {
+      _id: null,
+      totalOrders: { $sum: 1 },
+      canceledOrders: {
+        $sum: {
+          $cond: [{ $eq: ["$status", "Cancelled"] }, 1, 0]
+        }
+      }
+    }
+  },
+  {
+    $project: {
+      _id: 0,
+      percentageCanceled: {
+        $multiply: [
+          { $divide: ["$canceledOrders", "$totalOrders"] },
+          100
+        ]
+      }
+    }
+  },
+  {
+    $project: {
+      percentageCanceled: { $round: ["$percentageCanceled", 2] } // Round to 2 decimal places
+    }
+  }
+])
+
+
+db.orders.aggregate([
+  {
+    $group: {
+      _id: "$category",
+      totalRevenue: { $sum: "$totalPrice" }
+    }
+  },
+  {
+    $sort: { totalRevenue: -1 }
+  },
+  {
+    $limit: 1
+  }
+])
+
+
+db.orders.aggregate([
+  {
+    $group: {
+      _id: "$productName",
+      orderCount: { $sum: 1 }
+    }
+  },
+  {
+    $sort: { orderCount: -1 }
+  },
+  {
+    $limit: 1
+  }
+])
+ 
+
+db.orders.aggregate([
+  {
+    $group: {
+      _id: {
+        year: { $year: "$orderDate" },
+        month: { $month: "$orderDate" }
+      },
+      monthlyRevenue: { $sum: "$totalPrice" }
+    }
+  },
+  {
+    $sort: { "_id.year": 1, "_id.month": 1 }
+  }
+])
+ 
+
+db.orders.aggregate([
+  {
+    $group: {
+      _id: "$status",
+      count: { $sum: 1 }
+    }
+  }
+])
+
+
+
+db.orders.aggregate([
+  {
+    $group: {
+      _id: null, // To calculate across all documents
+      totalOrders: { $sum: 1 },
+      totalQuantitySold: { $sum: "$quantity" }
+    }
+  },
+  {
+    $project: {
+      _id: 0, // Exclude the _id field
+      totalOrders: 1,
+      totalQuantitySold: 1
+    }
+  }
+]);
