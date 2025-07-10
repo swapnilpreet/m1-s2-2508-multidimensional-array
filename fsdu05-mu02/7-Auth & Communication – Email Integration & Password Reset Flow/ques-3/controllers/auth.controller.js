@@ -48,12 +48,10 @@ exports.resetPassword = async (req, res) => {
       resetTokenExpiry: { $gt: Date.now() },
     });
     if (!user) return res.status(400).send("Invalid or expired");
-
     user.password = await bcrypt.hash(req.body.password, 10);
     user.resetToken = null;
     user.resetTokenExpiry = null;
     await user.save();
-
     res.send("Password reset successful");
   } catch {
     res.status(400).send("Invalid token");
