@@ -2,7 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import morgan from 'morgan';
 import connecttoDB from './config/db.js';
-import './jobs/bulkBookJob.js'; // starts the cron on import
+import './jobs/bulkBookJob.js';
 import authRoutes from './routes/auth.routes.js';
 import bookRoutes from './routes/book.routes.js';
 

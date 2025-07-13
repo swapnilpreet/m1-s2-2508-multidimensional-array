@@ -1,6 +1,6 @@
-import Book from '../models/book.model.js';
-import { invalidateBooks } from '../middleware/cache.js';
-import redis, { userKey } from '../config/redis.js';
+import Book from "../models/book.model.js";
+import { invalidateBooks } from "../middleware/cache.js";
+import redis, { userKey } from "../config/redis.js";
 
 export const getBooks = async (req, res) => {
   const data = await Book.find({ owner: req.user._id });
@@ -19,7 +19,7 @@ export const updateBook = async (req, res) => {
     req.body,
     { new: true }
   );
-  if (!book) return res.status(404).json({ msg: 'Not found' });
+  if (!book) return res.status(404).json({ msg: "Not found" });
   await invalidateBooks(req.user._id);
   res.json(book);
 };
@@ -30,12 +30,9 @@ export const deleteBook = async (req, res) => {
   res.status(204).end();
 };
 
-/* ----------  BULK INSERT FLOW  ---------- */
-
 export const enqueueBulk = async (req, res) => {
-  const books = req.body; // assume validated array
-  const listKey = userKey(req.user._id, 'bulkBooks');
-  // push JSON string for atomicity
+  const books = req.body;
+  const listKey = userKey(req.user._id, "bulkBooks");
   await redis.rpush(listKey, JSON.stringify(books));
-  res.json({ msg: 'Books will be added later.' });
+  res.json({ msg: "Books will be added later." });
 };
