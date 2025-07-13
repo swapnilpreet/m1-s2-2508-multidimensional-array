@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Group Chat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Login Screen: Visible initially, hidden after successful registration -->
+        <div id="login-screen" class="screen">
+            <h1>Join Chat</h1>
+            <input type="text" id="username-input" placeholder="Enter your name" autofocus>
+            <button id="join-chat-button">Join Chat</button>
+            <p id="registration-status" class="status-message error-message"></p>
+        </div>
+
+        <!-- Chat Screen: Hidden initially, visible after successful registration -->
+        <div id="chat-screen" class="screen hidden">
+            <div class="header">
+                <h2>Group Chat</h2>
+                <button id="disconnect-button">Disconnect</button>
+            </div>
+            <div class="room-selection">
+                <input type="text" id="room-name-input" placeholder="Enter room name (e.g., general, private1)">
+                <button id="join-room-button">Join Room</button>
+            </div>
+            <p id="room-status" class="status-message"></p>
+
+            <div class="chat-area">
+                <!-- Area where chat messages are displayed -->
+                <div class="chat-messages" id="messages">
+                    <!-- Chat messages will be appended here by JavaScript -->
+                </div>
+                <!-- List of currently online users -->
+                <div class="online-users">
+                    <h3>Online Users</h3>
+                    <ul id="online-users-list">
+                        <!-- Online users will be appended here by JavaScript -->
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Form for sending regular chat messages -->
+            <form id="message-form">
+                <input id="m" autocomplete="off" placeholder="Type a message..." /><button>Send</button>
+            </form>
+
+            <!-- Button to toggle between regular and admin message forms -->
+            <button id="admin-message-toggle">Admin Message Mode</button>
+
+            <!-- Form for sending admin announcements (initially hidden) -->
+            <form id="admin-message-form" class="hidden">
+                <input id="admin-m" autocomplete="off" placeholder="Admin announcement..." /><button>Broadcast</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Socket.IO client library (served by the Socket.IO server) -->
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- Your custom client-side JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
