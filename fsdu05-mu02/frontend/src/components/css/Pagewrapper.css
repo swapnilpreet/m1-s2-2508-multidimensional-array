@@ -1,0 +1,30 @@
+.page-wrapper {
+  /* Set a maximum width for the content */
+  border: 1px solid red;
+  max-width: 1200px; /* Adjust this value as needed for your design */
+  width: 100%; /* Ensure it takes full width up to max-width */
+  margin: 0 auto; /* This centers the div horizontally */
+  padding: 0 20px; /* Add horizontal padding to prevent content from touching screen edges */
+  box-sizing: border-box; /* Include padding in the width calculation */
+  background-color: #ffffff; /* Optional: background for the content area */
+  border-radius: 12px; /* Optional: rounded corners */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow */
+  padding-top: 30px; /* Optional: vertical padding */
+  padding-bottom: 30px; /* Optional: vertical padding */
+}
+
+@media (max-width: 768px) {
+  .page-wrapper {
+    padding: 0 15px; /* Slightly less padding on smaller screens */
+    border-radius: 8px; /* Smaller border-radius */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* Lighter shadow */
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-wrapper {
+    padding: 0 10px; /* Even less padding on very small screens */
+  }
+}
