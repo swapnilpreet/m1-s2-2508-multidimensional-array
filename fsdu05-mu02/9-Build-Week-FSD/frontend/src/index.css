@@ -1,5 +1,10 @@
-@import './variables.css';
-@import './base.css';
-@import './layout.css';
-@import './components.css';
-@import './utilities.css';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
+
+*{
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans- !important;
+    font-size: 13px;
+}
