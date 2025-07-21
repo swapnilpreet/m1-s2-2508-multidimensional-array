@@ -1,0 +1,260 @@
+/* Base */
+.navbar-container {
+  position: sticky;  /* Sticks while scrolling */
+  top: 0;
+  z-index: 1000;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  width: 100%;
+}
+
+.navbar-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1.5rem;
+  flex-wrap: wrap;
+}
+
+.navbar-logo{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.logo-heading {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  cursor: pointer;
+  /* logo-heading */
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1.2rem;
+  color: #007bff;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #007bff, #00c9a7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fadeInLogo 1s ease-in-out;
+  margin: 0;
+  /* padding: 0.5rem 1rem; */
+}
+
+/* Optional animation */
+@keyframes fadeInLogo {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* Top Right for Desktop */
+.navbar-links {
+  /* border: 1px solid red; */
+  display: flex;
+  align-items: center;
+  /* text-align: center; */
+  gap: 1.5rem;
+}
+
+.navbar-links a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.navbar-links a:hover {
+  color: #007bff;
+}
+
+/* Bottom Nav */
+.navbar-bottom {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  background-color: #f8f8f8;
+}
+
+.nav-item {
+  position: relative;
+  margin: 0.5rem 1rem;
+}
+
+.nav-item a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.nav-item a:hover {
+  color: #007bff;
+}
+
+/* Submenu */
+.submenu {
+  display: none;
+  position: absolute;
+  cursor: pointer;
+  top: 1.5rem;
+  left: 0;
+  /* line-height: 1rem; */
+  padding-top: 10px;
+  background-color: #f8f8f8;
+  border-radius: 5px;
+  padding: 0.7rem 1rem;
+  border: 1px solid #ddd;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  min-width: 150px;
+}
+.submenu>p:hover{
+   color: #007bff;
+}
+.nav-item:hover .submenu {
+  display: block;
+}
+
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+  display: none;
+  gap: 1rem;
+  align-items: center;
+}
+
+.menu-btn {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+  display: none;
+  flex-direction: column;
+  background-color: #f9f9f9;
+}
+
+.dropdown-menu.open {
+  display: flex;
+}
+
+.navbar-links-mobile {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.user-dropdown-wrapper {
+  position: relative;
+  cursor: pointer;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #333;
+  /* font-weight: 500; */
+  padding: 8px 12px;
+  border-radius: 4px;
+  /* background-color: #f5f5f5; */
+}
+.user-info:hover{
+  color: #007bff;
+}
+
+.user-dropdown {
+  position: absolute;
+  top: 35px;
+  right: 0;
+  width: 260px;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  border-radius: 8px;
+  z-index: 999;
+}
+
+.user-dropdown p.user-name {
+  font-weight: 600;
+  margin: 0;
+}
+
+.user-dropdown p.user-phone {
+  color: gray;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.user-dropdown a {
+  display: block;
+  text-decoration: none;
+  padding: 6px 0;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.user-dropdown a:hover {
+  color: #007bff;
+}
+
+.user-dropdown hr {
+  margin: 10px 0;
+  border: none;
+  border-top: 1px solid #eee;
+}
+
+
+/* Responsive Rules */
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: flex;
+  }
+
+  .navbar-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+  }
+
+  .nav-item {
+    margin: 0.5rem 0;
+  }
+
+  .submenu {
+    position: relative;
+    top: 0;
+    left: 0;
+    border: none;
+    box-shadow: none;
+    background-color: #eaeaea;
+    padding: 0.5rem;
+    display: none;
+  }
+
+  .nav-item:hover .submenu {
+    display: block;
+  }
+}
+
+/* Hide hamburger by default on desktop */
+@media (min-width: 769px) {
+  .mobile-only {
+    display: none;
+  }
+}

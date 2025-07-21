@@ -2,10 +2,9 @@ import multer from 'multer';
 import path from 'path';
 import Tesseract from 'tesseract.js';
 import cloudinary from '../config/cloudinary.js';
-import { v4 as uuidv4 } from 'uuid'; // For unique filenames
-
-// Multer storage configuration
-const storage = multer.memoryStorage(); // Store in memory for direct processing or Cloudinary upload
+import { v4 as uuidv4 } from 'uuid';
+ 
+const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
   if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'application/pdf') {
@@ -18,7 +17,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB limit
+    fileSize: 5 * 1024 * 1024,
   },
   fileFilter: fileFilter,
 });
@@ -27,14 +26,14 @@ const upload = multer({
 const uploadImageToCloudinary = async (fileBuffer) => {
   try {
     const b64 = Buffer.from(fileBuffer).toString('base64');
-    let dataURI = 'data:' + 'image/jpeg' + ';base64,' + b64; // Adjust mimetype if needed, or get from original file
+    let dataURI = 'data:' + 'image/jpeg' + ';base64,' + b64;
     if (fileBuffer.mimetype) {
       dataURI = `data:${fileBuffer.mimetype};base64,${b64}`;
     }
 
     const result = await cloudinary.uploader.upload(dataURI, {
-      folder: 'prescriptions', // Optional: folder in Cloudinary
-      resource_type: 'auto' // automatically detect file type
+      folder: 'prescriptions',
+      resource_type: 'auto'
     });
     return result.secure_url;
   } catch (error) {
@@ -43,13 +42,13 @@ const uploadImageToCloudinary = async (fileBuffer) => {
   }
 };
 
-// Function for OCR processing (for images/PDFs)
+
 const extractTextFromImage = async (fileBuffer) => {
   try {
     const { data: { text } } = await Tesseract.recognize(
       fileBuffer,
-      'eng', // Language code for English
-      { logger: m => console.log(m) } // Optional: log progress
+      'eng',
+      { logger: m => console.log(m) }
     );
     return text;
   } catch (error) {

@@ -1,6 +1,8 @@
 
 const express=require("express");
 const BookModel = require("../models/book.model");
+const authMiddleware = require("../middlewares/auth.middleware");
+const AuthorModel = require("../models/author.model");
 
 const BookRouter=express.Router();
 
@@ -11,7 +13,7 @@ BookRouter.get('/',async(req,res)=>{
 })
 
 
-BookRouter.post('/',async(req,res)=>{
+BookRouter.post('/',authMiddleware(['editor','admin']), async(req,res)=>{
     const { title, genre, price, pages } = req.body;
     if (!title || !genre || !price || !pages) {
         res.status(400);
@@ -39,7 +41,7 @@ BookRouter.post('/',async(req,res)=>{
 })
 
 
-BookRouter.delete('/:id',async(req,res)=>{
+BookRouter.delete('/:id',authMiddleware(['editor','admin']),async(req,res)=>{
     const book = await BookModel.findById(req.params.id);
     if (book) {
         book.isDeleted = true;

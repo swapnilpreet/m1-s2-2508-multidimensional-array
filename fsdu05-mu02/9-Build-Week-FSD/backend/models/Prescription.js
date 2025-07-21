@@ -11,7 +11,7 @@ const prescriptionSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    extractedText: { // Optional: for OCR
+    extractedText: {
       type: String,
     },
     status: {

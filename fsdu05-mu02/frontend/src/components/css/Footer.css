@@ -1,0 +1,139 @@
+.footer {
+  background-color: #e6f1fa;
+  color: #2c3e50;
+  font-family: "Segoe UI", sans-serif;
+  padding: 2rem 1rem;
+  margin-top: 30px;
+}
+
+.footer-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-bottom: 2rem;
+  /* border-bottom: 1px solid #ccc; */
+}
+
+.footer-column {
+  flex: 1 1 250px;
+  min-width: 250px;
+}
+
+.footer-column h4 {
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  color: #2d2d2d;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-column ul li {
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  color: #555;
+}
+
+.footer-column ul li:hover {
+  text-decoration: underline;
+}
+
+.social-icons {
+  display: flex;
+  gap: 1rem;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #3366cc;
+}
+
+.subscribe-box {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.subscribe-box input {
+  flex: 1;
+  padding: 0.6rem;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  outline: none;
+}
+
+.subscribe-box button {
+  padding: 0.6rem 1.2rem;
+  background-color: #2a73f3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.subscribe-box button:hover {
+  background-color: #1753c3;
+}
+
+.registered-address {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+}
+
+.highlight {
+  color: #2a73f3;
+  font-weight: bold;
+}
+
+.app-buttons {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
+
+.app-buttons img {
+  width: 140px;
+  height: auto;
+}
+
+.footer-bottom {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 0.85rem;
+  color: #555;
+  border-top: 1px solid #ccc;
+  padding-top: 1rem;
+}
+
+.payment-icons img {
+  width: 40px;
+  margin-right: 1rem;
+  vertical-align: middle;
+}
+
+@media screen and (max-width: 768px) {
+  .footer-top {
+    flex-direction: column;
+  }
+
+  .subscribe-box {
+    flex-direction: column;
+  }
+
+  .subscribe-box button {
+    width: 100%;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+}

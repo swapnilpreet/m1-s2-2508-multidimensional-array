@@ -7,24 +7,31 @@ import connectDB from './config/db.js';
 import { notFound, errorHandler } from './middlewares/errorMiddleware.js';
 
 import authRoutes from './routes/authRoutes.js';
-import productRoutes from './routes/productRoutes.js';
+import medicineRoutes from './routes/medicineRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 // import prescriptionRoutes from './routes/prescriptionRoutes.js'; // New route for prescriptions
 import recommendationRoutes from './routes/recommendationRoutes.js'; // New route for recommendations
 
 
-
-
-
 const app = express();
-
 app.use(express.json()); // Body parser for JSON
-app.use(cors()); // Enable CORS for all routes
+
+
+const corsOptions = {
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
+
 
 // Routes
 app.use('/api/auth', authRoutes); //done
-app.use('/api/products', productRoutes); //done
+app.use('/api/medicine', medicineRoutes); //done
 app.use('/api/orders', orderRoutes); //done
 app.use('/api/users', userRoutes);
 // app.use('/api/prescriptions', prescriptionRoutes);
@@ -42,5 +49,5 @@ app.use(errorHandler);
 
 app.listen(3000, async() => {
   await connectDB();
-  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${3000}`.yellow.bold);
+  console.log(`Server running is running on port ${3000}`);
 });

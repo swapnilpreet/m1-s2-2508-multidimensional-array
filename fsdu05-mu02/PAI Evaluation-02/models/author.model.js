@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Book = require('./Book'); // Import Book model for cascade
 
 const authorSchema = mongoose.Schema({
     name: {

@@ -1,11 +1,9 @@
-import asyncHandler from 'express-async-handler';
-import Order from '../models/Order.js';
-import Product from '../models/Product.js';
+import asyncHandler from "express-async-handler";
+import Order from "../models/Order.js";
+import MedicineModel from "../models/Medicine.js";
 
-// @desc    Create new order
-// @route   POST /api/orders
-// @access  Private
 const addOrderItems = asyncHandler(async (req, res) => {
+  const uniqueOrderId = `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
   const {
     orderItems,
     shippingAddress,
@@ -14,30 +12,32 @@ const addOrderItems = asyncHandler(async (req, res) => {
     shippingPrice,
     taxPrice,
     totalPrice,
+    isPaid,
+    shippingStatus,
+    orderId,
   } = req.body;
 
   if (orderItems && orderItems.length === 0) {
     res.status(400);
-    throw new Error('No order items');
+    throw new Error("No order items");
   } else {
-    // Check if products are in stock
     for (const item of orderItems) {
-      const product = await Product.findById(item.product);
-      if (!product) {
+      const medicine = await MedicineModel.findById(item.Medicine);
+      if (!medicine) {
         res.status(404);
         throw new Error(`Product not found: ${item.name}`);
       }
-      if (product.countInStock < item.qty) {
+      if (medicine.countInStock < item.qty) {
         res.status(400);
-        throw new Error(`Not enough ${product.name} in stock.`);
+        throw new Error(`Not enough ${medicine.name} in stock.`);
       }
     }
 
     const order = new Order({
       orderItems: orderItems.map((item) => ({
         ...item,
-        product: item.product, // Ensure product is ObjectId
-        _id: undefined, // Remove _id from orderItems to avoid Mongoose _id conflict
+        Medicine: item.Medicine,
+        _id: undefined,
       })),
       user: req.user._id,
       shippingAddress,
@@ -46,41 +46,36 @@ const addOrderItems = asyncHandler(async (req, res) => {
       shippingPrice,
       taxPrice,
       totalPrice,
+      isPaid,
+      paidAt: Date.now(),
+      shippingStatus: shippingStatus || "Packed",
+      orderId: orderId || uniqueOrderId,
     });
 
     const createdOrder = await order.save();
-
-    // Decrease product stock
     for (const item of orderItems) {
-      await Product.findByIdAndUpdate(item.product, {
+      await MedicineModel.findByIdAndUpdate(item.Medicine, {
         $inc: { countInStock: -item.qty },
       });
     }
-
     res.status(201).json(createdOrder);
   }
 });
 
-// @desc    Get order by ID
-// @route   GET /api/orders/:id
-// @access  Private
 const getOrderById = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id).populate(
-    'user',
-    'name email'
+    "user",
+    "name email"
   );
 
   if (order) {
     res.json(order);
   } else {
     res.status(404);
-    throw new Error('Order not found');
+    throw new Error("Order not found");
   }
 });
 
-// @desc    Update order to paid
-// @route   PUT /api/orders/:id/pay
-// @access  Private
 const updateOrderToPaid = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
 
@@ -98,13 +93,10 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
     res.json(updatedOrder);
   } else {
     res.status(404);
-    throw new Error('Order not found');
+    throw new Error("Order not found");
   }
 });
 
-// @desc    Update order to delivered
-// @route   PUT /api/orders/:id/deliver
-// @access  Private/Admin
 const updateOrderToDelivered = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
 
@@ -116,23 +108,17 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
     res.json(updatedOrder);
   } else {
     res.status(404);
-    throw new Error('Order not found');
+    throw new Error("Order not found");
   }
 });
 
-// @desc    Get logged in user orders
-// @route   GET /api/orders/myorders
-// @access  Private
 const getMyOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({ user: req.user._id });
   res.json(orders);
 });
 
-// @desc    Get all orders (Admin only)
-// @route   GET /api/orders
-// @access  Private/Admin
 const getOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({}).populate('user', 'id name');
+  const orders = await Order.find({}).populate("user", "id name");
   res.json(orders);
 });
 

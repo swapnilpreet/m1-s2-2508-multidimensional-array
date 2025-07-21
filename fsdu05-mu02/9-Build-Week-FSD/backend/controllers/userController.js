@@ -2,29 +2,29 @@ import asyncHandler from 'express-async-handler';
 import User from '../models/User.js';
 import generateToken from '../utills/generateToken.js';
 
-// @desc    Get user profile
-// @route   GET /api/users/profile
-// @access  Private
+ 
 const getUserProfile = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user._id);
-
-  if (user) {
-    res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      medicalHistory: user.medicalHistory, // Include medical history
-    });
+  const userId = req.user._id;
+  const foundUser = await User.findById(userId);
+  if (foundUser) {
+    const userProfileResponse = {
+      message: 'User profile fetched successfully.',
+      data: {
+        _id: foundUser._id,
+        name: foundUser.name,
+        email: foundUser.email,
+        isAdmin: foundUser.isAdmin,
+        myCarts: foundUser.myCarts,
+        medicalHistory: foundUser.medicalHistory,
+      },
+    };
+    res.status(200).json(userProfileResponse);
   } else {
-    res.status(404);
-    throw new Error('User not found');
+     res.status(500).json({ message: 'The requested user profile was not found in the database.', error });
   }
 });
 
-// @desc    Update user profile
-// @route   PUT /api/users/profile
-// @access  Private
+
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
@@ -56,17 +56,55 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Get all users (Admin only)
-// @route   GET /api/users
-// @access  Private/Admin
+
+
+const addmedicalhistory=asyncHandler(async(req,res)=>{
+    const {
+      condition,
+      diagnosisDate,
+      medications,
+      notes,
+      prescriptionUrl,
+    } = req.body;
+
+    if (!condition || !diagnosisDate || !medications || medications.length === 0 || !prescriptionUrl) {
+      res.status(400);
+      throw new Error('Please provide condition, diagnosis date, medications, and prescription URL.');
+    }
+
+    const user = await User.findById(req.user._id);
+
+    if (user) {
+      const newMedicalEntry = {
+        condition,
+        diagnosisDate,
+        medications,
+        notes: notes || '',
+        prescriptionUrl,
+      };
+
+      user.medicalHistory.push(newMedicalEntry);
+
+      const updatedUser = await user.save();
+
+      res.status(201).json({
+        message: 'Medical history entry added successfully!',
+        data: updatedUser.medicalHistory[updatedUser.medicalHistory.length - 1],
+      });
+    } else {
+      res.status(404);
+      throw new Error('User not found.');
+    }
+})
+
+
+
 const getUsers = asyncHandler(async (req, res) => {
   const users = await User.find({});
   res.json(users);
 });
 
-// @desc    Delete user (Admin only)
-// @route   DELETE /api/users/:id
-// @access  Private/Admin
+
 const deleteUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
 
@@ -79,9 +117,7 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Get user by ID (Admin only)
-// @route   GET /api/users/:id
-// @access  Private/Admin
+
 const getUserById = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id).select('-password');
   if (user) {
@@ -92,9 +128,7 @@ const getUserById = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Update user (Admin only)
-// @route   PUT /api/users/:id
-// @access  Private/Admin
+
 const updateUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
 
@@ -117,6 +151,86 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 });
 
+ 
+const toggleCartItem = asyncHandler(async (req, res) => {
+  const userId = req.user?._id;
+  const {medicineId}  = req.body;
+
+  console.log("req.body",req.body)
+  if (!medicineId) {
+    return res.status(400).json({ message: "Medicine ID is required" });
+  }
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    // console.log(user)
+    if (!Array.isArray(user.myCarts)) {
+      user.myCarts = [];
+    }
+
+    const index = user.myCarts.findIndex(
+      (id) => id?.toString() === medicineId
+    );
+
+    // console.log("index",index)
+    if (index > -1) {
+      user.myCarts.splice(index, 1);
+      await user.save();
+      return res.status(200).json({
+        message: "Medicine removed from cart",
+        myCarts: user.myCarts,
+      });
+    } else {
+      user.myCarts.push(medicineId);
+      await user.save();
+      return res.status(200).json({
+        message: "Medicine added to cart",
+        myCarts: user.myCarts,
+      });
+    }
+  } catch (error) {
+    console.error("toggleCartItem error:", error);
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
+
+const GetmyCartItem = asyncHandler(async (req, res) => {
+   const userId = req.user?._id;
+
+    if (!userId) {
+      res.status(401);
+      throw new Error('Not authorized, no user ID found in request.');
+    }
+    // console.log("userId",userId);
+
+    const user = await User.findById(userId).populate('myCarts');
+
+    // console.log("user",user);
+    if (user) {
+      res.status(200).json({
+        message: 'User cart fetched successfully.',
+        data: user.myCarts,
+      });
+    } else {
+      res.status(404);
+      throw new Error('User not found.');
+    }
+});
+
+const clearUserCart = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+
+  await User.findByIdAndUpdate(userId, {
+    $set: { myCarts: [] },
+  });
+
+  res.status(200).json({ message: "Cart cleared successfully" });
+});
+
+
 export {
   getUserProfile,
   updateUserProfile,
@@ -124,4 +238,8 @@ export {
   deleteUser,
   getUserById,
   updateUser,
+  addmedicalhistory,
+  toggleCartItem,
+  GetmyCartItem,
+  clearUserCart,
 };

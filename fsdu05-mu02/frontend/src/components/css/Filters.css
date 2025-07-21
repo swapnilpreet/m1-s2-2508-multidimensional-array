@@ -1,0 +1,46 @@
+/* 
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  justify-content: center;
+} */
+
+.filter-bar input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 200px;
+  transition: border 0.3s ease;
+}
+
+.filter-bar input:focus {
+  border-color: #0e7490; /* Tailwind cyan-700 */
+  outline: none;
+}
+
+
+
+
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  padding: 1rem;
+  background-color: #f9f9f9;
+}
+
+.apply-btn {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.apply-btn:hover {
+  background-color: #0056b3;
+}

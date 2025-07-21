@@ -1,0 +1,128 @@
+.admin-panel {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: auto;
+  font-family: "Segoe UI", sans-serif;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.tabs {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.tabs button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.tabs button.active,
+.tabs button:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.tab-content {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.data-table th,
+.data-table td {
+  border: 1px solid #ddd;
+  padding: 0.8rem;
+  text-align: left;
+}
+
+.data-table th {
+  background-color: #f7f7f7;
+}
+
+select,
+input,
+textarea,
+button {
+  padding: 0.6rem;
+  margin-top: 0.5rem;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+button {
+  background-color: #28a745;
+  color: white;
+  cursor: pointer;
+  border: none;
+  width: fit-content;
+  padding: 0.6rem 1.2rem;
+}
+
+button.delete {
+  background-color: #dc3545;
+  margin-left: 0.5rem;
+}
+
+.medicine-list ul {
+  margin-top: 1rem;
+}
+
+.medicine-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+  background: #f9f9f9;
+  padding: 0.8rem;
+  border-radius: 8px;
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  .tabs {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .data-table th,
+  .data-table td {
+    font-size: 0.9rem;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+  }
+
+  .medicine-list li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}

@@ -1,60 +1,99 @@
-import asyncHandler from 'express-async-handler';
-import User from '../models/User.js';
-import generateToken from '../utills/generateToken.js';
+import asyncHandler from "express-async-handler";
+import User from "../models/User.js";
+import generateToken from "../utills/generateToken.js";
 
-// @desc    Auth user & get token
-// @route   POST /api/auth/login
-// @access  Public
 const authUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
-
-  const user = await User.findOne({ email });
-
-  if (user && (await user.matchPassword(password))) {
-    res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      token: generateToken(user._id),
-    });
+  const userEmail = req.body.email;
+  const submittedPassword = req.body.password;
+  const foundUser = await User.findOne({ email: userEmail });
+  if (!foundUser) {
+    res.status(404);
+    throw new Error("User not Found with this emailID");
+  }
+  if (foundUser && (await foundUser.matchPassword(submittedPassword))) {
+    const responsePayload = {
+      message: "User authenticated successfully!",
+      data: {
+        _id: foundUser._id,
+        name: foundUser.name,
+        email: foundUser.email,
+        isAdmin: foundUser.isAdmin,
+      },
+      token: generateToken(foundUser._id),
+    };
+    res.status(200).json(responsePayload);
   } else {
-    res.status(401); // Unauthorized
-    throw new Error('Invalid email or password');
+    res.status(401);
+    throw new Error(
+      "Invalid email or password. Please check your credentials and try again."
+    );
   }
 });
 
-// @desc    Register a new user
-// @route   POST /api/auth/register
-// @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const userName = req.body.name;
+  const userEmail = req.body.email;
+  const userPassword = req.body.password;
+  const existingUser = await User.findOne({ email: userEmail });
 
-  const userExists = await User.findOne({ email });
-
-  if (userExists) {
-    res.status(400); // Bad Request
-    throw new Error('User already exists');
+  if (existingUser) {
+    res.status(400);
+    throw new Error(
+      "A user with this email address already exists. Please try logging in or use a different email."
+    );
   }
-
-  const user = await User.create({
-    name,
-    email,
-    password,
+  const newUser = await User.create({
+    name: userName,
+    email: userEmail,
+    password: userPassword,
   });
-
-  if (user) {
-    res.status(201).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      token: generateToken(user._id),
-    });
+  if (newUser) {
+    const responsePayload = {
+      message: "User registered successfully!",
+      data: {
+        _id: newUser._id,
+        name: newUser.name,
+        email: newUser.email,
+        isAdmin: newUser.isAdmin,
+      },
+      token: generateToken(newUser._id),
+    };
+    res.status(201).json(responsePayload);
   } else {
     res.status(400);
-    throw new Error('Invalid user data');
+    throw new Error(
+      "Invalid user data provided. Please check your input and try again."
+    );
   }
 });
 
-export { authUser, registerUser };
+const changepassword = asyncHandler(async (req, res) => {
+  const oldPassword = req.body.oldPassword;
+  const newPassword = req.body.newPassword;
+  if (!oldPassword || !newPassword) {
+    res.status(400);
+    throw new Error("Please provide both old and new passwords.");
+  }
+  const user = await User.findById(req.user._id);
+  if (user && (await user.matchPassword(oldPassword))) {
+    user.password = newPassword;
+    const updatedUser = await user.save();
+    res.status(200).json({
+      message: "Password updated successfully!",
+      data: {
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        isAdmin: updatedUser.isAdmin,
+      },
+    });
+  } else if (!user) {
+    res.status(404);
+    throw new Error("User not found.");
+  } else {
+    res.status(401);
+    throw new Error("Invalid old password. Please try again.");
+  }
+});
+
+export { authUser, registerUser, changepassword };

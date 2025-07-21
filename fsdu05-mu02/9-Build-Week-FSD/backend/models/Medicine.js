@@ -16,7 +16,7 @@ const reviewSchema = mongoose.Schema(
   }
 );
 
-const productSchema = mongoose.Schema(
+const MedicineSchema = mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -43,7 +43,7 @@ const productSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    reviews: [reviewSchema], // Embedded reviews
+    reviews: [reviewSchema],
     rating: {
       type: Number,
       required: true,
@@ -70,6 +70,6 @@ const productSchema = mongoose.Schema(
   }
 );
 
-const Product = mongoose.model('Product', productSchema);
+const MedicineModel = mongoose.model('Medicine', MedicineSchema);
 
-export default Product;
+export default MedicineModel;

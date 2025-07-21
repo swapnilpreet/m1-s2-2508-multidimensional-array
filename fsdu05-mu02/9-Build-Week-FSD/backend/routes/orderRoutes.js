@@ -14,6 +14,7 @@ const router = express.Router();
 router.route('/')
   .post(protect, addOrderItems)
   .get(protect, admin, getOrders);
+  
 router.route('/myorders')
   .get(protect, getMyOrders);
 
