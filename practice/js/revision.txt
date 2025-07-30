@@ -1,0 +1,209 @@
+
+inbuild function :
+    predefined fn provied by js engine  perform common tool 
+    it is part of js language 
+    ex. math.max(),push(),pop()..etc..
+    tc. O(n) sort() > O(n log n) slice(st,end) > O(k)
+    k = size of slice return arr
+
+    why used : optimise a performance ,increase readability,maintainabity
+
+Immunitable:
+    cant be chnaged,if you modifed a value of get odified value ,not original value,
+    store the vlaue mostly single value,
+    ex. str,num,boolean,bigInt,null,undefiend,symbol.
+
+mutable:
+    can be chnaged adter a creation,store the refences,when you chnaged the value data get updated.
+    ex.obj,array,function,date.map.set etc..
+
+Datatypes;
+    1 primitive : Immunitable store the balue,total we have 7 datatype 
+                ex.number,str,boolean,null,undefiend,bogInt,symbol.
+
+    2 non-primitive : mutable store the refences,total we have many data 
+                    type like obj,arr,fn,data etc..
+
+Object : 
+    it is non-premitive data type, used to store a data in key:vlaue pair,
+
+    why we used :
+         for key-based storage,str data,fast lookup O(1),flexible and dynamic.
+
+    ex.
+         const car={         
+            brand="toyata";
+            year=2025;
+        }
+
+    access :
+         log(car.year) > dot notation
+         log(car["year"]) > bracket notation;
+
+    update/add :
+        car.color=blue // check if key found then update colour or add new key value pair add new field color
+        car.year=2015; chnaged the modified the value .
+
+    delete:
+        delete car.year;
+    
+    How many way create obj : 
+        6 main ways to create an object 
+
+        1 Object Literal (Most Common)
+            ex.
+                const person = {
+                    name: "Alice",
+                    age: 25
+                };
+
+            why used :
+                 When creating simple, static objects,Simple and readable, Good for small objects.
+
+            Cons: 
+                Not reusable or scalable for multiple instances.
+
+        2 Using new Object() Constructor
+            ex. 
+                const person = new Object();
+                person.name = "Alice";
+                person.age = 25;
+            
+            why used : 
+                Rarely used functionally same as object literal but more verbose.Built-in constructor. Can be dynamic.
+            
+            Cons :
+                Verbose and unnecessary for simple cases.
+        
+        3. Using a Constructor Function :
+            ex.
+                function Person(name, age) {
+                this.name = name;
+                this.age = age;
+                }
+                const person1 = new Person("Alice", 25);
+            
+            prototypes : 
+                are foundation of inheritances,every obj in js has a hidden internal property called [[prototype]].
+                this is linked other obj, from this obj can inherit proerty and mathod from other object.
+
+                ex.
+                    const person = {
+                    greet: function () {
+                        return "Hello!";
+                    }
+                    };
+
+                    const student = Object.create(person);  // student inherits from person
+
+                    console.log(student.greet());           // Output: Hello!
+
+            why used :
+                if we want a blueprint for creating a multiple similar Obj. reusable,memory efficient with prototype.
+            
+            Cons : 
+                More complex than literals. No private fields.
+        
+        4. Using ES6 class Syntax (Constructor Class) :
+            ex.
+                class Person {
+                    constructor(name, age) {
+                        this.name = name;
+                        this.age = age;
+                    }
+                }
+                const person1 = new Person("Alice", 25);
+            
+            why used :
+                Modern OOP-style reusable object creation.
+
+            pros :
+                clean,clas -based systax,supports inheritances
+
+            cons : 
+                Slightly more boilerplate for simple needs.
+
+        5. Using Object.create() :
+            ex.
+                const proto = {
+                    greet() {
+                        console.log("Hello!");
+                    }
+                };
+                const person = Object.create(proto);
+                person.name = "Alice";
+
+            why used :
+                To create an object with a custom prototype.
+            
+            Pros :
+                Powerful for inheritance.Custom prototype chains.
+            
+            cons :
+                Less intuitive. Rare in most app code.
+
+        6. Using Factory Function :
+            ex.
+                function createPerson(name, age) {
+                    return {
+                        name,
+                        age,
+                        greet() {
+                            console.log(`Hi, I'm ${name}`);
+                        }
+                    };
+                }
+                const person = createPerson("Alice", 25);
+            
+            why used :
+                Simpler alternative to constructor/class when object reuse is needed.
+            
+            pros :
+                Clean and functional. No new keyword needed.
+            
+            cons :
+                Not prototype-based each object gets its own method copy.
+            
+
+Constructor Function :
+    A constructor function is a normal function used with the "new" keyword to "create instances of an object". Inside, this refers to the new object being created.
+
+    ex.
+        function Car(brand, model) {
+            this.brand = brand;
+            this.model = model;
+            this.drive = function () {
+                console.log(`${this.brand} ${this.model} is driving.`);
+            };
+        }
+        const c1 = new Car("Toyota", "Camry");
+        c1.drive(); // Toyota Camry is driving.
+    
+    Pros:
+        Prototype-based method sharing (memory efficient) ,Easy to use with instanceof ,Familiar in OOP (class-like)
+    
+    Cons:
+        Risk of forgetting new (can break behavior), No built-in support for private properties
+
+Factory Function :
+    A factory function is a regular function that returns a new object, without using new. It constructs and returns the object explicitly.
+
+    ex.
+        function createCar(brand, model) {
+            return {
+                brand,
+                model,
+                drive() {
+                console.log(`${brand} ${model} is driving.`);
+                }
+            };
+        }
+        const c1 = createCar("Toyota", "Camry");
+        c1.drive(); // Toyota Camry is driving.
+    
+    Pros:
+        No new keyword required, Can create private variables via closures,Easier to test, extend, compose
+    
+    Cons:
+        Each instance has its own copy of methods unless optimized, No instanceof relation
+
