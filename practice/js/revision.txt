@@ -9,16 +9,16 @@ inbuild function :
     why used : optimise a performance ,increase readability,maintainabity
 
 Immunitable:
-    cant be chnaged,if you modifed a value of get odified value ,not original value,
+    can't be chnaged,if you modifed a value of get oldified value ,not original value,
     store the vlaue mostly single value,
     ex. str,num,boolean,bigInt,null,undefiend,symbol.
 
 mutable:
-    can be chnaged adter a creation,store the refences,when you chnaged the value data get updated.
+    can be chnaged after a creation,store the refences,when you changed the value data get updated.
     ex.obj,array,function,date.map.set etc..
 
 Datatypes;
-    1 primitive : Immunitable store the balue,total we have 7 datatype 
+    1 primitive : Immunitable store the value,total we have 7 datatype 
                 ex.number,str,boolean,null,undefiend,bogInt,symbol.
 
     2 non-primitive : mutable store the refences,total we have many data 
@@ -89,9 +89,9 @@ Object :
 
                 ex.
                     const person = {
-                    greet: function () {
-                        return "Hello!";
-                    }
+                        greet: function () {
+                            return "Hello!";
+                        }
                     };
 
                     const student = Object.create(person);  // student inherits from person
@@ -164,6 +164,139 @@ Object :
             cons :
                 Not prototype-based each object gets its own method copy.
             
+Instance:
+    An instance is just an object created using a class.
+
+    ex.
+        class Car {
+            constructor(public brand: string) {}
+        }
+
+        // Creating an instance of Car
+        const myCar = new Car("Toyota");
+        Car is the class (blueprint).
+        myCar is an instance of the class Car.
+
+    Real-World Analogy:
+        Think of a class as a blueprint for building houses.
+        The blueprint (class) defines how the house will look.
+        Each house built from that blueprint is an instance.
+
+
+Function:
+    reusable block of code, desiged such as to perform a specific task. it take input (called Parameters) , perform operations, and return an output.
+
+    Parameters : 
+        a placeholder value that recive a input that are passing in function calling
+
+        ex.
+            function add(a,b){ // Parameters
+                return a+b;
+            }
+
+            add(3,4) // argument
+    
+    Argument :
+        is a actual value passing to the function when calling it 
+        
+        ex.
+            add(5,4); // argument
+
+    Function types:
+
+        1 Named Function:
+            A function with a name ,declared using the function keyword.
+
+            ex.
+                function greet(name){
+                    return "Hello,"+name;
+                }
+
+                console.log(greet("swapnil"))//
+
+        2 Anonymous Function :
+            A function without a name, usually stored in a variable or passed as a callback.
+
+            ex.
+                const sayHello = function(name) {
+                    return "Hi, " + name;
+                };
+                console.log(sayHello("Ram")); // Hi, Ram
+        
+        3. Arrow Function :
+            Introduced in ES6, a cleaner, shorter syntax for writing functions.
+            Use Case: Modern JS, this binding issues.
+
+            ex.
+                const add = (a, b) => a + b;
+                console.log(add(5, 3)); // 8
+        
+        4. Function Expression :
+            A function assigned to a variable (can be named or anonymous).
+            Use Case: Closures, encapsulation.
+
+            ex.
+                const multiply = function(a, b) {
+                    return a * b;
+                };
+                console.log(multiply(4, 2)); // 8
+
+        5. Immediately Invoked Function Expression (IIFE)
+            Runs as soon as it’s defined. It avoids polluting the global scope.
+            Use Case: One-time initialization.
+
+            ex.
+                (function() {
+                    console.log("This runs immediately!");
+                })(); // Output: This runs immediately!
+
+        6. Constructor Function
+            Used with the new keyword to create multiple instances (like classes).
+            Use Case: Object creation, before ES6 classes.
+
+            ex.
+                function Person(name, age) {
+                    this.name = name;
+                    this.age = age;
+                }
+                const p1 = new Person("Amit", 30);
+                console.log(p1.name); // Amit
+
+        7. Generator Function :
+            A special function that can pause and resume its execution using yield.
+            Use Case: Iterators, lazy evaluation, async flows.
+
+            ex.
+                function* countUp() {
+                    yield 1;
+                    yield 2;
+                    yield 3;
+                }
+                const counter = countUp();
+                console.log(counter.next().value); // 1
+                console.log(counter.next().value); // 2
+                console.log(counter.next().value); // 3
+        
+        8. function Currying:
+            Currying is a technique in JavaScript where a function that takes multiple arguments is transformed into a sequence of functions, each taking a single argument.
+
+            ex.
+                Instead of doing f(a, b, c) → you call it like: f(a)(b)(c)
+
+                // Normal function
+                function add(a, b) {
+                     return a + b;
+                }
+
+                // Curried version
+                function curriedAdd(a) {
+                    return function(b) {
+                        return a + b;
+                    };
+                }
+                console.log(add(2, 3));         // 5
+                console.log(curriedAdd(2)(3));  // 5
+
 
 Constructor Function :
     A constructor function is a normal function used with the "new" keyword to "create instances of an object". Inside, this refers to the new object being created.
@@ -207,3 +340,731 @@ Factory Function :
     Cons:
         Each instance has its own copy of methods unless optimized, No instanceof relation
 
+Array Destructuing :
+    Destructuring means unpacking values from arrays (or properties from objects) into distinct variables.
+
+    ex.
+        const [a, b] = [10, 20];
+        console.log(a); // 10
+        console.log(b); // 20
+
+    Skipping Items:
+        const [a, , c] = [1, 2, 3];
+        console.log(c); // 3
+
+    Swapping Variables:
+        ex.
+            let x = 1, y = 2;
+            [x, y] = [y, x];
+            console.log(x); // 2
+            console.log(y); // 1
+    Destructuring with Default Values:
+        ex.
+            const [name = "Guest", age = 30] = [];
+            console.log(name); // Guest
+            console.log(age);  // 30
+        
+    Use Cases:
+        Extracting values easily from arrays
+        Swapping variables
+        Returning multiple values from a function
+
+    Other Common Array Operations in JavaScript:
+        Operation	            Description     	Example
+
+        push()          Adds item to the end	   arr.push(5)
+        pop()           Removes last item	       arr.pop()
+        shift()	        Removes first item	       arr.shift()
+        unshift()    	Adds item to the beginning  	arr.unshift(0)
+        map()	        Transforms every item, returns new array	arr.map(x => x*2)
+        filter()	    Returns items that match a condition	arr.filter(x => x > 10)
+        reduce()	    Reduces array to a single value	        arr.reduce((a, b) => a + b, 0)
+        forEach()	    Executes a function for each item (no return)	arr.forEach(x => console.log(x))
+        find()	       Finds the first item matching condition	      arr.find(x => x > 10)
+        includes()	  Checks if item exists       	             arr.includes(3)
+        indexOf()	   Finds index of item	                     arr.indexOf("banana")
+        slice()	       Returns part of an array	                 arr.slice(1, 3)
+        splice()	   Adds/removes elements	                 arr.splice(2, 1)
+
+
+    Array Methods:
+        map, filter, reduce = most used in functional programming
+        push, pop, shift, unshift = manipulate array contents
+        forEach, find, includes = useful for looping or checking
+
+    Example of map(), filter(), reduce():
+
+        map() – multiply each number by 2:
+            Applies a function to each element of the array and returns a new array with the results.
+            ex.
+                const nums = [1, 2, 3];
+                const doubled = nums.map(n => n * 2); // [2, 4, 6]
+
+        filter() – keep even numbers 
+            Creates a new array including only elements that pass a test condition.
+            ex.
+            const evens = nums.filter(n => n % 2 === 0); // [2]
+        
+        reduce() – sum of all numbers
+            Applies a function to each element of the array to reduce it to a single value.
+            ex.
+            const sum = nums.reduce((acc, val) => acc + val, 0); // 6
+
+Spread Operator (...) :
+    The spread operator allows an iterable (like an array or object) to be expanded into individual elements or properties.
+
+    ex.
+        Array Spread Example:
+            const arr1 = [1, 2, 3];
+            const arr2 = [...arr1]; // clone
+            console.log(arr2); // [1, 2, 3]
+        
+        Object Spread Example:
+            const user = { name: "Alice", age: 25 };
+            const cloneUser = { ...user };
+            console.log(cloneUser); // { name: "Alice", age: 25 }
+
+        Merging Arrays or Objects:
+            const arr1 = [1, 2];
+            const arr2 = [3, 4];
+            const merged = [...arr1, ...arr2]; // [1, 2, 3, 4]
+        
+            const obj1 = { a: 1 };
+            const obj2 = { b: 2 };
+            const mergedObj = { ...obj1, ...obj2 }; // { a: 1, b: 2 }
+
+        Object Merge Overwrite Example:
+            const obj1 = { name: "Alice" };
+            const obj2 = { name: "Bob", age: 30 };
+            const merged = { ...obj1, ...obj2 };
+            console.log(merged); // { name: "Bob", age: 30 };
+        
+Rest Operator (...) in JavaScript:
+    The rest operator allows you to capture remaining parameters or properties and bundle them into a single variable (array or object), using the ... syntax.
+
+    ex.
+        Function Parameters:
+            function sum(...nums) {
+                return nums.reduce((acc, val) => acc + val, 0);
+            }
+            console.log(sum(1, 2, 3)); // 6
+        
+        Destructuring Arrays:
+            const [first, second, ...rest] = [1, 2, 3, 4, 5];
+            console.log(first); // 1
+            console.log(rest);  // [3, 4, 5]
+        
+        Destructuring Objects:
+            const { name, ...otherProps } = { name: "Alice", age: 25, city: "Delhi" };
+            console.log(name);        // "Alice"
+            console.log(otherProps);  // { age: 25, city: "Delhi" }
+        
+    Difference Between Spread vs Rest :
+
+        Feature     	Spread Operator (...)    	Rest Operator (...)
+
+        Purpose      	Expands elements        	Collects elements into a group
+        Used            In	Function calls, destructuring      	Function params, destructuring
+        Output       	Individual items         	Array or object
+        Direction    	Outward (explode)       	Inward (gather)
+
+
+Optional Chaining :
+    Optional chaining (?.) allows you to safely access deeply nested properties of an object without causing a runtime error if any part of the chain is null or undefined.
+
+    ex.
+        object?.property
+        object?.[expression]
+        object?.method?.()
+
+        Accessing Nested Object Properties:
+            ex.
+                const user = {
+                    name: "Swapnil",
+                    address: {
+                        city: "Pune"
+                    }
+                };
+                console.log(user.address?.city);      // ✅ "Pune"
+                console.log(user.contact?.phone);     // ✅ undefined (no error)
+
+null and undefined :
+    Definition
+        Concept         	Description
+        undefined       	A variable that has been declared but not assigned a value.
+        null             	An assignment value that represents no value or "empty" intentionally.
+
+        
+    Differences Between undefined and null :
+        Feature         	undefined               	null
+
+        Type             	undefined         	        object (weird JS quirk)
+        Set by       	JavaScript (automatically)     	Developer (manually assigned)
+        Meaning       	Variable declared but no value assigned      	Variable assigned no value intentionally
+        Common Use    	Default value for uninitialized variables     	Used to clear an object or indicate absence
+      Comparison (==)        	null == undefined → true	
+      Comparison (===)       	null === undefined → false	
+
+
+== vs === :
+    ✅ Definition
+        Operator	Name	          Description
+        ==	Loose Equality	          Compares values, converts types if different (type coercion)
+        ===	Strict Equality	          Compares values AND types — no type conversion allowed
+
+Use Case Best Practices:
+    ✅ Always prefer === and !== unless you have a specific reason to allow type coercion.
+    🔒 === makes your code more predictable and bug-free.
+    == is only useful when you want to compare values loosely, like checking if something is "falsy".
+
+Execution Context in js:
+    An Execution Context is an environment in which JavaScript code is evaluated and executed.
+
+    Types of Execution Context:
+        Type                	            Description
+        Global Execution Context (GEC)	    Created when a JS file first runs. Only one per program.
+        Function Execution Context (FEC)	Created whenever a function is called. One per function call.
+        Eval Execution Context           	Created when eval() is used (rarely recommended).
+
+    Phases of Execution Context:
+        Every execution context goes through two main phases:
+            1. Creation Phase:
+                JavaScript scans the code before executing.Memory is allocated.
+
+                ✅ Key actions:
+                        Term                        	Definition
+                        Variable Object (VO) / Lexical Environment   	Stores variables, function declarations.
+                        Scope Chain                  	Provides access to variables in outer contexts.
+                        this Binding                 	Sets the value of this keyword (depends on how function is called).
+                        Hoisting                    	Variable and function declarations are moved to the top of their scope.
+
+            2. Execution Phase:
+               JavaScript starts executing code line by line.Variables are assigned real values.Functions are invoked.
+
+                🧮 Call Stack (a.k.a. Execution Stack)
+                        The Call Stack is a stack data structure used to track function calls.
+
+                        Term         	Definition
+                        Stack        	A Last In First Out (LIFO) structure (last function added is the first to finish and leave).
+                        Push         	Add a new execution context to the stack.
+                        Pop         	Remove the top execution context once function completes.
+
+Hoisting :
+    in js default behaviour of moving declaration to top of the current scope(before code exacution) bacically in compile phage
+    only declareation are hoisted initialzation are not.
+
+    Temporal Dead Zone (TDZ):
+        The Temporal Dead Zone (TDZ) is the time between entering a block scope and the actual declaration of a let or const variable — during this time, the variable exists but cannot be accessed.
+
+        🧨 Accessing a variable in the TDZ results in a ReferenceError.
+
+        Why does TDZ exist?:
+            To prevent usage of variables before they are declared, which can lead to bugs or unpredictable behavior.
+
+            ex.
+                {
+                console.log(a); // ?
+                console.log(b); // ?
+                console.log(c); // ?
+
+                var a = "Var";
+                let b = "Let";
+                const c = "Const";
+                }
+
+            Hoisting + TDZ Visualization:
+                ex.
+                    | Execution Start
+                    | 
+                    |--- Scope entered -------------------------------
+                    |   ⬆️ Hoisting Phase (Declarations only)
+                    |   var a → hoisted & initialized to undefined
+                    |   let b → hoisted but uninitialized (TDZ starts)
+                    |   const c → hoisted but uninitialized (TDZ starts)
+                    |
+                    |   Execution Phase
+                    |   
+                    |   console.log(a) → ✅ undefined (var is accessible)
+                    |   console.log(b) → ❌ ReferenceError (TDZ)
+                    |   console.log(c) → ❌ ReferenceError (TDZ)
+                    |
+                    |   var a = "Var"     ✅ initialized
+                    |   let b = "Let"     ✅ TDZ ends here
+                    |   const c = "Const" ✅ TDZ ends here
+                    |   
+                    |--- Scope exits ----------------------------------
+                    undefined  // var is hoisted and initialized as undefined
+                    ReferenceError: Cannot access 'b' before initialization
+                    ReferenceError: Cannot access 'c' before initialization
+
+    only two thing are hoisted :
+
+        variable :
+           variable var hoisted as undefiend but in case of let and const they also hosited but stay in temporal dead zone.
+
+           whern we access a vairble that are present in tdz we get refrenscceError 
+
+           ex.
+            Example 1: var
+            console.log(a); // undefined
+            var a = 10;
+            🔍 JavaScript does this behind the scenes:
+
+            var a;
+            console.log(a); // undefined
+            a = 10;
+                ✅ var is hoisted with undefined, not its value.
+
+            ❌ Example 2: let and const
+            console.log(x); // ❌ ReferenceError: Cannot access 'x' before initialization
+            let x = 5;
+            
+            ❗ let and const are hoisted too, but they stay in the Temporal Dead Zone (TDZ) – cannot be used before declaration.
+
+        function Declaration :
+            only normal function or fn declaration getting hosted 
+                ex.
+                    greet()// hellow
+
+                    function greet(){
+                        console.log("Hellow);
+                    }
+            
+    Technical Word Breakdown :
+
+        Term                  	Meaning
+        Execution Context   	Runtime environment to evaluate and execute code.
+        Lexical Environment  	Reference to variable scope and parent scopes.
+        Scope Chain         	Links all parent contexts to access outer variables.
+        this keyword        	Represents the object that is executing the function.
+        Hoisting             	Automatic moving of declarations to the top during creation phase.
+        Call Stack           	Keeps track of function calls using stack structure.
+        Push                 	Add a new context (function call) to the top of the stack.
+        Pop                  	Remove a finished context from the top of the stack.
+        LIFO                 	Last In First Out (used by the stack to operate).
+
+lexical Scope:
+    means scope of varibale is determied by its location in the source code (means where it writen variable)
+    js use lexical scope ,because innerfunction have access to variable defiend in there outerscope (parent) function.
+
+        ex.
+            function outer(){
+                const outerVariable="I'm from outer";
+                function inner(){
+                    console.log(outerVariable);// Accessible 
+                }
+                inner();
+            }
+            outer();
+    
+    1. Lexical Scope is Created When Code is Written
+        Lexical Scope is static and created based on where functions are defined — not when they are executed.
+        Since inner() is defined inside outer(), it forms a lexical relationship — it can access everything in outer()’s scope.
+            ex.
+                Global Scope
+                │
+                ├── function outer() {                    ← Lexical scope of outer
+                │     const outerVar = "I am from outer";← declared inside outer's scope
+                │
+                │     └── function inner() {             ← inner is lexically scoped inside outer
+                │           console.log(outerVar);       ← outerVar is accessible here due to lexical scope
+                │        }
+                │
+                │     inner();                            ← call inner
+                │ }
+                │
+                └── outer();                              ← call outer
+                    
+Closure :
+    function that remebers the variables from its lexical scope even after outer fn done there executing.
+
+    ex.
+        function outer() {
+            let count = 0;
+
+            return function inner() {
+                count++;
+                console.log(`Count is ${count}`);
+            };
+        };
+        const counter = outer();
+        counter(); // Count is 1
+        counter(); // Count is 2
+    
+    Usecase:
+        Data privacy : hide variables from global scope access 
+        
+        Data Privacy (Encapsulation):
+            ex.
+                function createCounter() {
+                    let count = 0;
+
+                    return {
+                        increment() {
+                        count++;
+                        return count;
+                        },
+                        get() {
+                        return count;
+                        }
+                    };
+                }
+                const counter = createCounter();
+                console.log(counter.increment()); // 1
+                console.log(counter.get());       // 1
+                // console.log(counter.count);    // ❌ undefined → count is private
+
+        Function Factories :
+            ex.
+                function greetingFactory(name) {
+                return function(message) {
+                    console.log(`${message}, ${name}!`);
+                };
+                }
+
+                const greetJohn = greetingFactory("John");
+                greetJohn("Hello");  // Hello, John!
+                greetJohn("Welcome"); // Welcome, John!
+                Why it works?
+                Each call to greetingFactory returns a new function that remembers name.
+
+        Currying:
+            ex.
+                function multiply(a) {
+                    return function(b) {
+                        return a * b;
+                    };
+                }
+                const double = multiply(2);
+                console.log(double(5)); // 10
+                console.log(double(10)); // 20
+                Why it works?
+                double remembers a = 2 from the outer function — thanks to closures.
+
+    Scope Population:
+        Behind the Scenes:
+        greet holds:
+        The code of inner
+        The scope/environment of outer
+        JS Engine keeps that scope alive because greet might still use name.
+
+    Debugging Closures:
+        You can inspect closures in DevTools:
+        Set a breakpoint inside the returned inner() function.
+        In the Sources → Scope panel, you'll see:
+        Local: current function variables
+        Closure: preserved variables from outer scope
+        Global: window/global variables
+        This helps you visually debug what variables a closure is capturing.
+    
+    Summary
+
+        Concept             	Explanation
+        Closure              	Function with access to parent scope even after parent has returned
+        Lexical Scope       	Scope defined by where functions are written
+        Scope Chain         	Lookup path of variables from inner to outer scopes
+        Debugging           	Use browser DevTools to inspect scope and closure data
+        Use Cases            	Privacy, callbacks, currying, factory functions, async
+
+HOF:
+    Higher-Order Function is a function that either takes one or more functions as arguments, or returns another function as its result.
+
+
+    Purpose of Higher-Order Functions:
+        Promote reusability and modular code Enable functional programming style Allow custom logic injection Enhance code readability and composition
+
+    Technical Term Definitions:
+            Term             	Definition
+
+            Function         	A block of code designed to perform a specific task.
+            Callback         	A function passed as an argument to another function.
+            HOF (Higher-Order Function)  	A function that can accept or return another function.
+            Method Chaining          	Calling multiple methods on the same object in a single statement (e.g., .map().filter().reduce() chaining).
+            Pure Function           	A function that returns the same output for the same input and has no side effects.
+            Immutability            	Not modifying the original data; instead, creating a new one.
+            Custom Sorting           	Providing a compare function to the .sort() method to control how items are ordered.
+
+    How Many HOFs in JavaScript?
+        While JavaScript allows us to create any number of HOFs, it includes several built-in HOFs, especially on arrays:
+            Common Built-in HOFs:
+                .map()
+                .filter()
+                .reduce()
+                .forEach()
+                .some()
+                .every()
+                .find()
+                .sort()  
+
+    Chaining HOFs:
+        Calling multiple methods on the same object in a single statement (e.g., .map().filter().reduce() chaining).
+
+        ex.
+           const students = [
+                { name: "John", score: 45 },
+                { name: "Sara", score: 85 },
+                { name: "Ram", score: 75 },
+                { name: "Rita", score: 90 }
+            ];
+            const result = students
+            .filter(student => student.score > 70)        // keep high scorers
+            .map(student => student.name.toUpperCase())   // transform names
+            .reduce((acc, name) => acc + ", " + name);    // combine into string
+            console.log(result); // "SARA, RAM, RITA" 
+        
+    Explanation of Each HOF:
+        .map()
+        Creates a new array by applying a function to each element.
+
+        const nums = [1, 2, 3];
+        const squared = nums.map(n => n * n); // [1, 4, 9]
+
+        .filter()
+        Returns a new array with elements that pass the condition.
+        const even = nums.filter(n => n % 2 === 0); // [2]
+
+        .reduce()
+        Reduces the array to a single value by accumulating the result.
+        const sum = nums.reduce((acc, n) => acc + n, 0); // 6
+
+    Custom Sorting with .sort():
+        Sort numbers in descending order:
+            const numbers = [5, 1, 10, 2];
+            numbers.sort((a, b) => b - a); // [10, 5, 2, 1]
+        
+        Sort array of objects by age:
+            const people = [
+            { name: "A", age: 30 },
+            { name: "B", age: 25 },
+            ];
+            people.sort((a, b) => a.age - b.age); // Sort by age ascending
+
+        Custom HOF Example:
+            function repeatAction(action, times) {
+                for (let i = 0; i < times; i++) {
+                    action(i);
+                }
+            }
+            repeatAction(console.log, 3); // logs 0, 1, 2
+
+JSON (JavaScript Object Notation)?:
+    JSON is a lightweight data format used for storing and exchanging data between a client and server.
+    It is text-based and language-independent, but often used in JavaScript.
+
+        Structure:
+            Data is in key-value pairs 
+            Keys must be strings 
+            Values can be strings, numbers, booleans, arrays, objects, or null
+
+        ex.
+            {
+                "name": "Swapnil",
+                "age": 25,
+                "skills": ["JS", "React"]
+            }
+
+    2. Converting JS Object ➡️ JSON (Serialization):
+        Method: JSON.stringify(obj)
+        Use Case: Send data to server via API or save in localStorage
+        ex.
+            const user = { name: "John", age: 30 };
+            const jsonStr = JSON.stringify(user);
+            console.log(jsonStr); // '{"name":"John","age":30}'
+    
+    3. Converting JSON String ➡️ JS Object (Parsing):
+        Method: JSON.parse(jsonString)
+        Use Case: Receive API response and work with it in JavaScript
+        ex.
+            const jsonStr = '{"name":"John","age":30}';
+            const userObj = JSON.parse(jsonStr);
+            console.log(userObj.name); // John
+
+    4. Deep Cloning an Object using JSON:
+        Why?: Prevent mutation of the original object (i.e., create a true copy)
+        Note: Only works if object doesn’t have functions, undefined, or Date
+
+        ex.
+            const original = { name: "Alice", address: { city: "Pune" } };
+            const clone = JSON.parse(JSON.stringify(original));
+
+            clone.address.city = "Mumbai";
+            console.log(original.address.city); // Pune (not mutated)
+        
+    5. Combining (Merging) JSON Objects:
+        Method: Using spread operator (...) or Object.assign()
+        Use Case: Combine settings, configurations, or multiple API results
+        ex.
+            const obj1 = { name: "Tom" };
+            const obj2 = { age: 40 };
+            const merged = { ...obj1, ...obj2 };
+            console.log(merged); // { name: 'Tom', age: 40 }
+
+Advanced Array Methods:
+    ex.
+        1. slice()
+            Definition: Returns a shallow copy of a portion of an array without modifying the original.
+
+            Syntax: array.slice(start, end)
+
+            Use Case: Get a subarray.
+
+            Interview Tip: Non-mutating.
+
+            Example:
+            const arr = [1, 2, 3, 4];
+            console.log(arr.slice(1, 3)); // [2, 3]
+            Technical:
+
+            Shallow copy: Only copies top-level elements.
+
+        2. splice()
+            Definition: Adds/removes elements from an array in-place.
+
+            Syntax: array.splice(start, deleteCount, ...items)
+
+            Use Case: Modify array (insert/delete).
+
+            Interview Tip: Mutates the original array.
+
+            Example:
+            const arr = [1, 2, 3];
+            arr.splice(1, 1, 'a'); // [1, 'a', 3]
+            Technical:
+            In-place: Modifies the original structure.
+
+        3. concat()
+            Definition: Merges arrays/values into a new array.
+            Syntax: array1.concat(array2)
+            Use Case: Combine arrays immutably.
+            Interview Tip: Returns new array.
+            Example:
+            const a = [1, 2];
+            const b = [3, 4];
+            console.log(a.concat(b)); // [1, 2, 3, 4]
+
+        4. join()
+            Definition: Joins array elements into a string.
+            Syntax: array.join(separator)
+            Use Case: Convert array to CSV or readable string.
+            Interview Tip: Handy in formatting.
+            Example:
+            const arr = ['a', 'b', 'c'];
+            console.log(arr.join('-')); // "a-b-c"
+
+        5. Searching: indexOf(), lastIndexOf(), includes()
+
+            indexOf()
+                Definition: Returns first index of an element.
+                Example: [1,2,3].indexOf(2) // 1
+
+            lastIndexOf()
+                Definition: Returns last index of element.
+                Example: [1,2,1].lastIndexOf(1) // 2
+
+            includes()
+                Definition: Checks if element exists.
+                Example: [1,2,3].includes(2) // true
+
+        6. Sorting: sort() and localeCompare()
+
+            sort()
+                Definition: Sorts array elements in-place.
+
+                Syntax: arr.sort(compareFn)
+
+                Example:
+                [3, 1, 2].sort(); // [1, 2, 3]
+
+            localeCompare()
+            Definition: Compares two strings according to locale.
+            Example:
+            "a".localeCompare("b"); // -1
+
+Advanced String Methods:
+    1. charAt(index)
+        Definition: Returns the char at index.
+
+        Example:
+        'hello'.charAt(1); // 'e'
+
+    2. substring(start, end)
+        Definition: Extracts characters between indexes.
+
+        Example:
+        'hello'.substring(1, 4); // 'ell'
+
+    3. substr(start, length) (deprecated but used)
+        Definition: Extracts substring based on length.
+
+        Example:
+        'hello'.substr(1, 3); // 'ell'
+
+    4. replace(search, replace)
+        Definition: Replaces substring.
+
+        Example:
+        'apple'.replace('p', 'b'); // 'abple'
+
+    5. toUpperCase() / toLowerCase()
+        Definition: Changes string casing.
+
+        Example:
+        'abc'.toUpperCase(); // 'ABC'
+
+    6. trim()
+        Definition: Removes whitespace.
+        Example:
+        '  hi  '.trim(); // 'hi'
+
+    7. template literals
+        Definition: Embed expressions in strings.
+        Syntax: `Hello ${name}`
+
+        Example:
+        const name = 'Tom';
+        console.log(`Hello ${name}`); // "Hello Tom"
+
+    8. Searching in Strings: search(), match(), includes()
+        search()
+            Definition: Searches with regex.
+
+            Example:
+            'abc123'.search(/\d/); // 3
+        match()
+            Definition: Matches regex pattern.
+
+            Example:
+            'abc123'.match(/\d+/); // ['123']
+        includes()
+            Definition: Checks if string contains value.
+
+            Example:
+            'hello world'.includes('world'); // true
+
+    9. split(separator)
+        Definition: Splits string into array.
+
+        Example:
+        'a,b,c'.split(','); // ['a', 'b', 'c']
+
+    10 Real-World Use Case: Custom Sorting with Method Chaining
+        ex.
+            const users = [
+            { name: 'Alice', age: 30 },
+            { name: 'Bob', age: 25 },
+            { name: 'Eve', age: 35 }
+            ];
+
+            // Sort by name
+            const sorted = users.sort((a, b) => a.name.localeCompare(b.name));
+            console.log(sorted);
+
+    11 Method Chaining with HOFs (map, filter, reduce);
+        ex.
+            const nums = [1, 2, 3, 4, 5];
+            const result = nums
+            .filter(n => n % 2 === 0)  // [2, 4]
+            .map(n => n * 2)           // [4, 8]
+            .reduce((a, b) => a + b);  // 12
+
+            console.log(result);

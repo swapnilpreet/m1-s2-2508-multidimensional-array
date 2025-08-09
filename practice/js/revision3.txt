@@ -1,0 +1,321 @@
+
+Prototype:
+    Every function in JavaScript has a special property called prototype 
+    that is used to define shared properties/methods for all instances created by a constructor.
+
+    Analogy:
+        Imagine a blueprint page where you write shared methods. Every object created from the constructor gets access to that page.
+
+    Ex.
+        function Animal(name) {
+            this.name = name;
+        }
+        Animal.prototype.speak = function() {
+            console.log(`${this.name} makes a sound`);
+        };
+        const a1 = new Animal("Dog");
+        a1.speak(); // Dog makes a sound
+
+    Technical Word:
+        .prototype:
+             An object attached to constructor functions.
+
+        __proto__:
+             Internal link to the prototype object of the constructor.
+
+Prototype Inheritance:
+    When an object inherits properties or methods from another object’s prototype, it’s called prototype inheritance.
+
+    Analogy:
+        If your dad knows how to drive, and you don't, you still have access to that skill through inheritance.
+
+    Ex.
+        function Animal() {}
+            Animal.prototype.eat = function() {
+            console.log("Eating...");
+        };
+        function Dog() {}
+            Dog.prototype = Object.create(Animal.prototype); // Inherit from Animal
+            Dog.prototype.bark = function() {
+            console.log("Barking...");
+        };
+        const d1 = new Dog();
+        d1.eat(); // Eating... (inherited)
+        d1.bark(); // Barking...
+    
+Prototype Chain:
+    The chain of prototypes JavaScript uses to look up properties and methods when they're not found directly on the object.
+
+    Analogy:
+        If you don’t find a book in your room, you ask your parents (prototype), and if they don’t have it, you ask grandparents (next level).
+
+    ex.
+        const obj = {};
+        console.log(obj.toString()); // toString comes from Object.prototype
+
+        // obj --> Object.prototype --> null
+    
+    Prototype Chain Lookup:
+        Look on the object itself
+        If not found, look at __proto__
+        Continue up until null
+
+Method Delegation (via Prototype):
+    When an object doesn't have a method itself but calls a method that exists on its prototype, this is called method delegation.
+
+    Analogy:
+        You don’t know how to fix your computer, so you delegate the task to your tech-savvy friend (prototype).
+    
+    ex.
+        const personMethods = {
+            greet: function() {
+                console.log(`Hello, I'm ${this.name}`);
+            }
+        };
+        function Person(name) {
+            const obj = Object.create(personMethods);
+            obj.name = name;
+            return obj;
+        }
+        const p1 = Person("Disha");
+        p1.greet(); // Hello, I'm Disha
+
+Real-World Example Combining All Concepts:
+    ex.
+        function Vehicle(type) {
+             this.type = type;
+        }
+
+        Vehicle.prototype.start = function() {
+             console.log(`${this.type} is starting...`);
+        };
+
+        function Car(brand) {
+            Vehicle.call(this, "Car"); // constructor inheritance
+            this.brand = brand;
+        }
+        // Inherit prototype
+        Car.prototype = Object.create(Vehicle.prototype);
+        Car.prototype.constructor = Car;
+        // Add own method
+        Car.prototype.drive = function() {
+        console.log(`${this.brand} is driving...`);
+        };
+        const myCar = new Car("Toyota");
+        myCar.start(); // Car is starting... (inherited)
+        myCar.drive(); // Toyota is driving...
+
+    What’s Used:
+        Vehicle: constructor
+        Car: child constructor
+        Car.prototype = Object.create(...): prototype inheritance
+        myCar: instance
+        start(): delegated method
+        drive(): own method
+
+Why We Use Prototypal Inheritance in JavaScript:
+    Feature        	     Benefit
+    Memory Efficiency    Shared methods are not duplicated for each object
+    Flexibility        	Can dynamically modify prototypes or object links
+    Extensibility       Easy to extend behavior without changing original object
+
+
+Introduction to ES6 Classes:
+    While JavaScript is primarily a prototype-based language, ES6 introduces classes to offer a more readable and structured approach to defining objects and inheritance. However, under the hood, classes in JavaScript still rely on prototypal inheritance.
+
+    Key Concepts of ES6 Classes:
+        Constructor: A method used to initialize object properties when an object is created.
+        Inheritance: With the extends keyword, a class can inherit properties and methods from another class.
+        Encapsulation: Achieved using private fields, getters, and setters to control access to properties.
+    
+    ex.
+        class Animal {
+            constructor(name) {
+                this.name = name;
+            }
+            speak() {
+                console.log(`${this.name} makes a sound.`);
+            }
+        }
+        class Dog extends Animal {
+            speak() {
+                console.log(`${this.name} barks.`);
+            }
+        }
+        const dog = new Dog('Rex');
+        dog.speak();  // Output: Rex barks.
+    
+Static Methods in ES6 Classes:
+    Static methods are class-level methods that belong to the class itself, not to instances of the class. They are useful for utility functions that do not require access to instance-specific data.
+
+    Example: Static Methods
+        class MathOperations {
+            static add(a, b) {
+                return a + b;
+            }
+            static subtract(a, b) {
+                return a - b;
+            }
+        }
+        console.log(MathOperations.add(5, 3));  // Output: 8
+        console.log(MathOperations.subtract(9, 4));  // Output: 5
+
+    Use Case:
+        Static methods are often used for utility operations like logging, data formatting, or mathematical operations that don’t need to refer to instance-specific properties.
+
+Private Fields in ES6 Classes:
+    Private fields in ES6 classes are used to store data that should not be accessible outside the class. Private fields are denoted by a # symbol and can only be accessed within the class itself.
+
+    Example: Private Fields
+        class Person {
+            #age;
+            constructor(name, age) {
+                this.name = name;
+                this.#age = age;
+            }
+            getAge() {
+                return this.#age;
+            }
+            setAge(newAge) {
+                if (newAge > 0 && newAge < 150) {
+                this.#age = newAge;
+                } else {
+                console.log("Invalid age value.");
+                }
+            }
+        }
+
+        const john = new Person('John', 30);
+        console.log(john.getAge());  // Output: 30
+        john.setAge(35);
+        console.log(john.getAge());  // Output: 35
+
+    Benefits of Private Fields:
+        Encapsulation: You can protect internal data from external modification.
+        Data Integrity: Private fields ensure that sensitive information is handled within the class, preventing accidental corruption.
+
+Getters and Setters:
+    Getters and setters allow for controlled access to properties in ES6 classes. Getters retrieve property values, while setters enable controlled modification.
+
+    Example: Getters and Setters
+        class Car {
+            constructor(make, model) {
+                this._make = make;
+                this._model = model;
+            }
+            get make() {
+                return this._make;
+            }
+            set make(newMake) {
+                if (newMake) {
+                this._make = newMake;
+                } else {
+                console.log('Invalid make value.');
+                }
+            }
+            get model() {
+                return this._model;
+            }
+            set model(newModel) {
+                if (newModel) {
+                this._model = newModel;
+                } else {
+                console.log('Invalid model value.');
+                }
+            }
+        }
+        const car1 = new Car('Toyota', 'Corolla');
+        console.log(car1.make);  // Output: Toyota
+        car1.make = 'Honda';
+        console.log(car1.make);  // Output: Honda
+
+    Benefits:
+        Validation: Getters and setters allow developers to include validation logic before setting a property value.
+        Encapsulation: Control how data is accessed and modified, enhancing maintainability.
+
+Inheritance and Encapsulation in ES6 Classes:
+    ES6 classes support inheritance through the extends keyword, enabling one class to inherit properties and methods from another class. This helps in promoting code reuse and abstraction.
+
+    Example: Inheritance
+        class Employee {
+            constructor(name, position) {
+                this.name = name;
+                this.position = position;
+            }
+
+            introduce() {
+                console.log(`Hi, I am ${this.name}, and I work as a ${this.position}.`);
+            }
+            }
+
+            class Manager extends Employee {
+            constructor(name, position, department) {
+                super(name, position);  // Call parent class constructor
+                this.department = department;
+            }
+
+            manage() {
+                console.log(`${this.name} manages the ${this.department} department.`);
+            }
+        }
+        const manager = new Manager('Alice', 'Manager', 'IT');
+        manager.introduce();  // Output: Hi, I am Alice, and I work as a Manager.
+        manager.manage();  // Output: Alice manages the IT department.
+
+    Benefits of Inheritance:
+        Code Reuse: You can define common properties or methods in a parent class and inherit them in child classes.
+        Extendability: It becomes easier to extend and modify code when inheriting from a base class.
+
+Advanced Concepts: Method Overriding and Super Keyword:
+    Method overriding allows a subclass to provide a specific implementation of a method that is already defined in its parent class. The super keyword is used to call the constructor or methods of the parent class.
+
+    ex.
+        Method Overriding and super
+        class Animal {
+            speak() {
+                console.log("Animal makes a sound.");
+            }
+        }
+        class Dog extends Animal {
+            speak() {
+                super.speak();  // Call the parent class's speak method
+                console.log("Dog barks.");
+            }
+        }
+        const myDog = new Dog();
+        myDog.speak();
+        // Output:
+        // Animal makes a sound.
+        // Dog barks.
+
+Best Practices with ES6 Classes:
+
+        1. Use Private Fields for Sensitive Data:
+            When you want to encapsulate private data, use private fields (#) to restrict access from outside the class.
+
+        2. Use Getters and Setters to Control Access:
+            Getters and setters provide a clean and controlled way to manage property access while adding validation and logic.
+
+        3. Keep Method Logic Short:
+            Keep class methods small and concise to ensure readability and maintainability.
+
+        4. Utilize Static Methods for Utility Operations:
+            Static methods are ideal for operations that don’t require instance-specific data, such as logging, formatting, or other utility tasks.
+
+Common Pitfalls and Performance Considerations:
+
+    1. Overusing Inheritance:
+        Sometimes, inheritance can lead to complex and hard-to-maintain code. Consider using composition over inheritance when appropriate.
+
+    2. Memory Efficiency:
+        While methods defined on prototype are memory-efficient, methods inside the constructor are duplicated for each instance, which can cause performance issues.
+
+    3. Avoid Leaking this in Callbacks:
+        Be cautious when using this inside callback functions. Arrow functions are often helpful to avoid losing context.
+
+Summary:
+    ES6 Classes bring a structured approach to defining objects, providing a more readable syntax while still relying on prototypal inheritance.
+    Private fields and getters/setters enable encapsulation, improving code maintainability.
+    Static methods allow class-level operations, and inheritance facilitates code reuse and organization.
+    Understanding and mastering ES6 classes, including private fields, method overriding, and static methods, is crucial for writing modern, efficient, and scalable JavaScript applications.
+

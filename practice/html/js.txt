@@ -1,0 +1,1088 @@
+Introduction to the DOM (Document Object Model)
+
+    What is the DOM?:
+        The Document Object Model (DOM) is an interface that allows programs, such as JavaScript, to interact with and manipulate the structure and content of a web page. When a web page is loaded, the browser parses the HTML and converts it into a structured representation known as the DOM. This representation allows JavaScript to access, modify, add, or delete elements, attributes, and content dynamically.
+
+    Key Features of the DOM
+        Tree structure: 
+
+            The DOM represents an HTML document as a hierarchical tree of nodes (elements, attributes, text, etc.).
+        Dynamic updates: 
+
+            The DOM is live, meaning changes made to the DOM tree are immediately reflected in the web page.
+        Programming interface: 
+
+            JavaScript can interact with the DOM, allowing developers to manipulate web page content, styling, and behavior in real time.
+
+    Why is the DOM Important?
+
+        Interactivity: 
+            The DOM enables dynamic interactions on a web page, such as form validation, popups, animations, and content updates without reloading the page.
+
+        Scripting access: 
+            JavaScript can target and change elements or attributes (like an <img> source or <div> content) in response to user actions or data.
+
+        Content manipulation:  
+            Developers can add, remove, or rearrange elements and content on the page through the DOM.
+
+DOM Tree Structure:
+
+    How the DOM Represents an HTML Document
+        When a browser loads an HTML document, it creates a tree-like structure where each part of the document becomes a node. This structure starts with the <html> element, which contains nested child elements, forming branches of the tree.
+
+    The DOM Tree for the Example:
+        Document
+        │
+        └── <html>
+            ├── <head>
+            │   ├── <meta>
+            │   └── <title>DOM Example</title>
+            └── <body>
+                ├── <h1>Hello World!</h1>
+                └── <p>This is a paragraph.</p>
+    
+    Types of Nodes in the DOM
+        The DOM is made up of several types of nodes:
+
+        Element nodes: 
+            Represent HTML elements such as <h1>, <p>, or <div>.
+
+        Text nodes: 
+            Represent the text content within elements (e.g., "Hello World!" inside the <h1> element).
+
+        Attribute nodes: 
+            Represent HTML attributes like class, id, or src within an element.
+
+        Document node: 
+            The top-level node that represents the entire HTML document.
+
+        Example of Nodes in the DOM Tree:
+             For the <h1>Hello World!</h1> element:
+
+            The <h1> tag is an element node.
+            The text "Hello World!" is a text node.
+
+        Relationships in the DOM Tree:
+
+            Parent: 
+                An element that contains another element is considered the parent (e.g., <body> is the parent of <h1>).
+            Child:
+                 Elements inside another element are children (e.g., <h1> is a child of <body>).
+            Siblings: 
+                Elements that share the same parent (e.g., <h1> and <p> are siblings since they are both children of <body>).
+
+Selecting Elements in the DOM:
+    To manipulate the DOM using JavaScript, you first need to select elements from the DOM. JavaScript provides several methods for selecting elements, which allow you to target specific parts of the DOM for manipulation.
+
+    getElementById():
+        The getElementById() method selects a single element based on its id attribute. Since id is unique within an HTML document, this method always returns one element.
+
+        Syntax:
+            document.getElementById('id');
+
+            Example:
+                <h1 id="main-heading">Welcome to My Website</h1>
+
+                <script>
+                const heading = document.getElementById('main-heading');
+                heading.textContent = "Welcome to the DOM!";
+                </script>
+            In this example, the <h1> element with the id="main-heading" is selected, and its text content is changed to "Welcome to the DOM!".
+    
+    querySelector():
+
+        The querySelector() method allows you to select the first element that matches a given CSS selector. This method is versatile, allowing you to target elements by tag name, class, id, or more complex selectors.
+
+        Syntax:
+            document.querySelector('selector');
+
+            Example:
+                <p class="intro">This is the introduction paragraph.</p>
+                <script>
+                const paragraph = document.querySelector('.intro');
+                paragraph.style.color = "blue"; // Change text color to blue
+                </script>
+            In this example, the first element with the class intro is selected, and its text color is changed to blue.
+        
+    querySelectorAll():
+        The querySelectorAll() method selects all elements that match a given CSS selector. It returns a NodeList (similar to an array), allowing you to iterate over the selected elements.
+
+        Syntax: document.querySelectorAll('selector');
+
+        Example:
+            <ul>
+            <li>Item 1</li>
+            <li>Item 2</li>
+            <li>Item 3</li>
+            </ul>
+
+            <script>
+            const items = document.querySelectorAll('li');
+            items.forEach(item => {
+                item.style.fontWeight = "bold"; // Makes all list items bold
+            });
+            </script>
+            In this example, all <li> elements are selected, and their font weight is changed to bold.
+
+    getElementsByClassName():
+        This method selects all elements that share a common class name. It returns a live HTMLCollection, which means it updates automatically if elements are added or removed from the document.
+
+        Syntax: document.getElementsByClassName('class-name');
+        
+        Example:
+            <p class="highlight">Paragraph 1</p>
+            <p class="highlight">Paragraph 2</p>
+
+            <script>
+            const paragraphs = document.getElementsByClassName('highlight');
+            for (let i = 0; i < paragraphs.length; i++) {
+                paragraphs[i].style.backgroundColor = "yellow"; // Highlight all paragraphs with yellow background
+            }
+            </script>
+            In this example, all paragraphs with the class highlight are selected, and their background color is changed to yellow.
+    
+    getElementsByTagName():
+        The getElementsByTagName() method selects all elements with a specific tag name (e.g., all <p>, <div>, or <a> tags). Like getElementsByClassName(), it returns a live HTMLCollection.
+
+        Syntax: document.getElementsByTagName('tag-name');
+        
+        Example:
+            <div>Div 1</div>
+            <div>Div 2</div>
+
+            <script>
+            const divs = document.getElementsByTagName('div');
+            for (let i = 0; i < divs.length; i++) {
+                divs[i].style.border = "1px solid black"; // Add a border to all divs
+            }
+            </script>
+            In this example, all <div> elements are selected, and a black border is added to them.
+    
+
+DOM Manipulation and Event Handling:
+
+    What is DOM Manipulation?:
+        DOM manipulation refers to using JavaScript to modify the structure, content, and appearance of elements on a webpage. With JavaScript, you can dynamically update the page's content, change element attributes (like src, href, class), and apply styles based on user interactions or other conditions.
+    
+        1. Changing Content:
+            You can change the content of an element using properties like textContent, innerHTML, or innerText.
+
+            ex.
+                Changing Text Content
+
+                <h1 id="heading">Original Heading</h1>
+
+                <script>
+                const heading = document.getElementById('heading');
+                heading.textContent = "Updated Heading"; // Changes the text content of the h1 element
+                </script>
+
+                In this example, the text content of the <h1> element is updated from "Original Heading" to "Updated Heading".
+
+            textContent vs innerHTML vs innerText
+                textContent: 
+                    Returns or sets the text content of an element, excluding HTML tags.
+                innerHTML: 
+                    Returns or sets the HTML content inside an element, allowing you to add or modify HTML elements.
+                innerText: 
+                    Similar to textContent, but it respects the element's styling (e.g., hidden elements will not return text).
+
+                Example: Using innerHTML to Add HTML
+                    <div id="content"></div>
+
+                    <script>
+                    const content = document.getElementById('content');
+                    content.innerHTML = "<p>This is a <strong>dynamic</strong> paragraph!</p>"; // Inserts a paragraph with bold text
+                    </script>
+        
+        2. Changing Attributes:
+            You can modify HTML attributes (such as src, href, id, or class) using JavaScript with the setAttribute method or by directly accessing the attribute.
+
+            Example: Changing an Image’s Source
+
+                <img id="image" src="old-image.jpg" alt="Old Image">
+
+                <script>
+                const img = document.getElementById('image');
+                img.setAttribute('src', 'new-image.jpg'); // Changes the image source
+                img.setAttribute('alt', 'New Image');     // Changes the alt text
+                </script>
+                You can also directly modify the attribute as shown below:
+
+                img.src = 'new-image.jpg';
+                img.alt = 'New Image';
+
+        3. Changing Styles:
+            You can change the inline styles of an element using the style property. This allows you to dynamically update CSS properties such as color, font-size, background-color, margin, etc.
+
+            Example: 
+                Changing an Element's Background Color
+                <div id="box" style="width: 100px; height: 100px; background-color: blue;"></div>
+
+                <script>
+                const box = document.getElementById('box');
+                box.style.backgroundColor = 'red'; // Changes the background color to red
+                </script>
+                You can modify multiple styles by chaining or by setting multiple properties:
+
+                box.style.width = '200px';
+                box.style.height = '200px';
+                box.style.border = '2px solid black';
+    
+Event Handling: Adding Event Listeners for User Interactions:
+    What is Event Handling?
+        Event handling refers to the process of using JavaScript to detect and respond to user interactions on a webpage, such as clicks, keyboard input, form submissions, mouse movements, and more. By using event listeners, you can execute specific functions when an event occurs.
+
+    1. Adding Event Listeners
+         An event listener is a function that listens for a specific event on an element and executes a block of code when the event occurs. The addEventListener method is used to attach event listeners to elements.
+
+        Syntax: element.addEventListener('event', function);
+            element: 
+                The target element on which the event listener is added.
+            event: 
+                The type of event to listen for (e.g., 'click', 'keydown', 'mouseover').
+            function: 
+                 The function that will execute when the event occurs.
+        
+    2. Common Events and Event Listeners:
+        click: Fired when an element is clicked.
+        mouseover: Fired when the mouse pointer moves over an element.
+        mouseout: Fired when the mouse pointer moves out of an element.
+        keydown: Fired when a key is pressed.
+        submit: Fired when a form is submitted.
+
+        ex.
+            Click Event Listener
+
+            <button id="myButton">Click Me!</button>
+
+            <script>
+            const button = document.getElementById('myButton');
+            button.addEventListener('click', function() {
+                alert('Button was clicked!');
+            });
+            </script>
+            In this example, when the button is clicked, an alert box will appear with the message "Button was clicked!".
+
+            Mouseover Event Listener
+            <div id="box" style="width: 100px; height: 100px; background-color: blue;"></div>
+
+            <script>
+            const box = document.getElementById('box');
+            box.addEventListener('mouseover', function() {
+                box.style.backgroundColor = 'green'; // Changes the color when hovered
+            });
+
+            box.addEventListener('mouseout', function() {
+                box.style.backgroundColor = 'blue'; // Changes the color back when mouse leaves
+            });
+            </script>
+
+            In this example, the background color of the box changes to green when the mouse hovers over it and back to blue when the mouse moves away.
+
+    3. Practical Examples: Simple Scripts to Manipulate the Webpage:
+
+        1. Toggle Content Display:
+            In this example, we’ll create a button that toggles the visibility of a paragraph.
+
+            ex.
+                <button id="toggleButton">Show/Hide Paragraph</button>
+                <p id="paragraph" style="display: none;">This is a toggleable paragraph.</p>
+
+                <script>
+                const button = document.getElementById('toggleButton');
+                const paragraph = document.getElementById('paragraph');
+
+                button.addEventListener('click', function() {
+                    if (paragraph.style.display === 'none') {
+                    paragraph.style.display = 'block'; // Show paragraph
+                    } else {
+                    paragraph.style.display = 'none';  // Hide paragraph
+                    }
+                });
+                </script>
+        
+        2. Form Input Validation
+            We’ll create a simple form that alerts the user if they leave the name input field empty when submitting the form.
+
+            ex.
+                <form id="myForm">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name">
+                <button type="submit">Submit</button>
+                </form>
+
+                <script>
+                const form = document.getElementById('myForm');
+                const nameInput = document.getElementById('name');
+
+                form.addEventListener('submit', function(event) {
+                    if (nameInput.value === '') {
+                    event.preventDefault(); // Prevent form from submitting
+                    alert('Please enter your name!');
+                    }
+                });
+                </script>
+                In this example, if the user tries to submit the form without entering their name, an alert will be shown, and the form submission will be prevented.
+        
+        3. Changing Image on Click
+            Let’s create a simple image gallery where clicking on the image will change it to another image.
+
+            ex.
+                <img id="image" src="image1.jpg" alt="First Image" style="width: 200px; height: 200px;">
+
+                <script>
+                const image = document.getElementById('image');
+
+                image.addEventListener('click', function() {
+                    if (image.src.includes('image1.jpg')) {
+                    image.src = 'image2.jpg'; // Change to second image
+                    } else {
+                    image.src = 'image1.jpg'; // Revert to first image
+                    }
+                });
+                </script>
+                In this example, when the user clicks on the image, it will toggle between image1.jpg and image2.jpg.
+        
+    
+1. Creating and Removing Elements in the DOM:
+    1.1. Creating Elements
+        In the DOM, you can dynamically create new elements using the document.createElement() method. This allows you to build and add new HTML elements programmatically.
+
+        Syntax of createElement: let element = document.createElement('tag-name');
+
+        Example: Creating a New Element
+
+            <div id="container"></div>
+
+            <script>
+            const container = document.getElementById('container');
+
+            // Create a new paragraph element
+            const newParagraph = document.createElement('p');
+
+            // Add text content to the new paragraph
+            newParagraph.textContent = "This is a dynamically created paragraph.";
+
+            // Append the paragraph to the container
+            container.appendChild(newParagraph);
+            </script>
+            In this example, a new <p> element is created, some text is added to it, and the paragraph is appended to the <div id="container">.
+
+    1.2. Appending Elements: appendChild
+        The appendChild() method adds a node as the last child of a parent node. It is used to insert the newly created element into the DOM.
+
+        Example:
+            parentElement.appendChild(newElement);
+            The new element will be added as the last child of the parent element.
+
+    1.3. Removing Elements: removeChild
+        To remove an element from the DOM, you can use the removeChild() method. This method is called on the parent node and requires the node to be removed as an argument.
+
+        Syntax: parentElement.removeChild(childElement);
+
+        Example: 
+            Removing an Element
+            <ul id="list">
+            <li>Item 1</li>
+            <li>Item 2</li>
+            <li id="item-to-remove">Item 3</li>
+            </ul>
+
+            <script>
+            const list = document.getElementById('list');
+            const itemToRemove = document.getElementById('item-to-remove');
+
+            // Remove the third list item
+            list.removeChild(itemToRemove);
+            </script>
+            In this example, the <li> with the id item-to-remove is removed from the <ul> list.
+
+2. Traversing the DOM: Navigating Between Nodes
+    DOM traversal allows you to move between elements in the DOM tree, accessing parent, child, and sibling elements.
+
+    2.1. Parent Nodes
+        To access the parent of a node, you can use the parentNode or parentElement property. Both return the parent element, though parentElement returns null if the parent is not an element (e.g., the document itself).
+
+        Example: Accessing the Parent Node
+            <div id="parent">
+            <p id="child">Child Paragraph</p>
+            </div>
+
+            <script>
+            const child = document.getElementById('child');
+            const parent = child.parentNode; // or parentElement
+
+            console.log(parent); // Logs <div id="parent">
+            </script>
+
+    2.2. Child Nodes
+        To access the children of an element, you can use the childNodes property, which returns a NodeList of all child nodes (including text nodes), or children, which returns only the element nodes.
+
+        Example: Accessing Child Nodes
+            <ul id="list">
+            <li>Item 1</li>
+            <li>Item 2</li>
+            </ul>
+
+            <script>
+            const list = document.getElementById('list');
+            const children = list.children; // Access child elements
+
+            console.log(children); // Logs the <li> elements
+            </script>
+
+    2.3. Sibling Nodes
+        To access sibling elements, use the nextSibling, previousSibling, nextElementSibling, or previousElementSibling properties.
+
+        nextSibling: Returns the next sibling (including text nodes).
+        nextElementSibling: Returns the next sibling that is an element.
+        previousSibling: Returns the previous sibling (including text nodes).
+        previousElementSibling: Returns the previous sibling that is an element.
+
+        Example: Accessing Sibling Nodes
+            <ul>
+            <li id="item1">Item 1</li>
+            <li id="item2">Item 2</li>
+            <li id="item3">Item 3</li>
+            </ul>
+
+            <script>
+            const item2 = document.getElementById('item2');
+            const nextItem = item2.nextElementSibling;
+            const previousItem = item2.previousElementSibling;
+
+            console.log(nextItem); // Logs <li id="item3">Item 3</li>
+            console.log(previousItem); // Logs <li id="item1">Item 1</li>
+            </script>
+
+3. Event Propagation: Bubbling and Capturing:
+    When an event occurs in the DOM, such as a click, it doesn't just happen on the target element. It also propagates through the DOM tree. This behavior is called event propagation, and it consists of two phases: bubbling and capturing.
+
+    3.1. Bubbling
+        In the bubbling phase, the event starts at the target element and "bubbles up" through the DOM tree to the root (the document). This is the default behavior in most browsers.
+
+        Example: Event Bubbling
+            <div id="parent">
+            <button id="child">Click Me</button>
+            </div>
+
+            <script>
+            const parent = document.getElementById('parent');
+            const child = document.getElementById('child');
+
+            parent.addEventListener('click', () => {
+                alert('Parent clicked');
+            });
+
+            child.addEventListener('click', () => {
+                alert('Button clicked');
+            });
+            </script>
+
+            In this example:
+            When the button is clicked, both the button’s and the parent’s click events are fired, as the event "bubbles" up from the button to its parent.
+            The button’s event happens first, followed by the parent’s event.
+    
+    3.2. Capturing
+        In the capturing phase (also called the trickling phase), the event starts at the root of the document and "trickles down" through the DOM tree to the target element. You can enable event capturing by setting the third argument of addEventListener to true.
+
+        Example: Event Capturing
+            <div id="parent">
+            <button id="child">Click Me</button>
+            </div>
+            <script>
+            const parent = document.getElementById('parent');
+            const child = document.getElementById('child');
+            parent.addEventListener('click', () => {
+                alert('Parent clicked (capturing phase)');
+            }, true);
+            child.addEventListener('click', () => {
+                alert('Button clicked');
+            });
+            </script>
+
+            In this example:
+            The parent element’s event listener will fire first during the capturing phase, followed by the button’s event listener.
+    
+    3.3. Stopping Event Propagation
+        Sometimes, you might want to stop an event from propagating through the DOM. You can do this using the stopPropagation() method.
+
+        Example: Stopping Event Bubbling
+
+            <div id="parent">
+            <button id="child">Click Me</button>
+            </div>
+
+            <script>
+            const parent = document.getElementById('parent');
+            const child = document.getElementById('child');
+
+            parent.addEventListener('click', () => {
+                alert('Parent clicked');
+            });
+
+            child.addEventListener('click', (event) => {
+                event.stopPropagation(); // Stops the event from bubbling up to the parent
+                alert('Button clicked');
+            });
+            </script>
+            In this example, the stopPropagation() method prevents the parent’s event from firing when the button is clicked.
+    
+
+Web Storage API: localStorage and sessionStorage:
+    1. Introduction to Web Storage API
+        The Web Storage API provides a way to store data in the browser that persists across page reloads and even browser sessions. Unlike cookies, which are sent to the server with every request, data stored in web storage is accessible only through JavaScript on the client side, making it faster and more secure.
+
+        There are two types of web storage:
+
+        localStorage: Stores data without an expiration date.
+        sessionStorage: Stores data for the duration of the page session (until the browser or tab is closed).
+
+    2. Differences Between localStorage and sessionStorage:
+        2.1. localStorage
+            Persistent storage: 
+                Data in localStorage persists even after the browser is closed and reopened.
+            Shared across tabs: 
+                Data is shared across all tabs and windows with the same origin (same protocol, host, and port).
+            Capacity: 
+                Has a larger storage capacity compared to cookies, typically 5-10 MB per origin.
+            Example use case for localStorage:
+                Storing user preferences or theme settings that should persist across browser sessions.
+
+        2.2. sessionStorage
+            Session-based storage: 
+                Data in sessionStorage is stored for the duration of the page session. Once the tab or window is closed, the data is cleared.
+            Unique to each tab: 
+                Data stored in sessionStorage is unique to each tab, so opening a new tab with the same page won't share the session data.
+            Capacity: 
+                Similar to localStorage, but scoped only to the active session.
+
+            Example use case for sessionStorage:
+                Storing temporary form data that should be available while the user is on the page, but doesn’t need to persist across sessions or tabs.
+    
+    3. Storing Data in Web Storage:
+        Both localStorage and sessionStorage use key-value pairs to store data, where the key and value are both strings.
+
+        3.1. Saving Data
+            To store data in localStorage or sessionStorage, you can use the setItem() method.
+
+        Syntax:
+            localStorage.setItem('key', 'value'); // For localStorage
+            sessionStorage.setItem('key', 'value'); // For sessionStorage
+            
+        Example: Storing User Preferences in localStorage
+            <button id="themeButton">Toggle Theme</button>
+
+            <script>
+            const themeButton = document.getElementById('themeButton');
+
+            themeButton.addEventListener('click', () => {
+                const currentTheme = localStorage.getItem('theme');
+
+                if (currentTheme === 'dark') {
+                localStorage.setItem('theme', 'light');
+                document.body.style.backgroundColor = '#fff';
+                } else {
+                localStorage.setItem('theme', 'dark');
+                document.body.style.backgroundColor = '#333';
+                }
+            });
+            </script>
+            In this example, we store the user's theme preference (light or dark) in localStorage. The value persists even if the page is reloaded or the browser is closed and reopened.
+
+    4. Retrieving and Deleting Data:
+
+        4.1. Retrieving Data
+            To retrieve data from localStorage or sessionStorage, use the getItem() method. It returns the value associated with the key or null if the key does not exist.
+
+            Syntax:
+                const value = localStorage.getItem('key');
+                const value = sessionStorage.getItem('key');
+            Example: Loading User Preferences
+                window.addEventListener('DOMContentLoaded', () => {
+                const savedTheme = localStorage.getItem('theme');
+
+                if (savedTheme === 'dark') {
+                    document.body.style.backgroundColor = '#333';
+                } else {
+                    document.body.style.backgroundColor = '#fff';
+                }
+                });
+                In this example, when the page loads, the user's saved theme is applied based on the data stored in localStorage.
+
+        4.2. Deleting Data
+            To remove a specific key-value pair from localStorage or sessionStorage, use the removeItem() method. To clear all data from storage, use the clear() method.
+
+            Syntax:
+                localStorage.removeItem('key'); // Removes a specific key
+                sessionStorage.removeItem('key');
+
+                localStorage.clear(); // Clears all keys and values
+                sessionStorage.clear();
+            Example: Clearing User Preferences
+                <button id="clearPreferences">Clear Preferences</button>
+
+                <script>
+                const clearButton = document.getElementById('clearPreferences');
+
+                clearButton.addEventListener('click', () => {
+                    localStorage.removeItem('theme'); // Removes the 'theme' key from localStorage
+                    alert('Preferences cleared!');
+                });
+                </script>
+                In this example, when the "Clear Preferences" button is clicked, the theme key is removed from localStorage.
+
+
+Working with JSON and Storing Data Locally:
+
+    1. Introduction to JSON: Syntax and Uses:
+        What is JSON?
+            JSON (JavaScript Object Notation) is a lightweight data interchange format that is easy for both humans to read and machines to parse and generate. It is widely used for data exchange between web clients and servers, and it is language-independent, meaning it can be used in almost any programming environment.
+
+        Key Characteristics of JSON:
+            Text-based format: 
+                Data is stored as plain text, making it easy to transmit and store.
+            JavaScript-like syntax: 
+                Although JSON is language-independent, its syntax is very similar to JavaScript objects.
+            Data structure: 
+                JSON supports key-value pairs (similar to objects in JavaScript), arrays, and simple data types like strings, numbers, booleans, and null.
+
+            JSON Syntax
+                JSON data is represented as key-value pairs inside curly braces {} (like objects in JavaScript). Arrays are enclosed in square brackets [].
+
+            Example of JSON:
+                {
+                "name": "John Doe",
+                "age": 30,
+                "isStudent": false,
+                "courses": ["Math", "Science", "History"],
+                "address": {
+                    "street": "123 Main St",
+                    "city": "New York"
+                }
+                }
+                Key-value pairs: "name": "John Doe", "age": 30
+                Arrays: "courses": ["Math", "Science", "History"]
+                Nested objects: "address": { "street": "123 Main St", "city": "New York" }
+
+            Common Uses of JSON
+                Data exchange: JSON is used in APIs to exchange data between a client and server.
+                Configuration files: JSON is often used to store configuration settings.
+                Storing data locally: JSON is used in localStorage or sessionStorage to store structured data in the browser.
+    
+    2. Converting Data: Using JSON.stringify() and JSON.parse():
+        When working with JSON in JavaScript, two core functions allow you to convert data between JSON strings and JavaScript objects:
+
+        2.1. JSON.stringify()
+            The JSON.stringify() function converts a JavaScript object or array into a JSON string. This is useful for storing data in formats that require strings, such as localStorage or sending data over the network.
+
+            Syntax:
+                JSON.stringify(object);
+            Example:
+                const user = {
+                name: "Alice",
+                age: 25,
+                isMember: true
+                };
+
+                // Convert the object to a JSON string
+                const jsonString = JSON.stringify(user);
+                console.log(jsonString);
+                // Output: {"name":"Alice","age":25,"isMember":true}
+
+        2.2. JSON.parse()
+            The JSON.parse() function converts a JSON string back into a JavaScript object. This is useful when you retrieve data from a string-based storage system (like localStorage) or receive JSON data from a server.
+
+            Syntax:
+                JSON.parse(jsonString);
+            Example:
+                const jsonString = '{"name": "Alice", "age": 25, "isMember": true}';
+
+                // Convert the JSON string back to a JavaScript object
+                const userObject = JSON.parse(jsonString);
+                console.log(userObject);
+                // Output: {name: "Alice", age: 25, isMember: true}
+
+        2.3. Handling Nested Objects and Arrays
+            Both JSON.stringify() and JSON.parse() work seamlessly with nested objects and arrays.
+
+            Example:
+                const user = {
+                name: "Bob",
+                age: 30,
+                hobbies: ["reading", "gaming"],
+                address: {
+                    city: "San Francisco",
+                    state: "CA"
+                }
+                };
+
+                // Stringify the object
+                const jsonString = JSON.stringify(user);
+                console.log(jsonString);
+                // Output: {"name":"Bob","age":30,"hobbies":["reading","gaming"],"address":{"city":"San Francisco","state":"CA"}}
+
+                // Parse the JSON string back to an object
+                const parsedObject = JSON.parse(jsonString);
+                console.log(parsedObject);
+                // Output: {name: "Bob", age: 30, hobbies: ["reading", "gaming"], address: {city: "San Francisco", state: "CA"}}
+            
+Revisiting Fetch & Introduction to Different HTTP Methods:
+
+    1. Revisiting Fetch API
+        The Fetch API is a modern way to make HTTP requests in JavaScript. It provides a more powerful and flexible alternative to the older XMLHttpRequest.
+
+        1.1 Syntax of Fetch
+
+            fetch(url, options)
+            .then(response => response.json()) // Parses the response as JSON
+            .then(data => console.log(data))
+            .catch(error => console.error("Error:", error));
+            url – The endpoint where the request is sent.
+            options – An optional object containing request settings like method, headers, and body.
+
+        1.2 Handling Responses
+            A fetch request returns a Promise that resolves to a Response object. The response needs to be processed using methods like:
+
+            .json() – Converts response to JSON format.
+            .text() – Reads response as plain text.
+            .blob() – Handles binary data.
+            Example:
+
+            fetch("https://jsonplaceholder.typicode.com/posts/1")
+            .then(response => response.json()) 
+            .then(data => console.log(data))
+            .catch(error => console.error("Error:", error));
+
+        1.3 Error Handling in Fetch
+
+            Fetch does not reject failed HTTP responses (e.g., 404, 500). You must manually check response.ok:
+
+            fetch("https://api.example.com/data")
+            .then(response => {
+                if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => console.log(data))
+            .catch(error => console.error("Fetch error:", error));
+        
+    2. Introduction to Different HTTP Methods
+        HTTP methods define the type of action performed on a resource. The most common methods are:
+
+        Method	Description
+            GET	Retrieves data from a server (Read operation).
+            POST	Sends data to the server to create a resource.
+            PUT	Updates a resource by replacing it entirely.
+            PATCH	Updates part of a resource.
+            DELETE	Removes a resource from the server.
+
+        2.1 GET Request
+            Used to fetch data from a server.
+            No request body is sent.
+
+            Example:
+            fetch("https://jsonplaceholder.typicode.com/users")
+            .then(response => response.json())
+            .then(data => console.log(data));
+
+        2.2 POST Request
+            Used to send data to the server (e.g., creating a new resource).
+            Requires a body with JSON data.
+
+            Example:
+            fetch("https://jsonplaceholder.typicode.com/posts", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ title: "New Post", body: "This is a new post", userId: 1 })
+            })
+            .then(response => response.json())
+            .then(data => console.log(data));
+
+        2.3 PUT Request
+            Updates a resource by replacing it entirely.
+            Example:
+            fetch("https://jsonplaceholder.typicode.com/posts/1", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ title: "Updated Post", body: "Updated content", userId: 1 })
+            })
+            .then(response => response.json())
+            .then(data => console.log(data));
+
+        2.4 PATCH Request
+            Partially updates a resource.
+            Example:
+            fetch("https://jsonplaceholder.typicode.com/posts/1", {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ title: "Partially Updated Title" })
+            })
+            .then(response => response.json())
+            .then(data => console.log(data));
+
+        2.5 DELETE Request
+            Removes a resource from the server.
+            Example:
+            fetch("https://jsonplaceholder.typicode.com/posts/1", {
+            method: "DELETE"
+            })
+            .then(response => response.json())
+            .then(data => console.log("Deleted", data)); 
+        
+Firebase: Creating Search, Filter, and Pagination Features, and Building a Complete Application:
+
+    1. Implementing Search, Filter, and Pagination with Firebase Data:
+
+        1.1. Searching Firebase Data
+            In Firebase Realtime Database, data is stored in a JSON format. Searching through this data involves fetching the entire dataset and filtering it on the client side using JavaScript.
+
+            Example: Searching Through User Data
+            Assume we have user data stored in Firebase:
+
+            {
+            "users": {
+                "user1": { "name": "John Doe", "email": "john@example.com" },
+                "user2": { "name": "Jane Doe", "email": "jane@example.com" },
+                "user3": { "name": "Alice Smith", "email": "alice@example.com" }
+            }
+            }
+            To implement a search function where users can search by name:
+
+            const searchUsers = (searchTerm) => {
+            const URL = 'https://your-project-id.firebaseio.com/users.json';
+
+            fetch(URL)
+                .then(response => response.json())
+                .then(data => {
+                const results = Object.entries(data).filter(([key, user]) =>
+                    user.name.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+                console.log("Search results: ", results);
+                // Update the UI with the search results
+                })
+                .catch(error => console.error("Error fetching data:", error));
+            };
+
+            // Example usage
+            searchUsers('john'); // Searches for 'john' in user names
+
+        1.2. Filtering Firebase Data
+            Filtering data works similarly to searching. Instead of searching for specific terms, we apply a condition to filter out certain records.
+
+            Example: Filtering Users Based on Email Domain
+            You may want to filter users who have a certain email domain, such as @example.com.
+
+            const filterUsersByDomain = (domain) => {
+            const URL = 'https://your-project-id.firebaseio.com/users.json';
+
+            fetch(URL)
+                .then(response => response.json())
+                .then(data => {
+                const filteredUsers = Object.entries(data).filter(([key, user]) =>
+                    user.email.endsWith(domain)
+                );
+                console.log("Filtered users: ", filteredUsers);
+                // Update the UI with the filtered users
+                })
+                .catch(error => console.error("Error fetching data:", error));
+            };
+
+            // Example usage
+            filterUsersByDomain('@example.com'); // Filters users with @example.com email addresses
+
+        1.3. Implementing Pagination with Firebase Data
+            Pagination allows you to display a limited set of data at a time, which is useful when dealing with large datasets. Since Firebase Realtime Database doesn’t support pagination natively, we can implement it manually by fetching the data and slicing the results into chunks.
+
+            Example: Paginating Users
+            const itemsPerPage = 5; // Show 5 items per page
+            let currentPage = 1;
+
+            const paginateUsers = (page) => {
+            const URL = 'https://your-project-id.firebaseio.com/users.json';
+
+            fetch(URL)
+                .then(response => response.json())
+                .then(data => {
+                const entries = Object.entries(data);
+                const totalPages = Math.ceil(entries.length / itemsPerPage);
+
+                if (page < 1 || page > totalPages) {
+                    console.error("Invalid page number");
+                    return;
+                }
+
+                const start = (page - 1) * itemsPerPage;
+                const paginatedUsers = entries.slice(start, start + itemsPerPage);
+
+                console.log(`Page ${page}:`, paginatedUsers);
+                // Update the UI with paginated users
+                })
+                .catch(error => console.error("Error fetching data:", error));
+            };
+
+            // Example usage
+            paginateUsers(currentPage);
+            
+        Combining Search, Filter, and Pagination
+            You can easily combine search, filtering, and pagination by applying search and filter conditions before paginating the results. For example, after filtering or searching, you can pass the results through the pagination function to display a subset of the filtered data.
+
+            const searchAndPaginate = (searchTerm, page) => {
+            const URL = 'https://your-project-id.firebaseio.com/users.json';
+
+            fetch(URL)
+                .then(response => response.json())
+                .then(data => {
+                const filteredUsers = Object.entries(data).filter(([key, user]) =>
+                    user.name.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+
+                const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+                if (page < 1 || page > totalPages) {
+                    console.error("Invalid page number");
+                    return;
+                }
+
+                const start = (page - 1) * itemsPerPage;
+                const paginatedResults = filteredUsers.slice(start, start + itemsPerPage);
+
+                console.log(`Search results for "${searchTerm}", Page ${page}:`, paginatedResults);
+                // Update the UI with the paginated search results
+                })
+                .catch(error => console.error("Error fetching data:", error));
+            };
+
+            // Example usage
+            searchAndPaginate('doe', 1); // Search for 'doe' and paginate to page 1
+
+
+Debouncing & Throttling:
+
+    Debouncing
+        Debouncing ensures that a function is executed only after a specific time has passed since the last time the event was triggered.
+        Use Case: Searching in a search bar. A user typing rapidly should not trigger a search on every keystroke but only after they pause typing for a short duration.
+        Example: Waiting 300ms after the last keystroke to perform the search.
+
+    Throttling
+        Throttling ensures that a function is executed at most once in a given interval, regardless of how many times the event is triggered.
+
+        Use Case: 
+            A resize event when adjusting the browser window. The function executes at regular intervals instead of every millisecond during the resize.
+            Example: Running a function at most once every 500ms while scrolling.
+
+    Debouncing Implementation
+
+        Define a delay time.
+        Use a timer to reset every time the event is triggered.
+        Execute the function only if the timer completes without interruption.
+
+        Code Example:
+            function debounce(func, delay) {
+            let timer;
+            return function (...args) {
+                clearTimeout(timer);
+                timer = setTimeout(() => func.apply(this, args), delay);
+            };
+            }
+            // Usage Example:
+            const searchInput = document.getElementById("search");
+            const handleSearch = debounce((event) => {
+            console.log(`Searching for: ${event.target.value}`);
+            }, 300);
+
+            searchInput.addEventListener("input", handleSearch);
+
+    Throttling Implementation
+        Define a fixed interval.
+        Ensure the function runs only once in each interval.
+
+        Code Example:
+            function throttle(func, interval) {
+            let lastCall = 0;
+            return function (...args) {
+                const now = Date.now();
+                if (now - lastCall >= interval) {
+                lastCall = now;
+                func.apply(this, args);
+                }
+            };
+            }
+            // Usage Example:
+            const logScroll = throttle(() => {
+            console.log("Scrolling...");
+            }, 500);
+
+            window.addEventListener("scroll", logScroll);
+    
+    Debouncing Example: Search Autocomplete
+        When a user types into a search bar, the debounce function delays the API call until they stop typing.
+
+        const fetchSuggestions = debounce((query) => {
+        console.log(`Fetching suggestions for: ${query}`);
+        }, 300);
+
+        document.getElementById("search").addEventListener("input", (e) => {
+        fetchSuggestions(e.target.value);
+        });
+
+        Throttling Example: Scroll Event
+        Limit the number of times a function logs scroll activity.
+
+        const trackScrollPosition = throttle(() => {
+        console.log(`Current scroll position: ${window.scrollY}`);
+        }, 200);
+
+        window.addEventListener("scroll", trackScrollPosition);
+
+Authentication and Authorization:
+    1. Authentication (Who you are?)
+        Authentication is the process of verifying a user's identity before granting access. It ensures that only registered users can log in.
+
+        Example: Entering a username & password to access an account.
+
+    2. Authorization (What can you do?)
+        Authorization determines what a verified user is allowed to do. Even after login, users may have different permissions (e.g., admin vs. regular user).
+
+        Example: A normal user can view content, but an admin can delete content.
+
+        Feature	Authentication	Authorization
+        Definition	Verifies identity	Grants permission for actions
+        When?	Before giving access	After authentication
+        Example	Logging in with email & password	Allowing access to admin panel
+        Checks	Username, password, OTP, etc.	User roles, access rights
+
+
+Introduction to Declarative vs Imperative Programming:
+    Programming paradigms are fundamental to how we think about and write code.
+
+    Imperative Programming
+        Focuses on how to perform tasks:
+        The developer specifies every step required to achieve the desired outcome.
+        Typically involves direct manipulation of state and data structures.
+
+    Declarative Programming
+        Focuses on what the outcome should be:
+        Developers describe the desired result without explicitly outlining the steps to achieve it.
+        The underlying system determines the execution steps.
+    
+    Declarative vs Imperative Programming: In Depth
+        Imperative Programming in Action
+        Example: Using JavaScript to manipulate the DOM directly.
+
+        <script>
+        const element = document.createElement("p");
+        element.textContent = "Hello, World!";
+        document.body.appendChild(element);
+        </script>
+        The programmer explicitly creates the element, sets its content, and appends it to the DOM.
+        Every change to the DOM must be coded manually, leading to verbose and error-prone scripts.
+
+    Declarative Programming in Action
+        Example: Using React to define a UI component declaratively.
+
+        const root = ReactDOM.createRoot(document.getElementById("root"));
+        root.render(<p>Hello, World!</p>);
+        The developer specifies what the UI should look like in its final state.
+        React handles the underlying DOM manipulations, making the code simpler, cleaner, and easier to maintain.

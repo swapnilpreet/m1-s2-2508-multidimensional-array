@@ -1,0 +1,1036 @@
+
+
+this Keyword in JavaScript:
+    this refers to the object that is currently executing the function.
+
+    In Simple Words:
+        It is a special keyword in JavaScript used to access the context in which a function is running.
+        Its value depends on how the function is called, not where it is defined.
+    
+    Use Cases                       and Behavior:
+        Context                         this Refers To
+        In global scope             	window (in browser) or global (in Node.js)
+        Inside a method             	The object the method is called on
+        Inside a function (non-strict)	window (default/global object)
+        Inside a function (strict mode)	undefined
+        In event handlers            	The DOM element that fired the event
+        With call, apply, or bind   	Explicitly defined by these methods
+        In arrow functions          	Lexically inherited from the parent scope
+
+    2. call(), apply(), bind() Methods
+        All three methods are used to explicitly set the value of this inside a function.
+
+        call():
+            Calls a function with a given this value and arguments passed individually.
+
+            Syntax:
+            func.call(thisArg, arg1, arg2, ...)
+
+            Example:
+            function greet(greeting) {
+            console.log(greeting + ", " + this.name);
+            }
+            const person = { name: "Swapnil" };
+            greet.call(person, "Hello"); // Hello, Swapnil
+
+        apply()
+            Similar to call(), but arguments are passed as an array.
+            Syntax:
+            func.apply(thisArg, [arg1, arg2, ...])
+            Example:
+            greet.apply(person, ["Hi"]); // Hi, Swapnil
+
+        bind()
+            Returns a new function with a fixed this value (does not invoke the function immediately).
+            Syntax:
+            const newFunc = func.bind(thisArg, arg1, arg2, ...)
+            Example:
+            const boundGreet = greet.bind(person, "Hey");
+            boundGreet(); // Hey, Swapnil
+
+    Difference Between call, apply, and bind
+        Feature        	call()        	apply()                  	bind()
+        Invocation 	Immediately invoked 	Immediately invoked   	Returns a new function
+        Arguments	Passed individually  	Passed as an array	    Passed individually
+        Use Case	Simple function calls	Dynamic arg arrays (e.g. Math)	Delayed execution with preset this
+        Return Value	Result of function call  	Result of function call   	A new function with bound this
+
+    Real Use Case Example
+        ex.
+            const person1 = { name: "Alice" };
+            const person2 = { name: "Bob" };
+            function showDetails(age, city) {
+            console.log(`${this.name} is ${age} years old and lives in ${city}.`);
+            }
+            showDetails.call(person1, 25, "Mumbai");
+            showDetails.apply(person2, [30, "Delhi"]);
+            const boundDetails = showDetails.bind(person1, 40, "Pune");
+            boundDetails();
+            Alice is 25 years old and lives in Mumbai.
+            Bob is 30 years old and lives in Delhi.
+            Alice is 40 years old and lives in Pune.
+    
+
+Synchronous (Sync):
+    Code runs line by line, blocking the next line until the current one finishes.
+    If one line takes time (e.g., a slow API), everything after it waits.
+    🧠 Think of it as: "Stand in a queue. You can't move ahead until the person in front is done."
+        ex.
+            console.log("1: Start");
+            function blockingTask() {
+            for (let i = 0; i < 1e9; i++) {} // Simulate heavy task
+            }
+            blockingTask();
+            console.log("2: End");
+            Everything after blockingTask() is paused until it finishes.
+            1: Start
+            2: End (after long pause)
+
+Asynchronous (Async):
+    Code doesn’t wait for long tasks (like API calls or timers). It runs them in the background and continues executing the next lines.
+    Once the long task is done, its result is handled via callbacks, promises, or async/await.
+    🧠 Think of it as: "Order food. While it's being cooked, you do other things. When it's ready, they call you."
+        ex.
+            Asynchronous Example:
+                console.log("1: Start");
+                setTimeout(() => {
+                console.log("2: After 2 seconds");
+                }, 2000);
+                console.log("3: End"); 
+                ✅ setTimeout runs in the background. Other code continues.
+                1: Start
+                3: End
+                2: After 2 seconds
+    Async/Await with Fetch (Modern Style):
+        ex.
+            async function fetchData() {
+                console.log("1: Start fetching");
+                const response = await fetch("https://jsonplaceholder.typicode.com/posts/1");
+                const data = await response.json();
+                console.log("2: Data received:", data);
+            }
+            console.log("3: Before call");
+            fetchData();
+            console.log("4: After call");
+
+            3: Before call
+            1: Start fetching
+            4: After call
+            2: Data received: {userId: 1, id: 1, ...}
+
+Why Async is Needed:
+    JS runs on a single thread (event loop), meaning only one task runs at a time.
+    If you use sync code for long tasks (like fetching data), the whole app freezes.
+    Async helps make:
+        Web apps faster
+        UI responsive
+        Tasks non-blocking
+
+Key Differences: Sync vs Async:
+    Feature             	Synchronous             	Asynchronous
+    Execution Order     	Line by line             	Non-blocking; tasks run in background
+    Performance          	Slower for long tasks    	Faster, responsive UI
+    Blocks Code?         	Yes                      	No
+    Use Cases            	Simple, short operations	API calls, DB, timers, file read/write
+    Examples             	Loops, math              	setTimeout, fetch, Promise
+    Handling Mechanism  	Normal function          	callback, promise, async/await
+
+Call Stack:
+    A stack-based data structure where JavaScript tracks function calls and execution order (LIFO - Last In First Out).
+
+    Role:
+        Executes synchronous code.
+        Each function call is pushed onto the stack.
+
+Web APIs (Browser APIs):
+    Provided by the browser environment (not part of JS engine) to handle asynchronous tasks like: setTimeout,DOM events,fetch (HTTP requests),geolocation, file read, etc.
+
+     Role:
+        Offloads long-running tasks from the call stack.
+        After completion, results are queued for callback execution.
+    
+    1. setTimeout():
+        setTimeout() is a Web API function that schedules a one-time execution of a callback function after a specified delay (in milliseconds).
+
+        Syntax:
+            const timeoutId = setTimeout(callback, delay, arg1, arg2, ...);
+            callback – Function to execute.
+            delay – Time to wait (in ms).
+            arg1... – Optional arguments passed to the callback.
+        ex.
+            setTimeout(() => {
+                 console.log("Executed after 2 seconds");
+            }, 2000); 
+
+        How it Works (Under the Hood):
+            setTimeout() is called → sent to the Web API environment.
+            Timer starts counting without blocking the main thread.
+            After the delay, the callback is sent to the Callback Queue.
+            The Event Loop checks if the Call Stack is empty.
+            When clear, it executes the callback from the queue.
+        
+        Use Case                             	Explanation
+            Delay UI changes            	        Show spinner for 2s before hiding
+            Debounce input (with clearTimeout)      Wait before firing search request
+            Delayed execution of analytics        	Send tracking after user action
+            Retry logic after delay              	Retry failed API after 1 second
+    
+    clearTimeout():
+        Use clearTimeout() with the returned ID.
+            ex.
+                const id = setTimeout(() => {
+                    console.log("This won't run");
+                }, 5000);
+                clearTimeout(id); // Cancels the timeout
+
+
+    2. setInterval():
+        setInterval() is a Web API function that repeatedly executes a callback at fixed intervals (in ms) until stopped.
+        
+        Syntax:
+            const intervalId = setInterval(callback, interval, arg1, arg2, ...);
+
+        Example:
+            const id = setInterval(() => {
+                 console.log("Runs every 2 seconds");
+            }, 2000);
+
+        Use Case                            	Explanation
+            Repeated polling (e.g. APIs)      	Fetch new data every 5 seconds
+            Real-time clocks/timers          	Update digital clock every second
+            Animation loops (basic cases)     	Slide show, carousel
+            Auto-saving user progress       	Save draft every 30 seconds
+
+    clearInterval():
+        Use clearInterval() with the interval ID.
+            clearInterval(id); // Stops the repeated execution
+
+
+    3. Key Differences: setTimeout vs setInterval
+        Feature     	setTimeout()        	            setInterval()
+        Purpose     	One-time delayed execution      	Repeated execution at regular intervals
+        Runs after delay    	Yes	                      Yes, repeatedly
+        Stops automatically?	Yes, after one call        	No, must manually stop with clearInterval()
+        Return value	     Timeout ID                       	Interval ID
+    
+    Advanced Example: Controlled setInterval:
+        ex.
+            let counter = 0;
+            const intervalId = setInterval(() => {
+                console.log("Count:", ++counter);
+                if (counter === 5) {
+                    clearInterval(intervalId); // Stops after 5 times
+                    console.log("Stopped!");
+                }
+            }, 1000);
+            Count: 1
+            Count: 2
+            Count: 3
+            Count: 4
+            Count: 5
+            Stopped!
+    
+    
+
+Callback Queue (Task Queue / Macrotask Queue):
+    A FIFO queue that stores callback functions from Web APIs once they're ready to be executed.
+
+    Examples of callbacks here:
+        setTimeout
+        setInterval
+        click/DOM events
+
+Microtask Queue :
+    A higher-priority queue than the callback queue, holding promise .then() callbacks and async/await results.
+
+    Examples:
+        Promise.then()
+        Promise.catch()
+        Promise.finally()
+        async/await resolved values
+
+Event Loop:
+    A mechanism that continuously monitors the Call Stack, Microtask Queue, and Callback Queue, and manages asynchronous execution.
+
+    Working Steps:
+        If Call Stack is empty, check Microtask Queue.
+        Execute all Microtasks (Promise callbacks, async/await).
+        If Microtask Queue is empty, take the next task from the Callback Queue (macrotasks).
+        Repeat this process forever.
+
+Callback Functions :
+    A function passed as an argument to another function and executed after some operation (can be sync or async).
+
+    ex.
+        function doSomething(cb) {
+            console.log("Doing something");
+            cb(); // callback
+        }
+        doSomething(() => console.log("Callback done"));
+
+Promises:
+    An object representing the eventual completion or failure of an asynchronous operation.
+
+    ex.
+        const promise = new Promise((resolve, reject) => {
+        setTimeout(() => resolve("Done"), 1000);
+        });
+
+        Pending → Resolved or Rejected
+        Use .then() and .catch() for handling
+
+async / await:
+    Syntactic sugar over Promises for writing asynchronous code that looks synchronous.
+
+    async function fetchData() {
+        const response = await fetch('https://api.com/data');
+        const data = await response.json();
+        console.log(data);
+    }
+    await pauses execution within the async function
+    Internally still uses Promises & Microtask Queue
+
+Full Flow Explained (How Async Code Works):
+    console.log("1");
+    setTimeout(() => {
+    console.log("2");
+    }, 0);
+    Promise.resolve().then(() => {
+    console.log("3");
+    });
+    console.log("4");
+
+    1
+    4
+    3
+    2
+    Execution Flow:
+    console.log("1") → pushed & popped from call stack → prints 1
+    setTimeout → sent to Web API → callback goes to Callback Queue
+    Promise.resolve() → result goes to Microtask Queue
+    console.log("4") → printed
+    Call Stack is now empty.
+    Microtask Queue is checked first → print 3
+    Now Callback Queue → print 2
+
+Deep Example: async/await + Web APIs:
+    console.log("A");
+    async function fetchData() {
+    console.log("B");
+    const res = await fetch("https://jsonplaceholder.typicode.com/todos/1");
+    const data = await res.json();
+    console.log("C", data);
+    }
+    fetchData();
+    console.log("D");
+
+    Internal Breakdown:
+    Print "A"
+    Call fetchData() → print "B"
+    await fetch(...) suspends the rest of fetchData() and returns a Promise → control back to event loop
+    Print "D"
+    When fetch completes → response goes to Microtask Queue
+    res.json() is another async task → await again
+    When .json() completes → print "C" with data
+
+Technical Glossary
+
+    Term                  	Definition
+    Call Stack            	A LIFO stack that keeps track of function calls.
+    Web APIs            	Asynchronous APIs provided by browser (e.g., fetch, setTimeout).
+    Callback Queue (Macrotask Queue)    	Queue where callbacks from Web APIs are placed.
+    Microtask Queue	         Higher-priority queue holding resolved Promise callbacks, await results.
+    Event Loop              	JavaScript mechanism that manages execution between call stack & queues.
+    Callback                	A function passed to another function to run later.
+    Promise                     	A JS object representing a future value from an async operation.
+    Async/Await              	Modern syntax for working with Promises, making code easier to read.
+
+Global Context :
+    The global context refers to the outermost scope in JavaScript, where variables and functions are accessible throughout the entire code unless overridden locally.
+
+    Explanation:
+        In a browser: window is the global object.
+        In Node.js: global is the global object.
+        Variables defined outside functions or with var (non-strict mode) attach to the global object.
+
+    ex.
+        var a = 10;
+        console.log(window.a); // 10 in browser
+    
+    Use Case:
+        Used for global configurations, utility functions, constants.
+
+    Drawbacks:
+        Can lead to name collisions.
+        Harder to manage in large apps.
+        Overuse breaks modularity and causes bugs.
+
+Method:
+    A function associated with an object is called a method.
+
+    Explanation:
+        Methods define behavior for objects.
+
+    ex.
+        const user = {
+            name: "Swapnil",
+            greet: function () {
+                console.log("Hello, " + this.name);
+            }
+        };
+        user.greet(); // Hello, Swapnil
+    
+    Use Case:
+        To encapsulate functionality for object instances.
+    
+    Drawbacks:
+        Tightly couples behavior with object structure.
+
+Constructor Function:
+    A function used with new to create object instances.
+
+    Explanation:
+        Constructor functions initialize object properties.
+    
+    ex.
+        function Person(name, age){
+            this.name = name;
+            this.age = age;
+        }
+        const p1 = new Person("Disha", 28);
+        console.log(p1.name); // Disha
+    
+    Use Case:
+        Creating multiple objects with similar structure.
+    
+    Pros:
+        Reusable blueprint.
+        Prototype inheritance.
+    
+    Drawbacks:
+        Verbose.
+        Requires new keyword.
+
+Factory Function:
+    A function that returns a new object without using new.
+
+    Explanation:
+        More flexible alternative to constructors.
+
+    ex.
+        function createPerson(name, age) {
+            return {
+                name,
+                age,
+                greet() {
+                console.log("Hi, I'm " + this.name);
+                }
+            };
+        }
+        const p2 = createPerson("Kashish", 25);
+        p2.greet(); // Hi, I'm Kashish
+    
+    Use Case:
+        Avoiding this, creating objects with private data (via closures).
+    
+    Pros:
+        Simple syntax.
+        No new keyword needed.
+        Supports encapsulation.
+    
+    Drawbacks:
+        No shared prototype (less memory-efficient).
+
+Event Handler:
+    A function that runs in response to a specific event.
+
+    Explanation:
+        Used to add interactivity to web apps (e.g., clicks, form submits).
+
+    ex.
+        document.getElementById("btn").addEventListener("click", function () {
+            alert("Button clicked!");
+        });
+
+    Use Case:
+        Used in UI apps to respond to user actions.
+
+    Pros:
+        Decouples logic from HTML.
+        Dynamic and responsive behavior.
+
+    Drawbacks:
+        Can become hard to manage without proper structure (e.g., in large apps).
+
+Inline Event Attributes:
+    HTML attributes that bind event handlers directly.
+
+    Explanation:
+        Quick way to bind events in HTML.
+
+    ex.
+        <button onclick="alert('Clicked!')">Click Me</button>
+    
+    Use Case:
+        For simple and quick tasks in small projects.
+
+    Pros:
+        Easy to use.
+        No JavaScript file required.
+
+    Drawbacks:
+        Poor separation of concerns (HTML + JS mixed).
+        Harder to debug.
+        Limited flexibility.
+
+Object-Oriented Programming (OOP) in JavaScript:
+
+    What is a Programming Paradigm?:
+        A programming paradigm is a style or approach to writing and structuring computer programs.
+        It defines how you think about problems and how you organize your code to solve them.
+    
+    Common Programming Paradigms:
+        Paradigm         	Description     	Example Languages
+        Imperative         	Focus on how to do things (step-by-step instructions)     	C, Java, JavaScript
+        Declarative         	Focus on what to do, not how (describe the result)     	SQL, HTML
+        Procedural         	Based on procedures/functions that operate on data     	C, Pascal
+        Object-Oriented (OOP)         	Code is organized into objects with data and behavior     	Java, C++, JS
+        Functional         	Code is composed of pure functions with no side effects     	Haskell, Elm, JS
+        Event-driven         	Flow is controlled by events (e.g., user actions, messages)	     JavaScript, Node.js
+        Logic-based         	Describes facts and rules, lets engine infer solutions     	Prolog
+
+    What is OOP?
+        OOP is a programming paradigm where code is organized into objects, each containing data (properties) and behavior (methods).
+    
+    Why Use OOP in JavaScript?
+        Reason          	Explanation
+        ✅ Organization  	Groups related data and functions together.
+        ✅ Reusability   	Create reusable blueprints (classes).
+        ✅ Modularity    	Code is easier to manage and debug.
+        ✅ Inheritance   	Share behavior between objects.
+        ✅ Encapsulation 	Hide internal state; expose only needed parts.
+        ✅ Scalability   	Suitable for large-scale applications.
+    
+    Key Concepts in OOP (JS):
+
+        A. Objects:
+            Objects are collections of key-value pairs representing real-world entities.
+            An object is a real-world entity created from a class, containing data (properties) and behavior (methods).
+
+            An object is an blue print(instance) of a class. It holds the state (via properties) and behavior (via methods) defined by the class.
+
+            ex.
+                const car = {
+                    brand: "Toyota",
+                    drive() {
+                        console.log("Driving...");
+                    }
+                };
+                car.drive(); // Driving...
+            
+            Use Case:
+                Represent a user, product, car, etc.
+
+            Alternative:
+                Arrays (not recommended for structured entities).
+        
+        B. Constructor Function:
+            Function used with new to create multiple similar objects.
+
+            A constructor is a special function that gets called automatically when a new object is created from a class.
+
+            The constructor() method in a class is used to initialize the newly created object’s properties.
+
+            ex.
+                function Person(name) {
+                    this.name = name;
+                    this.greet = function () {
+                        console.log("Hello, " + this.name);
+                    };
+                }
+                const p1 = new Person("Swapnil");
+                p1.greet(); // Hello, Swapnil
+
+                class Car {
+                    constructor(model, year) {
+                        this.model = model;
+                        this.year = year;
+                    }
+                }
+                const c1 = new Car("Honda", 2020);
+                console.log(c1.model); // Honda
+
+            Analogy:
+                Like how every car gets its engine and wheels when it's made — constructor gives every object its properties.
+
+            Use Case:
+                Create multiple instances like User, Product, etc.
+            
+            Problem Solved:
+                Avoids object duplication and manual property assignment.
+        
+        C. Factory Function:
+            Function that returns a new object. No new keyword required.
+
+            ex.
+                function createUser(name) {
+                    return {
+                        name,
+                        greet() {
+                        console.log("Hi, " + name);
+                        }
+                    };
+                }
+                const u1 = createUser("Kashish");
+                u1.greet(); // Hi, Kashish
+
+            Use Case:
+                Object creation without class-like structure.
+
+            Alternative to:
+                Constructor function
+
+            Benefit:
+                Supports closures & private variables.
+        
+        D. Class (ES6):
+            Blueprint for creating objects using modern class syntax.
+            A class is like a blueprint for creating objects with specific properties and methods.
+            In JavaScript, a class is a syntactic sugar over JavaScript’s existing prototype-based inheritance. It allows you to define constructors, properties, and methods in a clean and organized way.
+
+            ex.
+                class Animal {
+                    constructor(type) {
+                        this.type = type;
+                    }
+                    speak() {
+                        console.log(`${this.type} makes sound`);
+                    }
+                }
+                const dog = new Animal("Dog");
+                dog.speak(); // Dog makes sound
+            
+            Use Case:
+                Modern object creation in large-scale apps.
+
+            Alternative:
+                Constructor/Factory function
+
+            Benefit:
+                Clear syntax
+                Built-in inheritance
+                Cleaner code
+            
+            ex.
+                class Person {
+                    constructor(name, age) {
+                    this.name = name;
+                    this.age = age;
+                }
+                    greet() {
+                        console.log(`Hello, my name is ${this.name}`);
+                    }
+                }
+                const p1 = new Person("Swapnil", 25);
+                p1.greet(); // Hello, my name is Swapnil
+            
+            Analogy:
+                Think of a class like a blueprint of a car — it defines the design. Objects (cars) are built from that blueprint.
+            
+        E. this Keyword:
+            Refers to the context in which a function is called.
+
+            ex.
+                const obj = {
+                    name: "Swapnil",
+                    greet() {
+                        console.log("Hello " + this.name);
+                    }
+                };
+                obj.greet(); // Hello Swapnil
+            
+            Use Case:
+                Access properties inside object methods.
+
+            Pitfall:
+                Changes in arrow functions or event handlers.
+
+        F. Inheritance:
+            One class inherits properties/methods from another.
+
+            Inheritance lets one class acquire properties and methods of another class.
+
+            In JavaScript, class Child extends Parent allows the child class to inherit all non-private methods and properties from the parent class.
+
+            ex.
+                class Animal {
+                    eat() {
+                        console.log("Eating...");
+                    }
+                }
+                class Dog extends Animal {
+                    bark() {
+                        console.log("Barking...");
+                    }
+                }
+
+                const d = new Dog();
+                d.eat(); // Eating...
+                d.bark(); // Barking...
+            
+            Analogy:
+                Like a child inheriting traits from parents — you don’t need to rewrite "eat", "walk", etc.
+            
+            Use Case:
+                Avoid code duplication in related classes (e.g., User, Admin).
+
+            Benefit:
+                Code reusability and DRY principle.
+
+        G. Encapsulation:
+            Hiding internal object data using closures or private fields.
+
+            Encapsulation means hiding internal details and exposing only what’s necessary.
+
+            It’s the bundling of data (properties) and methods that operate on the data within one unit and restricting direct access to some of the object’s components.
+
+            ex.
+                function BankAccount(balance) {
+                    let _balance = balance; // private variable
+
+                    return {
+                        deposit(amount) {
+                            _balance += amount;
+                        },
+                        getBalance() {
+                            return _balance;
+                        }
+                    };
+                }
+                const acc = BankAccount(1000);
+                acc.deposit(500);
+                console.log(acc.getBalance()); // 1500
+            
+            Analogy:
+                Like the controls of a TV — you use the remote (public method), but don’t touch the internal circuits (private state).
+            
+            Use Case:
+                Secure sensitive data like passwords or balances.
+        
+        H. Polymorphism
+            Objects with different forms respond to the same interface.
+
+            Polymorphism means having many forms — same method name behaving differently in different classes.
+
+            It allows classes to define their own version of a method inherited from the parent class.
+
+            ex.
+                class Animal {
+                    speak() {
+                        console.log("Animal makes sound");
+                    }
+                }
+                class Cat extends Animal {
+                    speak() {
+                        console.log("Meow");
+                    }
+                }
+                class Dog extends Animal {
+                    speak() {
+                        console.log("Bark");
+                    }
+                }
+                const cat = new Cat();
+                const dog = new Dog();
+                cat.speak(); // Meow
+                dog.speak(); // Bark
+            
+            Analogy:
+                Think of "drive" — a car, a bike, and a train all "drive", but differently.
+            
+            Use Case:
+                Create general-purpose interfaces.
+
+        I. Abstraction:
+            Abstraction means hiding complex logic and showing only necessary parts.
+
+            It is the concept of exposing only essential features of an object and hiding implementation details via methods or classes.
+
+            ex.
+                class Car {
+                    startEngine() {
+                        console.log("Engine started");
+                    }
+                    drive() {
+                        this.startEngine(); // hidden internal working
+                        console.log("Driving...");
+                    }
+                }
+                const myCar = new Car();
+                myCar.drive();
+                // Output:
+                // Engine started
+                // Driving...
+            
+            Analogy:
+                You drive a car by pressing the accelerator — you don’t see how the engine works inside.
+            
+    OOP vs Functional Programming in JS:
+        Feature     	OOP      	Functional Programming
+        Data + Behavior     	Combined into objects   	Kept separate
+        State      	Mutated via methods   	Avoid mutation (immutability)
+        Reusability   	Via classes and inheritance   	Via pure functions and composition
+        Use Cases     	Large-scale apps, UI components	      Utility functions, data processing
+
+    Common Problems Solved by OOP:
+
+        Problem                  	How OOP Solves It
+        Code duplication           	Inheritance
+        Hard-to-read logic          Encapsulation
+        Reusability of behavior     Classes/Methods
+        Managing complex state      Objects & this
+        Secure sensitive data       Encapsulation
+
+
+
+Introduction to Prototypical Inheritance:
+    JavaScript follows a unique approach to inheritance, using prototypal inheritance rather than classical inheritance seen in languages like Java or C++. This inheritance system allows objects to inherit properties and methods from other objects.
+
+    Key Points:
+        Prototypes: 
+            In JavaScript, every object has an internal property called [[Prototype]], commonly accessed via the __proto__ property. This property points to another object (called the prototype), from which it can inherit properties and methods.
+        Inheritance: 
+            JavaScript objects can inherit properties and methods from their prototypes. If a property or method is not found in the object itself, JavaScript looks for it on the object's prototype. If not found there, it continues searching up the prototype chain until it reaches null, marking the end of the chain.
+   
+    Why is Prototypal Inheritance Important?
+        It allows objects to reuse properties and methods from other objects, reducing redundancy.
+        It supports dynamic behavior, where objects can be extended at runtime.
+        Facilitates memory efficiency, as methods are shared among instances rather than copied.
+
+The Prototype Chain:
+
+    What is the Prototype Chain?
+        The prototype chain is a mechanism that allows objects to inherit properties and methods from their prototypes. Each object has a reference to another object called its prototype. If an object doesn’t have a property or method directly on it, JavaScript will look for it up the prototype chain.
+    
+    ex.
+        Example: How the Prototype Chain Works
+        let animal = {
+            eats: true,
+            walk: function() {
+                console.log("Animal walks");
+            }
+        };
+        let rabbit = Object.create(animal);  // rabbit inherits from animal
+        rabbit.jumps = true;
+        console.log(rabbit.eats);  // true (inherited from animal)
+        rabbit.walk();  // Output: "Animal walks"
+        In this example, rabbit doesn't have its own eats property or walk() method, but it inherits them from animal via the prototype chain.
+
+    Prototype Chain in Action:
+        Direct access: 
+            JavaScript first looks for a property or method directly on the object.
+        Prototype lookup: 
+            If the property or method is not found, JavaScript moves up the prototype chain to the object's prototype.
+        Prototype of prototype: 
+            If still not found, it continues this lookup process, climbing the chain until it reaches the end.
+
+    Verifying the Prototype Chain:
+
+        You can verify the prototype chain with the __proto__ property or the modern Object.getPrototypeOf() method.
+
+        console.log(rabbit.__proto__ === animal);  // true
+        console.log(Object.getPrototypeOf(rabbit) === animal);  // true
+            
+Prototypal Inheritance in Action:
+    Example 1: Reusing Methods via Prototypes
+        let person = {
+            greet: function() {
+                console.log("Hello!");
+            }
+        };
+        let employee = Object.create(person);  // employee inherits from person
+        employee.work = function() {
+              console.log("Working...");
+        };
+        employee.greet();  // Output: "Hello!" (inherited from person)
+        employee.work();   // Output: "Working..."
+
+    Explanation:
+        The employee object has its own method work(), but it inherits the greet() method from its prototype person.
+        This allows code reuse through prototypes, avoiding duplication of methods in multiple objects.
+
+    Example 2: Dynamic Method Lookup:
+        The prototype chain enables dynamic method lookup, which means methods can be added, updated, or overridden at runtime.
+        person.greet = function() {
+        console.log("Hi there!");
+        };
+        employee.greet();  // Output: "Hi there!" (dynamically updated)
+
+Creating Objects with Constructor Functions:
+    Constructor functions allow for the creation of multiple instances of objects with shared properties and methods. These instances inherit methods via the prototype chain.
+
+    Example 3: Constructor Function with Shared Methods
+        function Car(make, model) {
+        this.make = make;
+        this.model = model;
+        }
+        Car.prototype.startEngine = function() {
+        console.log(`${this.make} ${this.model}'s engine started.`);
+        };
+        let car1 = new Car("Toyota", "Corolla");
+        let car2 = new Car("Honda", "Civic");
+        car1.startEngine();  // Output: "Toyota Corolla's engine started."
+        car2.startEngine();  // Output: "Honda Civic's engine started."
+    
+    Explanation:
+        Car is a constructor function that initializes objects with make and model properties.
+        The method startEngine() is defined on Car.prototype, meaning it is shared by all instances of Car.
+
+    Memory Efficiency:
+        The method startEngine() is not copied to each individual car object. Instead, all instances of Car share the same method via the prototype, reducing memory usage.
+
+Prototype Chain Depth:
+    Objects can have multiple levels of inheritance. For instance, an object can inherit from one prototype, which in turn inherits from another, forming a chain.
+
+    Example 4: Prototype Chain Depth
+        let vehicle = {
+        hasWheels: true
+        };
+        let bike = Object.create(vehicle);
+        bike.type = "Mountain Bike";
+        let electricBike = Object.create(bike);
+        electricBike.hasBattery = true;
+        console.log(electricBike.hasWheels);  // true (inherited from vehicle)
+        console.log(electricBike.type);  // "Mountain Bike" (inherited from bike)
+        console.log(electricBike.hasBattery);  // true (direct property)
+    
+    Explanation:
+        electricBike inherits properties from bike, which inherits from vehicle.
+        This multi-level inheritance allows complex objects to be created through chaining.
+
+    Prototype Chain Verification:
+        You can traverse the prototype chain using Object.getPrototypeOf():
+        console.log(Object.getPrototypeOf(electricBike) === bike);  // true
+        console.log(Object.getPrototypeOf(bike) === vehicle);  // true
+        console.log(Object.getPrototypeOf(vehicle) === Object.prototype);  // true
+
+Real-World Applications of Prototypal Inheritance:
+    Prototypal inheritance is widely used in real-world applications for code reuse and memory efficiency. Below are some scenarios where prototypes prove useful:
+
+    ex.
+        Example 5: User Management System
+            let userPrototype = {
+                login: function() {
+                    console.log(`${this.name} is logging in...`);
+                },
+                logout: function() {
+                    console.log(`${this.name} is logging out...`);
+                }
+            };
+            function createUser(name, role) {
+                let user = Object.create(userPrototype);
+                user.name = name;
+                user.role = role;
+                return user;
+            }
+            let admin = createUser("Alice", "Admin");
+            admin.login();  // Output: "Alice is logging in..."
+            admin.logout();  // Output: "Alice is logging out..."
+
+    Use Cases:
+        Reusability: 
+            Methods such as login and logout are defined once on the prototype and shared across all user objects.
+        Memory Optimization: 
+            The memory footprint is minimized as the methods are not duplicated in each user object.
+
+Best Practices with Prototypes:
+    Use Prototypes for Methods:
+        Attach methods to the prototype object to share them across instances. This reduces memory consumption.
+        ex.
+            function Animal(name) {
+            this.name = name;
+            }
+
+            Animal.prototype.speak = function() {
+            console.log(`${this.name} makes a sound.`);
+            };
+
+            let dog = new Animal("Dog");
+            dog.speak();  // Output: "Dog makes a sound."
+
+        2. Don’t Modify Built-In Prototypes:
+            Modifying built-in objects' prototypes (e.g., Array.prototype) can lead to unexpected behavior and is generally discouraged.
+
+        3. Understand Prototype Lookup Performance:
+            Deep prototype chains can slow down property and method lookups. Keep the prototype chain shallow to ensure efficient performance.
+        
+Common Pitfalls and Misunderstandings:
+    1. Forgetting to Use the new Keyword
+        When using constructor functions, omitting the new keyword can lead to unexpected behavior, as this may point to the global object.
+
+        function Person(name) {
+        this.name = name;
+        }
+
+        let person1 = new Person("John");  // Correct
+        let person2 = Person("Alice");  // Incorrect: `this` points to the global object
+
+    2. Shadowing Prototype Properties
+        Objects can shadow prototype properties by defining properties with the same name, which can sometimes lead to confusion.
+
+        let animal = {
+        type: "Mammal"
+        };
+
+        let dog = Object.create(animal);
+        dog.type = "Dog";  // Shadows the `type` property from the prototype
+
+        console.log(dog.type);  // "Dog" (shadowed property)
+    
+    3. Prototype Pollution
+        Prototype pollution occurs when an attacker manipulates the prototype of built-in objects like Object.prototype to inject malicious behavior.
+
+
+Practice Exercises:
+    Exercise 1: Create a Prototype Chain:
+
+        Create two objects: animal and dog. The dog object should inherit from animal and have its own bark() method. The animal object should have an eat() method that the dog object can also access.
+
+        let animal = {
+        eat: function() {
+            console.log("Eating...");
+        }
+        };
+
+        let dog = Object.create(animal);
+        dog.bark = function() {
+        console.log("Barking...");
+        };
+
+        dog.bark();  // Output: "Barking..."
+        dog.eat();   // Output: "Eating..." (inherited from animal)
+
+    
+    Exercise 2: Constructor Functions and Prototypes:
+
+        Write a constructor function Laptop that takes brand and model as arguments. Attach a showSpecs() method to Laptop.prototype to display the laptop's brand and model.
+
+        function Laptop(brand, model) {
+        this.brand = brand;
+        this.model = model;
+        }
+
+        Laptop.prototype.showSpecs = function() {
+        console.log(`Brand: ${this.brand}, Model: ${this.model}`);
+        };
+
+        let laptop1 = new Laptop("Dell", "Inspiron");
+        laptop1.showSpecs();  // Output: "Brand: Dell, Model: Inspiron"
+
+
+Summary:
+    JavaScript’s inheritance model is prototypal, where objects inherit directly from other objects.
+    Prototypes are objects that serve as blueprints for other objects, enabling inheritance.
+    The prototype chain allows objects to access properties and methods that are defined on their prototype or higher in the chain.
+    Constructor functions allow for object creation, and methods can be shared across instances via the prototype.
+    Best practices include using prototypes for shared methods, avoiding deep prototype chains for performance, and steering clear of modifying built-in prototypes.
