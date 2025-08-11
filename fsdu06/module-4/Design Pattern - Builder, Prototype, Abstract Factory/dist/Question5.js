@@ -24,7 +24,7 @@ class AppleFactory {
         if (type === 'Laptop') {
             return new AppleLaptop();
         }
-        else if (type === "phone") {
+        else if (type === "Phone") {
             return new ApplePhone();
         }
         throw new Error("Unknown Apple device type");
