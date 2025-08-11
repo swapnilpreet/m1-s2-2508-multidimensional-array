@@ -447,7 +447,7 @@ function Users() {
   );
 }
 
-export default Users;
+// export default Users;
 
 // Form with useState
 // Using useState to manage a form with nested state, such as a user's personal information and detailed address including coordinates, introduces complexity in handling updates:
@@ -585,7 +585,7 @@ function FormUseState() {
   );
 }
 
-export default FormUseState;
+// export default FormUseState;
 
 // Form with useReducer
 // Conversely, useReducer allows for a more organized and readable way to handle the same complex form state. By defining actions for each form field, including nested objects, we can simplify state updates:
@@ -763,4 +763,123 @@ function FormUseReducer() {
   );
 }
 
-export default FormUseReducer;
+// export default FormUseReducer;
+
+
+// Building a Counter with Redux Toolkit
+
+// Set Up the Redux Store:
+// Create a store.js file:
+
+// store.js
+import { configureStore } from '@reduxjs/toolkit';
+import counterReducer from './counterSlice';
+
+const store = configureStore({
+  reducer: {
+    counter: counterReducer,
+  },
+});
+
+// export default store;
+
+
+// Create a Counter Slice:
+// Create a counterSlice.js file:
+
+// counterSlice.js
+import { createSlice } from '@reduxjs/toolkit';
+
+export const counterSlice = createSlice({
+  name: 'counter',
+  initialState: {
+    value: 0,
+  },
+  reducers: {
+    increment: (state) => {
+      state.value += 1;
+    },
+    decrement: (state) => {
+      state.value -= 1;
+    },
+    reset: (state) => {
+      state.value = 0;
+    },
+    incrementByAmount: (state, action) => {
+      state.value += action.payload;
+    },
+  },
+});
+
+export const { increment, decrement, reset, incrementByAmount } = counterSlice.actions;
+
+// export default counterSlice.reducer;
+
+
+// Connect the Store to Your React Application:
+// Wrap your app in the Provider component in index.js:
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import { Provider } from 'react-redux';
+import store from './store';
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);
+
+// Create the Counter Component:
+
+// In Counter.js:
+
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { increment, decrement, reset, incrementByAmount } from './counterSlice';
+
+const Counter = () => {
+  const count = useSelector((state) => state.counter.value);
+  const dispatch = useDispatch();
+  const [incrementAmount, setIncrementAmount] = useState(0);
+
+  return (
+    <div>
+      <h1>Counter: {count}</h1>
+      <button onClick={() => dispatch(increment())}>Increment</button>
+      <button onClick={() => dispatch(decrement())}>Decrement</button>
+      <button onClick={() => dispatch(reset())}>Reset</button>
+      <div>
+        <input
+          type="number"
+          value={incrementAmount}
+          onChange={(e) => setIncrementAmount(Number(e.target.value))}
+        />
+        <button onClick={() => dispatch(incrementByAmount(incrementAmount))}>
+          Increment by {incrementAmount}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+// export default Counter;
+
+// Add the Counter Component to App.js:
+
+import React from 'react';
+import Counter from './Counter';
+
+function App() {
+  return (
+    <div className="App">
+      <Counter />
+    </div>
+  );
+}
+
+// export default App;
+

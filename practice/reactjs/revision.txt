@@ -845,8 +845,1419 @@ useReducer:
         Scalable State Management: As application complexity increases, useReducer maintains orderly and manageable state architecture.
     
     Benefits of Using useReducer for Form State
-
         Organized Code: Actions and reducer functions organize state update logic, making the code easier to understand and maintain.
         Enhanced Readability: Each action represents a specific state update, improving readability and making it easier to debug.
         Scalability: As form complexity grows, useReducer scales gracefully, keeping state updates manageable through defined actions and reducer logic.
         
+
+Redux:
+    Redux is a state management library often used with JavaScript applications. It provides a predictable state container for JavaScript apps, making it easier to manage the state of your application in a centralized and predictable way. The core principles of Redux involve a single source of truth (the store), state that is read-only (can only be changed by emitting actions), and changes made with pure functions (reducers).
+
+
+    Explain the implementation and initial setup of core redux:
+        Imnitial Setup
+            1. Create a react application
+            npm create vite@latest -- --template react
+        
+            1. install redux in your react application
+            npm install redux
+
+    
+    Implementing Redux:
+        1. Defining Action Types
+            Action types are constants that represent the actions in your application. They are strings that are used to ensure that there are no typos in action names.
+
+            const SET_THEME = "SET_THEME";
+        
+        2. Creating Reducers
+            Reducers are pure functions that take the current state and an action as arguments and return a new state. They describe how the state changes in response to actions sent to the store.
+
+            Theme Reducer:
+                 Manages the theme state of the application.
+            function themeReducer(state = "light-mode", action) {
+                switch (action.type) {
+                    case SET_THEME:
+                    return action.payload;
+                    default:
+                    return state;
+                }
+            }
+        
+        3. Creating the Store
+            The store is where your application's state lives. It's created using the createStore function from Redux, which takes the combined reducer as an argument.
+
+            const store = legacy_createStore(themeReducer);
+        
+        4. Dispatching Actions
+            Actions are objects that represent what happened and what needs to change in the application. Dispatching an action is the process of sending this object to the store to update the state.
+
+            function changeTheme(theme) {
+                store.dispatch({ type: SET_THEME, payload: theme });
+            }
+        
+        5. Subscribing to Store Changes
+            Subscription in Redux is a way to automatically run a certain piece of code whenever the store gets updated. This is usually used to re-render the UI. This will be needed to re-render the UI.
+
+            store.subscribe(() => /*Change any state to re-render*/);
+
+        
+        6. Create UI for event handling
+            <div>
+            <pre className="sidebar left-sidebar" id="userSidebar">
+                {JSON.stringify(store.getState())}
+            </pre>
+            <div className="main-content">
+                <div className="theme-switcher">
+                <button
+                    id="lightModeBtn"
+                    onClick={() => {
+                    changeTheme("light-mode");
+                    }}
+                >
+                    Light Mode
+                </button>
+                <button
+                    id="darkModeBtn"
+                    onClick={() => {
+                    changeTheme("dark-mode");
+                    }}
+                >
+                    Dark Mode
+                </button>
+                </div>
+            </div>
+            </div>
+
+    CombineReducers:
+        The combineReducers function in Redux allows you to combine multiple reducer functions into a single root reducer. It simplifies the process of managing complex application state by breaking down the state management logic into smaller, more manageable pieces. Here's a brief syntax and explanation of how to use combineReducers:
+
+        Syntax:
+            import { combineReducers } from "redux";
+
+            const rootReducer = combineReducers({
+            reducer1,
+            reducer2,
+            // Add more reducers as needed
+            });
+
+        Explanation:
+
+            Import the combineReducers function from the Redux library.
+            Create individual reducer functions (reducer1, reducer2, etc.) to handle different parts of the application state.
+            Use combineReducers to combine these individual reducer functions into a single root reducer (rootReducer).
+            The keys provided to combineReducers represent the keys in the resulting state object, while the values represent the reducer functions that manage the corresponding state slices.
+            The resulting rootReducer can then be passed to the Redux store when creating the store using createStore(rootReducer).
+            
+            By using combineReducers, you can organize and modularize your Redux state management logic more effectively, making it easier to maintain and scale your application as it grows.
+        
+
+        1. Create actiontypes
+            // Action Types
+            const SET_THEME = "SET_THEME";
+            const ADD_TO_CART = "ADD_TO_CART";
+            const UPDATE_USER = "UPDATE_USER";
+        
+        2. Create reducers
+            function themeReducer(state = "light-mode", action) {
+            switch (action.type) {
+                case SET_THEME:
+                return action.payload;
+                default:
+                return state;
+            }
+            }
+
+            // Cart Reducer
+            function cartReducer(state = [], action) {
+            switch (action.type) {
+                case ADD_TO_CART:
+                return [...state, action.payload];
+                default:
+                return state;
+            }
+            }
+
+            // User Reducer
+            function userReducer(state = { username: null, loggedIn: false }, action) {
+            switch (action.type) {
+                case UPDATE_USER:
+                return { ...state, ...action.payload };
+                default:
+                return state;
+            }
+            }
+        
+        3. Create rootReducer
+            // Combining reducers
+            const rootReducer = combineReducers({
+            theme: themeReducer,
+            cart: cartReducer,
+            user: userReducer,
+            });
+        
+        4. Create store and pass rootReducer
+            const store = legacy_createStore(rootReducer);
+
+        5. Create functions for dispatching
+            function App() {
+            const [reRender, setReRender] = useState(0);
+            const [itemName, setItemName] = useState("");
+            const [userName, setUserName] = useState("");
+
+            function changeTheme(theme) {
+                store.dispatch({ type: SET_THEME, payload: theme });
+            }
+
+            function addToCart() {
+                store.dispatch({ type: ADD_TO_CART, payload: itemName });
+                setItemName("");
+            }
+
+            function login() {
+                store.dispatch({
+                type: UPDATE_USER,
+                payload: { userName, loggedIn: true },
+                });
+                setUserName("");
+            }
+
+            function logout() {
+                store.dispatch({
+                type: UPDATE_USER,
+                payload: { username: "", loggedIn: false },
+                });
+            }
+
+            store.subscribe(() => {
+                setReRender((prev) => prev + 1);
+            });
+
+            return (
+                <>
+                <div>
+                    <pre className="sidebar left-sidebar" id="userSidebar">
+                    {JSON.stringify(store.getState())}
+                    {JSON.stringify(reRender)}
+                    </pre>
+                    <div className="main-content">
+                    <div className="theme-switcher">
+                        <button
+                        id="lightModeBtn"
+                        onClick={() => {
+                            changeTheme("light-mode");
+                        }}
+                        >
+                        Light Mode
+                        </button>
+                        <button
+                        id="darkModeBtn"
+                        onClick={() => {
+                            changeTheme("dark-mode");
+                        }}
+                        >
+                        Dark Mode
+                        </button>
+                    </div>
+                    </div>
+                    <div className="cart-adder">
+                    <input
+                        type="text"
+                        placeholder="Add to Cart"
+                        value={itemName}
+                        onChange={(e) => setItemName(e.target.value)}
+                    />
+                    <button id="addToCartBtn" onClick={addToCart}>
+                        Add to Cart
+                    </button>
+                    </div>
+
+                    <div className="login-logout">
+                    <input
+                        type="text"
+                        placeholder="Login"
+                        value={userName}
+                        onChange={(e) => setUserName(e.target.value)}
+                    />
+                    <button id="loginBtn" onClick={login}>
+                        Login
+                    </button>
+                    <button id="logoutBtn" onClick={logout}>
+                        Logout
+                    </button>
+                    </div>
+                </div>
+                </>
+            );
+            }
+
+            export default App;
+
+    Setting up React Redux:
+
+        Create Redux store: 
+            Create a Redux store where your application state will be managed. Typically, this involves defining reducers and creating the store.
+
+            import { createStore } from "redux";
+            const store = createStore(reducer); // pass the reducer
+
+        Define reducers: 
+            Define reducer functions to manage different parts of your application state.
+
+            // Theme Reducer
+            function themeReducer(state = "light-mode", action) {
+            switch (action.type) {
+                case SET_THEME:
+                return action.payload;
+                default:
+                return state;
+            }
+            }
+        
+        Set up React-Redux Provider: 
+            Wrap your root component with the Provider component from React-Redux to provide the Redux store to your React application.
+
+            // index.js
+            import React from "react";
+            import ReactDOM from "react-dom";
+            import { Provider } from "react-redux";
+            import store from "./store";
+            import App from "./App";
+
+            ReactDOM.render(
+            <Provider store={store}>
+                <App />
+            </Provider>,
+            document.getElementById("root")
+            );
+
+        
+        Dispatch actions from components to Redux: 
+            Use the useDispatch hook from React-Redux to dispatch your actions to the Redux store.
+
+            // ThemeSwitch Component
+            function ThemeSwitch() {
+            const dispatch = useDispatch();
+            return (
+                <div className="theme-switcher">
+                <button
+                    onClick={() =>
+                    dispatch({ type: "SET_THEME", payload: "light-mode" })
+                    }
+                >
+                    Light Mode
+                </button>
+                <button
+                    onClick={() => dispatch({ type: "SET_THEME", payload: "dark-mode" })}
+                >
+                    Dark Mode
+                </button>
+                </div>
+            );
+            }
+
+        
+        Use the state using useSelector hook:
+            function Sidebar() {
+            const themeState = useSelector((state) => state);
+
+            return (
+                <pre className="sidebar left-sidebar">
+                <strong>Theme State:</strong>
+                {JSON.stringify(themeState, null, 2)}
+                </pre>
+            );
+            }
+        
+    
+    Hooks provided by React-Redux:
+
+        useSelector:
+            useSelector hook allows you to extract data from the Redux store state.
+            It takes a selector function as an argument, which returns the desired data from the state.
+            It automatically subscribes to the Redux store, so it will re-render your component whenever the selected data changes.
+            
+            Example:
+            import React from "react";
+            import { useSelector } from "react-redux";
+
+            const CounterDisplay = () => {
+            const count = useSelector((state) => state.counter);
+
+            return <div>Count: {count}</div>;
+            };
+
+            export default CounterDisplay;
+
+        useDispatch:
+            useDispatch hook returns a reference to the dispatch function from the Redux store.
+            It allows you to dispatch actions directly from your functional components.
+            Example:
+
+            import React from "react";
+            import { useDispatch } from "react-redux";
+
+            const CounterButtons = () => {
+            const dispatch = useDispatch();
+
+            const increment = () => {
+                dispatch({ type: "INCREMENT" });
+            };
+
+            const decrement = () => {
+                dispatch({ type: "DECREMENT" });
+            };
+            return (
+                <div>
+                <button onClick={increment}>Increment</button>
+                <button onClick={decrement}>Decrement</button>
+                </div>
+            );
+            };
+            export default CounterButtons;
+        
+        useSelector and shallowEqual:
+
+            By default, useSelector uses strict equality (===) to compare the previous and current values of the selected data.
+            You can use shallowEqual from react-redux to perform shallow comparison instead, which can be more efficient for large objects or arrays.
+            Example:
+            import React from "react";
+            import { useSelector, shallowEqual } from "react-redux";
+            const CounterDisplay = () => {
+            const count = useSelector((state) => state.counter, shallowEqual);
+            return <div>Count: {count}</div>;
+            };
+            export default CounterDisplay;
+
+
+Organize a React-Redux codebase:
+    Organise the above example in the below given structure
+
+        ├── src/
+        │ ├── components/
+        │ │ ├── Cart.jsx
+        │ │ ├── Sidebar.jsx
+        │ │ ├── Theme.jsx
+        │ │ └── User.jsx
+        │ ├── redux
+        │ │ ├── actionTypes.js
+        │ │ ├── cart.js
+        │ │ ├── store.js
+        │ │ └── theme.js
+        │ │ └── user.js
+        │ └── App.js
+        │ └── index.js
+
+    
+    Async Actions & Thunk Middleware:
+
+        Pure reducers
+            Reducers should be pure functions
+            Be careful with deeply nested objects and spread operator
+            immer library may be a better option
+
+            ex.
+                import { produce } from "immer";
+
+                    // original state
+                    let originalUser = {
+                    username: "Deepak",
+                    skills: {
+                        technical: {
+                        coding: ["JS", "HTML", "CSS", "React"],
+                        },
+                        soft: {
+                        communication: "Great",
+                        },
+                    },
+                    };
+
+                    // Using immer
+                    let newUser = produce(originalUser, (original) => {
+                    original.skills.soft.communication = "badd";
+                    });
+
+                    // let newUser = {
+                    //   ...originalUser,
+                    //   skills: { ...originalUser.skills, soft: { ...originalUser.skills.soft } },
+                    // };
+
+                    // newUser.skills.soft.communication = "badd";
+
+                    // mutating not acceptable
+                    // let newUser = (originalUser.skills.soft.communication = "Bad");
+                    console.log("New User: ", newUser);
+                    console.log("Original User: ", originalUser);
+            
+        
+        Middleware:
+            Middleware in React refers to a mechanism that allows developers to intercept and modify the behavior of components or applications before they reach their final destination. In the context of Redux, middleware sits between the action dispatch and the store's reducer, enabling additional functionality to be applied to dispatched actions. This functionality can include logging, async operations, routing, and more.
+
+            Let's create a custom middleware and understand the structure of a middleware
+
+                const myMiddleWare = (store) => (next) => (action) => {
+                // store :- Store object (getState, dispatch)
+                // next :- dispatch
+                // action :- whatever action component is dispatching
+                if (typeof action === "function") {
+                    // getTodos(dispatch)
+                    return action(store.dispatch);
+                }
+                // dispatch({type: ADD})
+                return next(action);
+                };
+
+        Redux-Logger:
+            redux-logger is a middleware for Redux that logs actions and state changes to the console. It provides a convenient way to track the flow of actions and the resulting state changes in your Redux application, aiding in debugging and understanding how your application behaves over time.
+
+            Here's how redux-logger works:
+                Installation: 
+                    First, you need to install redux-logger using npm or yarn:
+
+                    npm install redux-logger
+                    # or
+                    yarn add redux-logger
+
+                Integration with Redux: 
+                    To use redux-logger, you need to apply it as middleware when creating your Redux store. Typically, you apply middleware using the applyMiddleware function provided by Redux.
+
+                    import { createStore, applyMiddleware } from "redux";
+                    import logger from "redux-logger";
+                    import rootReducer from "./reducers";
+
+                    const store = createStore(rootReducer, applyMiddleware(logger));
+
+                Logging Output: 
+                    Once integrated into your Redux store, redux-logger will automatically log actions and state changes to the console. It provides clear and informative output, including the action type, payload, and the previous and current state after each action is dispatched.
+
+                    Example output:
+
+                    action @ 09:55:36.463  INCREMENT
+                    prev state { count: 0 }
+                    action     { type: 'INCREMENT' }
+                    next state { count: 1 }
+
+                    action @ 09:55:36.474  DECREMENT
+                    prev state { count: 1 }
+                    action     { type: 'DECREMENT' }
+                    next state { count: 0 }
+
+        Async actions with redux-thunk:
+            Thunk middleware is a Redux middleware that enables handling asynchronous logic in Redux actions. It allows you to write action creators that return functions instead of plain objects, which is the typical pattern in Redux. These functions, known as thunks, can perform asynchronous operations such as fetching data from a server, and then dispatching regular synchronous actions with the fetched data once the asynchronous operation is complete.
+
+            Here's how thunk middleware works:
+                Installation: 
+                    First, you need to install redux-thunk using npm or yarn:
+                    npm install redux-thunk
+
+                Integration with Redux: 
+                    To use thunk middleware, you need to apply it as middleware when creating your Redux store. Typically, you apply middleware using the applyMiddleware function provided by Redux.
+
+                    import { createStore, applyMiddleware } from "redux";
+                    import thunk from "redux-thunk";
+                    import rootReducer from "./reducers";
+
+                    const store = createStore(rootReducer, applyMiddleware(thunk));
+                
+                Writing Thunk Action Creators: 
+                    Thunk action creators are functions that return another function. This inner function receives dispatch and getState as arguments and can perform asynchronous operations before dispatching actions.
+
+                    // Action creator using thunk
+                    const fetchUserData = (userId) => {
+                    return async (dispatch, getState) => {
+                        try {
+                        const response = await fetch(
+                            `https://api.example.com/users/${userId}`
+                        );
+                        const userData = await response.json();
+                        dispatch({ type: "FETCH_USER_SUCCESS", payload: userData });
+                        } catch (error) {
+                        dispatch({ type: "FETCH_USER_FAILURE", payload: error.message });
+                        }
+                    };
+                    };
+                
+                Dispatching Thunk Actions: 
+                    Thunk actions are dispatched like regular actions, using the dispatch function provided by Redux.
+
+                    import { useDispatch } from "react-redux";
+                    import { fetchUserData } from "./actions";
+
+                    const UserComponent = ({ userId }) => {
+                    const dispatch = useDispatch();
+
+                    useEffect(() => {
+                        dispatch(fetchUserData(userId));
+                    }, [dispatch, userId]);
+
+                    // Component logic...
+                    };
+                
+                Thunk middleware enables you to write more expressive and powerful action creators in Redux, allowing you to handle complex asynchronous logic within your Redux actions while keeping your codebase clean and maintainable.
+
+More on Redux:
+    Redux vs. Context API:
+
+        1. Introduction:
+            Redux and Context API are both tools that can be used for state management in React applications. However, they are designed for different use cases and have distinct characteristics.
+        
+
+        2. Purpose and Use Cases:
+
+            Redux:
+                Redux is a powerful state management library designed for managing global state across complex applications.
+                It is best suited for applications with complex state logic, where the state needs to be accessed and updated across multiple components and potentially by different slices of state.
+                Ideal for large-scale applications where predictable state management is crucial.
+
+            Context API:
+                Context API is a built-in feature of React that allows you to pass data through the component tree without having to pass props manually at every level.
+                It is best suited for simpler state management tasks, such as theme toggling, user authentication status, or passing configuration data that doesn’t change frequently.
+                Ideal for small to medium-sized applications or when the state doesn’t need to be updated frequently.
+            
+
+        3. How They Work:
+
+            Redux:
+                Redux relies on a central store that holds the global state. Components can access the state via mapStateToProps or using hooks like useSelector.
+
+                State changes are handled via actions and reducers. Actions describe what happened, and reducers specify how the state should change in response to those actions.
+
+                Middleware (like redux-thunk or redux-saga) can be added to handle asynchronous logic or side effects.
+
+                Example (Basic Flow):
+
+                // Action
+                const increment = () => ({ type: 'INCREMENT' });
+
+                // Reducer
+                const counterReducer = (state = 0, action) => {
+                switch (action.type) {
+                    case 'INCREMENT':
+                    return state + 1;
+                    default:
+                    return state;
+                }
+                };
+
+                // Store
+                const store = createStore(counterReducer);
+
+            Context API:
+                Context API relies on Context objects created using React.createContext.
+
+                The context provides a Provider component that allows components to access the context value.
+
+                Components within the provider can consume the context value using the useContext hook.
+
+                Example:
+
+                const ThemeContext = React.createContext();
+
+                function App() {
+                return (
+                    <ThemeContext.Provider value="dark">
+                    <Toolbar />
+                    </ThemeContext.Provider>
+                );
+                }
+
+                function Toolbar() {
+                const theme = useContext(ThemeContext);
+                return <div className={`toolbar ${theme}`}>Toolbar with {theme} theme</div>;
+                }
+            
+        4. State Management:
+            Redux:
+                Centralized state management with a single source of truth (the store).
+                Suitable for complex state that needs to be shared and updated across various parts of the application.
+            Context API:
+                Decentralized state management. Each context can handle its state, making it more modular but potentially harder to manage as the application grows.
+            
+        5. Performance Considerations:
+
+            Redux:
+                Optimized for performance with techniques like memoization and selectors, ensuring that only the components that need to re-render do so.
+                Suitable for large applications with complex state logic and frequent updates.
+
+            Context API:
+                Can lead to unnecessary re-renders if not used carefully. When a context value changes, all components consuming that context will re-render, potentially leading to performance issues in large applications.
+        
+        6. When to Use Which:
+
+            Redux:
+                Use Redux when:
+                    The application has complex and large state management needs.
+                    State needs to be shared across many components.
+                    Predictability and debugging are crucial (Redux DevTools).
+                    You need to implement complex logic like optimistic updates or middleware for side effects.
+
+            Context API:
+                Use Context API when:
+                    The application is relatively simple with a small to medium size.
+                    You need to pass data through the component tree without involving many components.
+                    The state is not frequently updated, or the state is relatively static.
+            
+        7. Redux with Context API:
+
+                In some cases, developers use both Redux and Context API together. For example, Redux might be used for global state management, while Context API is used for specific UI-related data like theming or localization.
+
+        8. Conclusion:
+
+                Redux and Context API both have their strengths and weaknesses. The choice between them depends on the specific needs and complexity of the application. For large-scale, complex applications, Redux is often the preferred choice. For simpler, smaller applications or specific use cases like theme toggling, the Context API may be more appropriate.
+
+
+Redux Toolkit:
+    Introduction to Redux Toolkit:
+
+    What is Redux Toolkit?
+        Redux Toolkit is the official recommended approach for writing Redux logic, designed to address the pain points of traditional Redux by simplifying setup, reducing boilerplate, and providing powerful tools for state management.
+        It's designed to help developers quickly build scalable, efficient, and maintainable Redux applications.
+    
+    Why Use Redux Toolkit?
+
+        Simplified Configuration:
+            With configureStore, Redux Toolkit provides a streamlined setup that automatically includes common middleware like redux-thunk and integrates with Redux DevTools. This eliminates the need to manually configure these, reducing setup time.
+        Reduced Boilerplate:
+            Traditional Redux involves writing a lot of boilerplate code (action types, action creators, switch statements in reducers). Redux Toolkit's createSlice simplifies this by allowing you to define the initial state, reducers, and actions in a single place, reducing the amount of code you need to write.
+        Built-in Best Practices:
+            Redux Toolkit encourages the use of best practices by providing out-of-the-box solutions for common tasks. This ensures that your code is following modern standards and patterns, which can be crucial for maintainability in larger projects.
+        
+    
+    Core Features of Redux Toolkit:
+
+        configureStore:
+            Purpose: Simplifies store setup by automatically combining reducers, applying middleware, and enabling DevTools.
+
+            What to Look For:
+
+                Notice how configureStore reduces the need for manual configuration.
+                Look for the automatic integration of Redux DevTools in your browser, allowing you to inspect the state and actions.
+
+            Expected Output:
+
+                A Redux store that’s ready to use with all necessary middleware applied.
+                Example:
+
+                import { configureStore } from '@reduxjs/toolkit';
+                import rootReducer from './reducers';
+
+                const store = configureStore({
+                reducer: rootReducer,
+                });
+
+                export default store;
+
+            Explanation:
+
+                Here, configureStore creates a Redux store with the provided rootReducer. If you open Redux DevTools in your browser, you’ll see your store’s state and actions being tracked automatically, without any additional configuration needed.
+        
+        createSlice:
+            Purpose: Merges the concepts of reducers and actions into a single function, reducing the complexity of managing state.
+
+            What to Look For:
+
+                Observe how createSlice eliminates the need for separate action creators and action types.
+                Check how the state is mutated directly within the reducer functions, thanks to the Immer library, which handles immutability under the hood.
+            
+            Expected Output:
+
+                A slice of state that includes the reducer logic and automatically generated action creators.
+                Example:
+
+                import { createSlice } from '@reduxjs/toolkit';
+
+                const counterSlice = createSlice({
+                name: 'counter',
+                initialState: { value: 0 },
+                reducers: {
+                    increment: state => { state.value += 1 },
+                    decrement: state => { state.value -= 1 },
+                },
+                });
+
+                export const { increment, decrement } = counterSlice.actions;
+                export default counterSlice.reducer;
+            
+            Explanation:
+
+                In this example, createSlice handles everything from state definition to action creation. If you dispatch increment(), Redux Toolkit will automatically update the state immutably, even though the code looks like it’s mutating the state directly. This is because createSlice uses Immer under the hood to ensure that immutability is maintained.
+
+        createAsyncThunk:
+            Purpose: Manages asynchronous logic like API calls in Redux, simplifying the handling of loading states and errors.
+
+            What to Look For:
+                Notice how createAsyncThunk automatically generates actions for different states of the async operation (pending, fulfilled, rejected).
+                Look for the concise handling of API calls without needing to write additional boilerplate for actions and reducers.
+                Expected Output:
+
+                An action creator that handles async logic and updates state based on the API call's outcome.
+
+            Example:
+                import { createAsyncThunk } from '@reduxjs/toolkit';
+                import axios from 'axios';
+
+                export const fetchUser = createAsyncThunk('users/fetchUser', async (userId) => {
+                const response = await axios.get(`/api/user/${userId}`);
+                return response.data;
+                });
+
+            Explanation:
+                This example shows how createAsyncThunk can be used to fetch a user’s data. When you dispatch fetchUser, Redux will automatically handle the loading state, success, and failure cases, updating the Redux store accordingly.
+
+        createEntityAdapter:
+            Purpose: Simplifies the management of normalized state, especially when working with collections of items.
+
+            What to Look For:
+
+                Check how createEntityAdapter simplifies operations like adding, updating, or removing items in a collection.
+                Observe how it keeps the state normalized by default, which is beneficial for performance and scalability.
+                Expected Output:
+
+                An adapter object with predefined methods to manage collections of entities.
+            
+            Example:
+
+                import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+
+                const usersAdapter = createEntityAdapter();
+
+                const usersSlice = createSlice({
+                name: 'users',
+                initialState: usersAdapter.getInitialState(),
+                reducers: {
+                    addUser: usersAdapter.addOne,
+                    updateUser: usersAdapter.updateOne,
+                    removeUser: usersAdapter.removeOne,
+                },
+                });
+
+                export const { addUser, updateUser, removeUser } = usersSlice.actions;
+                export default usersSlice.reducer;
+            
+            Explanation:
+                createEntityAdapter provides methods like addOne, updateOne, and removeOne, making it easier to manage a normalized state. This is particularly useful when dealing with large datasets.
+
+    Benefits of Using Redux Toolkit:
+        Streamlined Development Process:
+            Reduces the amount of code you need to write, making development faster and less error-prone.
+        Automatic Best Practices:
+            Encourages best practices like immutability and normalized state management without requiring you to manually implement these patterns.
+        Seamless Async Handling:
+            Simplifies the process of handling asynchronous actions with built-in tools like createAsyncThunk.
+
+    
+    Redux DevTools Integration:
+
+        What It Does:
+            Redux DevTools is a powerful browser extension that allows you to inspect every action that’s dispatched, the state changes that occur, and even time travel to previous states.
+        How It Works:
+            With Redux Toolkit’s configureStore, DevTools is automatically set up. You can see the current state, inspect dispatched actions, and even revert to a previous state if needed.
+        Expected Output:
+            A visual interface in your browser that helps you debug your Redux state with ease.
+
+    Example Project Overview:
+
+        Scenario:
+            Imagine you’re building an e-commerce application where users can view products, add them to their cart, and make purchases.
+
+        How Redux Toolkit Helps:
+            createSlice: Manage product and cart state with less code and better organization.
+            createAsyncThunk: Handle fetching product details from an API without writing custom middleware.
+            configureStore: Set up your store with Redux DevTools integration to help debug the state and actions.
+
+        Expected Output:
+            A streamlined application with easily maintainable code, thanks to Redux Toolkit’s features.
+    
+    What are the key benefits of using Redux Toolkit over traditional Redux?
+        Answer: Redux Toolkit simplifies Redux setup by providing utilities like createSlice and configureStore, which reduce boilerplate code and improve development speed. It also includes built-in support for Redux DevTools and middleware, making it easier to manage state and debug applications.
+    How does Redux Toolkit handle asynchronous actions?
+        Answer: Redux Toolkit uses middleware like Redux Thunk to handle asynchronous actions. It allows actions to return functions instead of plain objects, enabling asynchronous operations such as API calls. This middleware integrates seamlessly with the Redux store to handle async logic effectively.
+    What is the main difference between Redux and React Context API?
+        Answer: Redux is a state management library that provides a centralized store and complex state management capabilities with support for middleware and dev tools. React Context API is a built-in feature of React for passing data through the component tree without prop drilling, but it is less suited for managing complex global state compared to Redux.
+    How does useReducer compare to useState for managing component state?
+        Answer: useReducer is preferred over useState when dealing with complex state logic or multiple state transitions. It centralizes state logic in a reducer function and allows actions to describe state changes, making it easier to manage and update state in a predictable manner. useState is suitable for simpler state scenarios.
+    Explain the role of middleware in Redux and give an example of how you would use it in an application.?
+        Answer: Middleware in Redux intercepts actions before they reach the reducer, allowing for additional processing such as logging, handling async actions, or modifying actions. An example is Redux Thunk, which enables action creators to return functions instead of plain objects, facilitating asynchronous operations like API calls.
+
+
+MVC vs Flux vs Redux: Decoding Data Flow in Web Apps:
+
+    MVC (Model-View-Controller):
+        MVC, a popular architecture for building web apps, organizes code into 3 interconnected parts: Model (data), View (user interface), and Controller (logic). Data flows bidirectionally: Views capture user input and send it to Controllers; Controllers update the Model; the Model notifies Controllers of changes, prompting them to update Views. 
+
+        Views are generally kept separate and independent from Models. The interaction between Views and Models happens through Controller. *But, some frameworks or implementations might support direct data binding between the View and Model, allowing for automatic updates without explicit controller intervention. Data flow can also be asynchronous, with events and updates happening over time, often triggered by external factors like server responses or user actions.*
+
+
+
+        Bi-directional Data flow in MVC:
+            Components:
+                 Model:
+                     Encapsulates the application's data and business logic.
+                     Contains multiple model objects, each representing a distinct data domain.
+                     Manages data consistency and integrity.
+                     Triggers change notifications to alert interested parties about data updates.
+                 Controller:
+                     Orchestrates user interactions and application logic.
+                     Has the ability to access and update data across multiple model objects as needed.
+                     Listens to model change notifications and initiates appropriate responses.
+                     Coordinates updates to views to reflect changes in the model.
+                 View:
+                     Presents the application's data and interface to the user.
+                     Handles user actions and input events.
+                     Relays user interactions to the controller for processing.
+
+                Connections and Interactions:
+
+                1. User Interacts with View:
+                     The user initiates an action within the view (e.g., clicks a button, submits a form).
+                     The view captures the user's interaction and sends a request to the controller.
+                2. Controller Handles Request and Updates Models:
+                     The controller receives the request from the view.
+                     It interacts with the relevant model objects to fetch, update, or create data as required by the request's logic.
+                     This may involve accessing and modifying multiple models within a single controller action.
+                3. Model Emits Change Notifications:
+                     Upon any data modification, the model triggers change notifications.
+                     These notifications are broadcast to all interested controllers, informing them about the model updates.
+                     Multiple controllers can listen to the same model and react accordingly.
+                4. Controller Responds to Model Changes and Updates View:
+                     Controllers that receive change notifications assess the updated model state.
+                     They initiate necessary actions based on the changes, potentially involving further model interactions or view updates.
+                     The controller sends updated data or instructions to the view to reflect the current model state.
+                     The view renders itself accordingly, presenting the updated information to the user.
+
+                Key Points:
+
+                 Controllers act as intermediaries between views and models, facilitating data flow and communication.
+                 Controllers can coordinate actions across multiple models within a single operation, enabling complex data management.
+                 Models can notify multiple controllers about changes, ensuring consistency and synchronization across different application components.
+                 This architecture promotes separation of concerns, resulting in more maintainable, testable, and adaptable code.
+
+    Flux:
+        Flux, an architectural pattern for building user interfaces, emphasizes unidirectional data flow and clear separation of concerns to manage application state predictably and efficiently.
+
+        Flux is an architectural pattern that emphasizes a unidirectional flow of data and clear separation of concerns in web application development. It introduces four main parts: actions, dispatcher, stores, and views. Actions describe intended changes to the application state, which are dispatched through a central hub called the dispatcher. Stores hold specific parts of the application state and update themselves in response to actions. Views subscribe to store changes and update themselves accordingly. This unidirectional data flow simplifies state management, improves predictability, and enhances scalability and testability in complex web applications.
+
+
+        Uni-directional data flow in Flux:
+            Key Parts:
+
+                 Actions: Plain objects that describe intended changes to the application state, triggered by user interactions or events.
+                 Dispatcher: A central hub that receives all actions and broadcasts them to registered stores.
+                 Stores: Independent containers that hold specific parts of the application state. They listen for actions from the dispatcher and update themselves accordingly, ensuring a single source of truth for each data domain.
+                 Views: UI components that reflect the state from stores. They subscribe to store changes and update themselves passively, maintaining a unidirectional flow of data.
+
+                Data Flow:
+
+                1. Views trigger actions in response to user interactions.
+                2. Actions are dispatched through the dispatcher.
+                3. Stores listen for relevant actions and update their state accordingly.
+                4. Views rerender based on the updated state from stores, ensuring consistency across the UI.
+
+                Benefits:
+
+                 Predictable State Updates: Unidirectional flow makes state changes easier to reason about, debug, and test.
+                 Clear Separation of Concerns: Distinct roles for actions, stores, and views promote modularity and maintainability.
+                 Improved Testability: Isolated stores can be tested independently.
+                 Enhanced Scalability: Manages complex application state effectively.
+        
+    Redux:
+        Redux is an implementation of Flux with a single-store (single source of truth) approach & a reducer function. Its uni-directional, predictable way to mange state. Just change the state in the store and all the UI will take care of itself.
+
+        Redux uses a "one-way data flow" app structure
+
+            State describes the condition of the app at a point in time, and UI renders based on that state
+            When something happens in the app:
+                The UI dispatches an action
+                The store runs the reducers, and the state is updated based on what occurred
+                The store notifies the UI that the state has changed
+            The UI re-renders based on the new state
+
+    
+    Comparing MVC, Flux, and Redux:
+        Feature                  	MVC                          	Flux	                                                    Redux
+        Data Flow                	Bidirectional                   Unidirectional                           	                Unidirectional
+        State Management            Distributed among models        Centralized in stores                    	                Centralized in a single store
+        Store/Model Updates         Models notify views directly    Stores notify views when data changes   	                State updates through reducers,views subscribe to store changes
+        Data Mutability             Mutable state                	Mutable state                           	                Immutable state
+        Stores/Models               Multiple models              	Multiple stores (but don't affect each other)               Single store
+        Controllers                	Mediates between view 	        Replaced by the dispatcher                               	No controllers; logic contained in reducers
+                                    and model
+        Complexity                	Can become high with 	        Managed by unidirectional data flow                        	Further reduced by strict principles
+                                    many views and models
+        Predictability              Lower predictability with   	Higher predictability with unidirectional data flow         Highest predictability with strict update patterns
+                                     bidirectional data flow  
+        Actions                	    Not typically used           	Central concept for triggering updates                   	Central concept, defined as plain objects
+                                    as a standalone concept
+        Debugging                	Can be difficult            	Easier with clear data flow                              	Easiest with time-travel debugging and state traceability
+                                    intertwined updates 
+        Scalability                	Challenging with complex    	Better scalability                                      	Best scalability
+                                    applications
+        Learning Curve              Moderate                    	Steeper than MVC                                        	Steeper due to new concepts like reducers and immutability
+    
+
+    Let's take a moment to compare these three architectures side by side with our examples in mind:
+
+        MVC: 
+            Our complex social media app with MVC would have models for users and posts, each with potentially many views that can lead to intricate updates. It's like a busy intersection with traffic going every which way.
+        Flux: 
+            Transitioning to Flux, we introduced a one-way street, controlling the traffic flow and reducing accidents. Actions flow through a dispatcher to update stores, and views update themselves in response.
+        Redux: 
+            Redux goes a step further, turning our one-way street into a superhighway with clear signage. There's just one store, and every change in state travels through it in a predictable manner thanks to pure reducers.
+
+
+
+Advanced Concepts in React: Custom Hooks and Rules of Hooks:
+    Introduction
+        React's Hooks enable powerful, reusable logic in functional components. However, React enforces strict rules called the Rules of Hooks to ensure predictable behavior and prevent bugs. Beyond React's built-in Hooks, developers can create Custom Hooks to encapsulate logic for reusability and maintainability.
+
+        Custom Hooks simplify code, promote modularity, and allow the sharing of logic across components. This session covers both Rules of Hooks and building practical Custom Hooks.
+
+    
+    Section 1: Rules of Hooks:
+
+        The Two Rules
+            Call Hooks at the Top Level:
+            Hooks must be invoked in the same order in every render.
+            Avoid calling them inside loops, conditions, or nested functions.
+            Why: React relies on consistent Hook calls to manage state and lifecycle logic properly.
+            Only Call Hooks from React Functions:
+            Hooks must be called within functional components or custom Hooks.
+            Why: Hooks depend on React's rendering context for proper behavior.
+
+        
+        Examples: Correct vs Incorrect Usage
+            Incorrect: Calling Hooks Conditionally
+
+                function MyComponent() {
+                const [count, setCount] = useState(0);
+                if (count > 0) {
+                    useEffect(() => console.log("Count > 0"), [count]); // Violates rule
+                }
+                }
+            Correct: Calling Hooks at the Top Level
+
+                function MyComponent() {
+                const [count, setCount] = useState(0);
+                useEffect(() => {
+                    if (count > 0) console.log("Count > 0");
+                }, [count]);
+                }
+            Key Takeaways
+                Always place Hooks at the top level of your function component.
+                Never call Hooks inside loops, conditions, or nested functions.
+                Call Hooks only in React functional components or custom Hooks.
+
+        Section 2: Custom Hooks:
+            What Are Custom Hooks?
+                Functions starting with use that encapsulate logic using other Hooks.
+                Promote reuse, modularity, and readability.
+
+            When to Use Custom Hooks
+                Logic is repeated across components.
+                Logic involves state or side effects (useState, useEffect, etc.).
+        
+
+        Examples of Custom Hooks
+            1. useDebounce
+                Purpose: Delays the execution of a function, often used in search or API call scenarios.
+
+                Implementation
+
+                import { useRef } from "react";
+
+                export const useDebounce = (callback, delay) => {
+                const timeoutRef = useRef(null);
+
+                const debounce = (...args) => {
+                    if (timeoutRef.current) {
+                    clearTimeout(timeoutRef.current);
+                    }
+                    timeoutRef.current = setTimeout(() => {
+                    callback(...args);
+                    }, delay);
+                };
+
+                return debounce;
+                };
+            
+                Usage
+                const SearchComponent = () => {
+                const [query, setQuery] = useState("");
+                const debouncedSearch = useDebounce((searchTerm) => {
+                    console.log(`Searching for: ${searchTerm}`);
+                }, 500);
+
+                return (
+                    <input
+                    type="text"
+                    onChange={(e) => {
+                        setQuery(e.target.value);
+                        debouncedSearch(e.target.value);
+                    }}
+                    placeholder="Search..."
+                    />
+                );
+                };
+
+            2. useLocalStorage
+                Purpose: Manage and persist state in localStorage.
+                Implementation
+                import { useState, useEffect } from "react";
+                export const useLocalStorage = (key, initialValue) => {
+                const [storedValue, setStoredValue] = useState(() => {
+                    const item = window.localStorage.getItem(key);
+                    return item ? JSON.parse(item) : initialValue;
+                });
+
+                useEffect(() => {
+                    window.localStorage.setItem(key, JSON.stringify(storedValue));
+                }, [key, storedValue]);
+
+                return [storedValue, setStoredValue];
+                };
+                Usage
+
+                const NameComponent = () => {
+                const [name, setName] = useLocalStorage("name", "");
+
+                return (
+                    <input
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Enter name"
+                    />
+                );
+                };
+
+            
+            3. useFetch
+                Purpose: Fetch data from APIs with loading and error states.
+
+                Implementation
+
+                import { useState, useEffect } from "react";
+
+                export const useFetch = (url) => {
+                const [data, setData] = useState(null);
+                const [isLoading, setIsLoading] = useState(true);
+                const [isError, setIsError] = useState(false);
+
+                useEffect(() => {
+                    const fetchData = async () => {
+                    try {
+                        const response = await fetch(url);
+                        if (!response.ok) throw new Error("Fetch error");
+                        const result = await response.json();
+                        setData(result);
+                    } catch {
+                        setIsError(true);
+                    } finally {
+                        setIsLoading(false);
+                    }
+                    };
+
+                    fetchData();
+                }, [url]);
+
+                return { data, isLoading, isError };
+                };
+                Usage
+
+                const TodosComponent = () => {
+                const { data: todos, isLoading, isError } = useFetch(
+                    "https://jsonplaceholder.typicode.com/todos?_limit=5"
+                );
+
+                if (isLoading) return <p>Loading...</p>;
+                if (isError) return <p>Error loading data.</p>;
+
+                return (
+                    <ul>
+                    {todos.map((todo) => (
+                        <li key={todo.id}>{todo.title}</li>
+                    ))}
+                    </ul>
+                );
+                };
+
+            
+            
+React Performance Optimization: useMemo, useCallback, and React.memo:
+    1. useMemo
+        Introduction
+        useMemo is a React hook that memoizes the return value of a function to prevent expensive recalculations on every render. It is useful when performing heavy computations that depend on specific state or props.
+
+        When to Use
+        To avoid re-computation of derived values on every render unless dependencies change.
+        In components with heavy calculations or expensive operations.
+
+        Example: Memoizing a Derived Value
+        Problem Without useMemo:
+
+        const ExpensiveComponent = () => {
+        const [amount, setAmount] = useState(0);
+        const [age, setAge] = useState(25);
+
+        const calculateInINR = (num) => {
+            console.log("Converting...");
+            return num * 80;
+        };
+
+        const amountInINR = calculateInINR(amount);
+
+        return (
+            <div>
+            <p>Amount in INR: {amountInINR}</p>
+            <button onClick={() => setAmount(amount + 1)}>Increment Amount</button>
+            <button onClick={() => setAge(age + 1)}>Increment Age</button>
+            </div>
+        );
+        };
+        Issue: The calculateInINR function runs every time the component re-renders, even if the amount hasn’t changed.
+
+        Solution Using useMemo:
+        const ExpensiveComponent = () => {
+        const [amount, setAmount] = useState(0);
+        const [age, setAge] = useState(25);
+
+        const calculateInINR = (num) => {
+            console.log("Converting...");
+            return num * 80;
+        };
+
+        const amountInINR = useMemo(() => calculateInINR(amount), [amount]);
+
+        return (
+            <div>
+            <p>Amount in INR: {amountInINR}</p>
+            <button onClick={() => setAmount(amount + 1)}>Increment Amount</button>
+            <button onClick={() => setAge(age + 1)}>Increment Age</button>
+            </div>
+        );
+        };
+        Benefit: The calculateInINR function is only executed when the amount changes.
+
+    
+    2. React.memo
+        Introduction
+        React.memo is a higher-order component (HOC) that memoizes the rendered output of a functional component, preventing unnecessary re-renders when props haven’t changed.
+
+        When to Use
+        When a functional component renders frequently with the same props.
+        To optimize components that perform complex rendering.
+
+
+        Example: Avoiding Unnecessary Re-Renders
+            Without React.memo:
+
+            const Child = ({ name }) => {
+            console.log("Child renders");
+            return <p>Name: {name}</p>;
+            };
+
+            const Parent = () => {
+            const [age, setAge] = useState(25);
+
+            return (
+                <div>
+                <Child name="John" />
+                <button onClick={() => setAge(age + 1)}>Increment Age</button>
+                </div>
+            );
+            };
+            Issue: The Child component re-renders whenever Parent re-renders, even though its name prop hasn’t changed.
+
+            With React.memo:
+
+            const Child = React.memo(({ name }) => {
+            console.log("Child renders");
+            return <p>Name: {name}</p>;
+            });
+
+            const Parent = () => {
+            const [age, setAge] = useState(25);
+
+            return (
+                <div>
+                <Child name="John" />
+                <button onClick={() => setAge(age + 1)}>Increment Age</button>
+                </div>
+            );
+            };
+            Benefit: The Child component only re-renders if its name prop changes.
+
+    3. useCallback
+        Introduction
+        useCallback is a React hook that memoizes a callback function, preventing it from being re-created unnecessarily. It ensures the same function reference is passed down to child components unless dependencies change.
+
+        When to Use
+        When passing callback functions to child components.
+        To prevent unnecessary re-renders of React.memo-wrapped components.
+
+
+        Example: Memoizing Callback Functions
+            Problem Without useCallback:
+
+            const Child = React.memo(({ increment }) => {
+            console.log("Child renders");
+            return <button onClick={increment}>Increment</button>;
+            });
+
+            const Parent = () => {
+            const [count, setCount] = useState(0);
+
+            const increment = () => setCount(count + 1);
+
+            return (
+                <div>
+                <p>Count: {count}</p>
+                <Child increment={increment} />
+                </div>
+            );
+            };
+            Issue: The Child component re-renders because a new increment function is created on every render of Parent.
+
+        
+        Solution Using useCallback:
+            const Child = React.memo(({ increment }) => {
+            console.log("Child renders");
+            return <button onClick={increment}>Increment</button>;
+            });
+
+            const Parent = () => {
+            const [count, setCount] = useState(0);
+
+            const increment = useCallback(() => setCount((prev) => prev + 1), []);
+
+            return (
+                <div>
+                <p>Count: {count}</p>
+                <Child increment={increment} />
+                </div>
+            );
+            };
+            Benefit: The increment function reference remains the same unless the dependencies change, preventing unnecessary re-renders.
+
+    
+        Performance Optimization in Practice
+            Scenario: Optimizing a Search Filter
+            Problem: Filtering a list of products on every keystroke without optimization.
+
+            Optimized Solution Using useMemo:
+
+            const ProductFilter = () => {
+            const [query, setQuery] = useState("");
+            const products = [
+                "Laptop",
+                "Smartphone",
+                "Tablet",
+                "Headphones",
+                "Smartwatch",
+            ];
+
+            const filteredProducts = useMemo(() => {
+                return products.filter((product) =>
+                product.toLowerCase().includes(query.toLowerCase())
+                );
+            }, [query]);
+
+            return (
+                <div>
+                <input
+                    type="text"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder="Search products"
+                />
+                <ul>
+                    {filteredProducts.map((product) => (
+                    <li key={product}>{product}</li>
+                    ))}
+                </ul>
+                </div>
+            );
+            };
+
+    
+    React Lazy Loading:
+        What is Lazy Loading?
+            Lazy loading allows components to load only when needed, reducing the initial JavaScript bundle size.
+
+            Inefficient Code Example
+            import Analytics from "./Analytics";
+            import Reports from "./Reports";
+
+            const App = () => {
+                return (
+                    <div>
+                        <h1>Dashboard</h1>
+                        <Analytics />
+                        <Reports />
+                    </div>
+                );
+            };
+            export default App;
+
+            Efficient Code Using Lazy Loading
+            import React, { lazy, Suspense } from "react";
+
+            const Analytics = lazy(() => import("./Analytics"));
+            const Reports = lazy(() => import("./Reports"));
+
+            const App = () => {
+                return (
+                    <div>
+                        <h1>Dashboard</h1>
+                        <Suspense fallback={<h2>Loading...</h2>}>
+                            <Analytics />
+                            <Reports />
+                        </Suspense>
+                    </div>
+                );
+            };
+            export default App;
+
+    What is Code Splitting?:
+        Code splitting allows React apps to load JavaScript only when needed, optimizing performance by reducing initial bundle size.
+
+        Inefficient Code Example
+            import Home from "./Home";
+            import About from "./About";
+
+            const App = () => {
+                return (
+                    <div>
+                        <Home />
+                        <About />
+                    </div>
+                );
+            };
+            export default App;
+
+        Efficient Code Using Code Splitting
+            import React, { lazy, Suspense } from "react";
+            import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+            const Home = lazy(() => import("./Home"));
+            const About = lazy(() => import("./About"));
+
+            const App = () => {
+                return (
+                    <Router>
+                        <Suspense fallback={<h2>Loading Page...</h2>}>
+                            <Routes>
+                                <Route path="/" element={<Home />} />
+                                <Route path="/about" element={<About />} />
+                            </Routes>
+                        </Suspense>
+                    </Router>
+                );
+            };
+            export default App;
+
+    Summary
+    Optimization Tool          	Purpose             	When to Use
+    useMemo         	Memoize expensive computations	Heavy calculations, derived state
+    React.memo        	Memoize component rendering  	Prevent re-renders when props haven’t changed
+    useCallback      	Memoize callback functions   	Prevent unnecessary re-creation of callback functions
+
+    

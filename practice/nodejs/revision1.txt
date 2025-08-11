@@ -1,0 +1,1248 @@
+MongoDB Aggregation and Analytics API with Mongoose:
+
+    Introduction to Aggregation in MongoDB:
+        Aggregation in MongoDB allows for complex data manipulation by processing documents in a pipeline, where each stage in the pipeline performs a specific operation. Aggregation is powerful for creating analytics, generating reports, and performing data transformations.
+
+    Key Aggregation Operators and Stages:
+        1. $match
+            The $match stage filters documents based on specified criteria, similar to the find() method.
+            Example:
+            { $match: { genre: "Sci-Fi" } }
+
+        2. $limit
+            The $limit stage restricts the number of documents in the output.
+            Example:
+            { $limit: 5 }
+
+        3. $sort
+            The $sort stage sorts documents in ascending (1) or descending (-1) order by specified fields.
+            Example:
+            { $sort: { year: -1 } } // Sort by year in descending order
+
+        4. $skip
+            The $skip stage skips a specified number of documents, useful for implementing pagination in aggregation.
+            Example:
+            { $skip: 10 } // Skip the first 10 documents
+
+        5. $addFields
+            The $addFields stage adds new fields or updates existing ones in each document.
+            Example:
+            { $addFields: { ratingOutOfTen: { $multiply: ["$rating", 2] } } }
+
+        6. $project
+            The $project stage specifies which fields to include or exclude in the output.
+            Example:
+            { $project: { title: 1, year: 1, _id: 0 } } // Only include title and year fields
+
+        7. $group
+            The $group stage groups documents by a specified key and allows aggregating values using operators like $sum, $avg, $min, $max, etc.
+            Example:
+            { $group: { _id: "$genre", averageRating: { $avg: "$rating" } } }
+
+    Project: Analytics API for Movie Data:
+        In this project, we’ll create an API endpoint /analytics to generate a report using the Aggregation Framework. This endpoint will provide insights, such as:
+
+            Average ratings by genre
+            Number of movies released per year
+            Top-rated movies
+            Number of users with favorite movies
+
+        Step 1: Define the Mongoose Models
+            In models/Movie.js:
+
+            const mongoose = require('mongoose');
+
+            const reviewSchema = new mongoose.Schema({
+                reviewer: String,
+                rating: Number,
+                comment: String
+            });
+
+            const movieSchema = new mongoose.Schema({
+                title: { type: String, required: true },
+                genre: String,
+                year: Number,
+                rating: Number,
+                director: {
+                    name: String,
+                    nationality: String
+                },
+                reviews: [reviewSchema]
+            });
+
+            module.exports = mongoose.model('Movie', movieSchema);
+            In models/User.js:
+
+            const mongoose = require('mongoose');
+
+            const userSchema = new mongoose.Schema({
+                username: { type: String, required: true },
+                email: { type: String, required: true },
+                favoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }]
+            });
+
+            module.exports = mongoose.model('User', userSchema);
+
+        Step 2: Create the Analytics API with Aggregation
+            In server.js or routes/analytics.js, add the following endpoint:
+
+            const express = require('express');
+            const router = express.Router();
+            const Movie = require('../models/Movie');
+            const User = require('../models/User');
+
+            // /analytics endpoint for generating reports
+            router.get('/analytics', async (req, res) => {
+                try {
+                    // Step 1: Average Rating by Genre
+                    const avgRatingByGenre = await Movie.aggregate([
+                        { $group: { _id: "$genre", averageRating: { $avg: "$rating" } } },
+                        { $sort: { averageRating: -1 } }
+                    ]);
+
+                    // Step 2: Movies Released Per Year
+                    const moviesByYear = await Movie.aggregate([
+                        { $group: { _id: "$year", count: { $sum: 1 } } },
+                        { $sort: { _id: 1 } }
+                    ]);
+
+                    // Step 3: Top-Rated Movies
+                    const topRatedMovies = await Movie.aggregate([
+                        { $sort: { rating: -1 } },
+                        { $limit: 5 },
+                        { $project: { title: 1, rating: 1, genre: 1, _id: 0 } }
+                    ]);
+
+                    // Step 4: Number of Users with Favorite Movies
+                    const usersWithFavorites = await User.aggregate([
+                        { $match: { favoriteMovies: { $exists: true, $ne: [] } } },
+                        { $count: "totalUsersWithFavorites" }
+                    ]);
+
+                    res.json({
+                        avgRatingByGenre,
+                        moviesByYear,
+                        topRatedMovies,
+                        usersWithFavorites: usersWithFavorites[0]?.totalUsersWithFavorites || 0
+                    });
+                } catch (error) {
+                    console.error("Error generating analytics report:", error);
+                    res.status(500).send("Error generating analytics report");
+                }
+            });
+
+            module.exports = router;
+
+        Step 3: Integrate the Analytics Endpoint into the Server
+            In server.js, make sure to add the analytics route:
+
+            const analyticsRouter = require('./routes/analytics');
+            app.use('/analytics', analyticsRouter);  
+
+        Explanation of the Aggregation Pipelines
+            Average Rating by Genre:
+
+            $group by genre and calculate the average rating for each genre.
+            $sort by average rating in descending order.
+            Provides insight into which genres have higher ratings on average.
+            Movies Released Per Year:
+
+            $group by year and use $sum to count movies per year.
+            $sort by year in ascending order.
+            This shows the trend of movie releases over time.
+            Top-Rated Movies:
+
+            $sort by rating in descending order.
+            $limit to select the top 5 movies.
+            $project to only include specific fields (title, rating, genre).
+            This provides a quick look at the highest-rated movies.
+            Users with Favorite Movies:
+
+            $match to filter users who have favorite movies.
+            $count to get the total number of such users.
+            Useful to understand user engagement with movies.
+
+        MongoDB’s Aggregation Framework allows for powerful data manipulation through stages like $match, $limit, $sort, $skip, $addFields, $project, and $group.
+        Aggregation pipelines are highly flexible, allowing us to generate various reports.
+        In our project, we created an /analytics API endpoint using Mongoose to provide insights into movies and users.
+
+    
+Mongoose Design Patterns – ER Diagrams, Junction Schemas & Cascading:
+
+    Scene 1: ER Diagrams – Visualizing Schema Relationships:
+
+            1.1 Why ER Diagrams?
+                Before writing code, it’s helpful to draw out your data model — this includes:
+
+                What data we are storing (entities and fields)
+                How those entities are connected (relationships)
+            
+                 ER (Entity-Relationship) Diagrams help you:
+
+                Benefit             	Explanation
+                Visualize data model	See collections and how they relate
+                Design before coding	Choose between embed vs. reference early
+                Onboard others easily	Helps new developers understand your DB quickly
+                Debug/refactor easily	Spot redundant or confusing relationships before they become a problem
+
+            
+            1.2 How to Draw ER Diagrams
+                There are two common ways:
+
+                ✅ Method 1: Traditional Shapes (Academic Style)
+                    Rectangles = Entities (models)
+                    Ovals = Attributes (fields)
+                    Diamonds = Relationships (verbs like enrolled, owns)
+                    Underline = Primary key (_id)
+                ✅ Method 2: Developer Style (Box + Arrows)
+                    Each model is a box
+
+                    Inside the box: _id, then fields
+
+                    Use arrows to show how models are related
+
+                    → One-to-One
+                    →→ One-to-Many
+                    ↔ Many-to-Many
+    
+    Scene 2: Designing Many-to-Many Using Junction Schemas:
+
+        2.1 The Challenge with Many-to-Many
+            Example: A Student can enroll in many Courses, and each Course can have many Students.
+
+            ❌ If we put all student IDs inside course documents, and all course IDs inside student documents:
+
+            It becomes messy
+            Data duplication
+            Hard to manage updates
+            Complex queries
+        
+        2.2 Junction Schemas to the Rescue
+            A junction schema is a new collection that connects two other collections.
+
+            ✅ Instead of storing references in each model, we create a third collection called Enrollment:
+
+            Student ← Enrollment → Course
+            Each enrollment represents one student in one course, with optional extra fields like:
+
+            Date enrolled
+            Status
+            Grade
+
+            Benefits:
+
+            Benefit         	Why It Helps
+            Clean M:N mapping	Every row is a unique connection (no duplication)
+            Flexible	        Add metadata (like enrolledAt, status)
+            Scalable	        You don’t modify original Student or Course docs
+        
+
+        2.3 Coding the Junction Schema
+            2.3.1 Schema Setup
+            // models/Course.js
+            const courseSchema = new mongoose.Schema({
+            title: String,
+            description: String,
+            });
+            const Course = mongoose.model("Course", courseSchema);
+
+            // models/Student.js
+            const studentSchema = new mongoose.Schema({
+            name: String,
+            email: String,
+            });
+            const Student = mongoose.model("Student", studentSchema);
+
+            // models/Enrollment.js (junction schema)
+            const enrollmentSchema = new mongoose.Schema({
+            course: { type: mongoose.Schema.Types.ObjectId, ref: "Course", required: true },
+            student: { type: mongoose.Schema.Types.ObjectId, ref: "Student", required: true },
+            enrolledAt: { type: Date, default: Date.now },
+            });
+            const Enrollment = mongoose.model("Enrollment", enrollmentSchema);
+
+        2.3.2 Sample Routes
+            // Create a course
+            app.post("/courses", async (req, res) => {
+            const course = await Course.create(req.body);
+            res.status(201).json(course);
+            });
+
+            // Create a student
+            app.post("/students", async (req, res) => {
+            const student = await Student.create(req.body);
+            res.status(201).json(student);
+            });
+
+            // Enroll a student in a course
+            app.post("/enroll", async (req, res) => {
+            const { studentId, courseId } = req.body;
+            const enrollment = await Enrollment.create({ student: studentId, course: courseId });
+            res.status(201).json(enrollment);
+            });
+
+        Scene 3: Cascading Strategies in Mongoose
+            🔁 3.1 What is Cascading?
+            Cascading means: When one entity is deleted or updated, its related data should also be handled automatically.
+
+            ✅ Example:
+
+            If a Course is deleted, what happens to Enrollment?
+            If a User is archived, should their comments also be hidden?
+
+        3.2 Common Cascading Strategies
+            Strategy            	Explanation
+            🧼 Soft Delete       	Don’t remove the doc, just mark as { isDeleted: true }
+            🗃️ Archiving           	Move the document to a separate collection or add archived: true
+            🔄 Restore/Update       	Restore from archive or update fields instead of deleting
+
+        3.3 Using Pre/Post Hooks in Mongoose
+            Mongoose lets us run functions before (pre) or after (post) certain actions like .deleteOne(), .save(), etc.
+
+            // Soft delete enrollments when a course is deleted
+            courseSchema.pre("deleteOne", { document: true, query: false }, async function (next) {
+            const courseId = this._id;
+            await Enrollment.updateMany({ course: courseId }, { isDeleted: true });
+            next();
+            });
+            🛡️ This protects data and ensures referential integrity.
+
+        
+        Pitfalls to Avoid
+        Area                                	Mistake
+        Relationship Type Confusion       	Using M:N when 1:N is enough (or vice versa)
+        Linking IDs Everywhere          	Just putting object IDs is not enough; junction schemas give clarity
+        Deleting Means Removing          	Instead of hard delete, prefer soft delete or archive for better safety
+
+
+        ✅ Summary
+            Concept	Key Takeaway
+            ER Diagrams         	Help visualize, plan, and communicate your DB structure
+            Junction Schema     	Best way to implement many-to-many relationships in MongoDB with Mongoose
+            Cascading Strategies 	Use hooks to manage related data integrity with soft delete or archive logic
+
+    
+Mongoose Aggregations – Pipelines for Advanced Data Insights:
+
+    Scene 1.0 – The Need for Aggregation
+        🤔 Problem Setup:
+        Let’s say you have the following orders collection:
+
+        [
+        { "item": "apple", "quantity": 5 },
+        { "item": "banana", "quantity": 10 },
+        { "item": "apple", "quantity": 8 },
+        { "item": "orange", "quantity": 15 }
+        ]
+        Now, try answering:
+
+        What is the total quantity ordered per item?
+
+        A normal query like:
+
+        db.orders.find({ item: "apple" });
+        …only gives documents, not totals. You’d still have to manually add 5 + 8.
+
+        🔴 Problem:
+
+        Manual effort is needed.
+        Not scalable when there are 100s of dynamic items.
+        🟢 Solution: Aggregation! Let the database group and calculate results for you.
+
+        Query vs Aggregation – What's the Difference?:
+
+            Feature      	Query (find)	Aggregation (aggregate)
+            Purpose      	Retrieve matching documents	Transform, compute, and analyze documents
+            Output      	Full or partial documents	Custom result structures
+            Flexibility     Limited (filter/sort/project)	Very flexible (grouping, joining, reshaping, etc.)
+            Performance (simple)      	Fast	Slightly heavier (optimized for processing)
+            Use-Cases      	Search/filter	Analytics, reporting, grouping, restructuring
+
+        
+        🔁 What is an Aggregation Pipeline?
+            An aggregation pipeline is a sequence of stages through which the data flows and gets transformed step-by-step.
+
+            Analogy: Like a factory assembly line — each stage performs one operation and hands off to the next.
+
+            db.orders.aggregate([
+            { $match: { status: "delivered" } },
+            { $group: { _id: "$customerName", total: { $sum: "$amount" } } },
+            ]);
+        
+    
+    Scene 2.0 – Common Stages for Single Collection:
+
+        Sample Data: orders
+            [
+            { orderId: 1, customerName: "Alice", amount: 120, status: "delivered" },
+            { orderId: 2, customerName: "Bob", amount: 80, status: "pending" },
+            { orderId: 3, customerName: "Charlie", amount: 200, status: "delivered" },
+            { orderId: 4, customerName: "Alice", amount: 150, status: "cancelled" },
+            ...
+            ]
+        
+        $group – Grouping and Aggregation
+            📝 Example: Total amount per customer
+
+            db.orders.aggregate([
+            { $group: { _id: "$customerName", totalAmount: { $sum: "$amount" } } },
+            ]);
+            ➡️ Output:
+
+            [
+            { "_id": "Alice", "totalAmount": 330 },
+            { "_id": "Bob", "totalAmount": 130 },
+            ...
+            ]
+
+        $match – Filtering Documents
+            📝 Example: Only delivered orders
+
+            {
+            $match: {
+                status: "delivered";
+            }
+            }
+            ✅ Can be used before or after $group.
+
+        $project – Selecting and Reshaping Fields
+            📝 Example: Include only customerName and amount
+
+            { $project: { customerName: 1, amount: 1, _id: 0 } }
+
+        Why $FieldName inside quotes?
+            MongoDB requires fields inside aggregation expressions to be prefixed with $.
+            Quotes are used to avoid parsing conflicts or for dynamic field access.
+            {
+            $sum: "$amount";
+            } // correct
+
+        Other Common Stages
+            Stage	Purpose
+            $sort	Sort the result
+            $limit	Limit number of documents
+            $skip	Skip N documents (for pagination)
+            $count	Count number of documents
+            $addFields	Add calculated fields
+            $unset	Remove specific fields
+        
+
+    Scene 3.0 – Aggregating Across Multiple Collections:
+        
+        $lookup – Joining Two Collections
+            📝 Use Case: Get user info with their orders
+
+            Collections:
+
+            users with fields { _id, name }
+            orders with field userId
+            db.users.aggregate([
+            {
+                $lookup: {
+                from: "orders",
+                localField: "_id",
+                foreignField: "userId",
+                as: "userOrders",
+                },
+            },
+            ]);
+            ➡️ Joins orders to users where _id === userId
+        
+        $unwind – Flattening Array Fields
+            When to use: After $lookup, the joined data (userOrders) is an array. To work on each order individually, flatten it.
+
+            {
+            $unwind: "$userOrders";
+            }
+
+        Other Interesting Stages
+            Stage	Use Case
+            $facet	Run multiple pipelines in parallel and combine results
+            $bucket	Group documents into dynamic ranges (like age groups, price buckets)
+            $cond	Conditional logic (if/else) inside aggregation
+
+        Pitfalls & Gotchas
+            ❌ Confusing Aggregation with Query
+                Aggregation returns processed data, not raw documents.
+                Fields must be accessed using $ (e.g., "$amount" not just amount).
+            ❌ Not Using Correct Stage Order
+                $match before $group for filtering (better performance)
+                $project to clean up result structure (can be used before/after grouping)
+            ❌ Forgetting $unwind After $lookup
+                If you want to group or filter nested results, $unwind is often necessary.
+
+        Summary Cheatsheet
+            Stage	Summary
+            $match	Filter documents like .find()
+            $group	Group by field and perform aggregation
+            $project	Select and shape fields
+            $lookup	Perform join-like operations
+            $unwind	Deconstruct arrays to individual documents
+            $sort	Sort documents
+            $limit	Return N documents
+            $addFields	Add computed or new fields
+        
+        Interviewer Observations
+            Do they know why aggregation is needed over queries?
+            Do they understand $group, $match, $lookup clearly?
+            Can they explain the pipeline flow?
+            Do they understand $unwind necessity after $lookup?
+
+
+Authentication:
+
+    1. Security Measures & Backend Responsibility:
+
+        1.1 Why Backend Security Is Essential
+            Backends handle sensitive user data: passwords, emails, transactions, etc.
+
+            It’s the backend’s responsibility to ensure this data is secure.
+
+            Without proper security, systems are vulnerable to:
+
+            SQL Injection
+            Cross-Site Scripting (XSS)
+            Man-in-the-middle (MITM) attacks
+
+        1.2 Types of Security Measures:
+            Authentication: Who are you? (e.g., login)
+            Authorization: Are you allowed to do this?
+            Password Hashing: Hide real passwords using algorithms
+            Encryption: Protect data during transfer (e.g., HTTPS)
+            Input Validation: Sanitize user input to prevent injection attacks
+            Rate Limiting: Prevent brute-force login attempts
+            Session/JWT Management: Manage user sessions securely
+
+        1.3 Hashing vs. Encryption
+            Feature	Hashing	Encryption
+            Direction	One-way (irreversible)	Two-way (reversible)
+            Use Case	Password protection	Secure data transfer/storage
+            Can be undone?	❌ No	✅ Yes (with a key)
+            Example: Hashing mySecret123 with bcrypt → $2b$10$N... (cannot be reversed)
+
+    2. Password Hashing & Comparison:
+
+        2.1 Why Not Store Raw Passwords?
+            Storing raw passwords is extremely risky.
+            If your database leaks, every user’s credentials are exposed.
+            Solution: Hash passwords before saving to the database.
+
+        2.2 Hashing Passwords with bcrypt
+
+            const bcrypt = require("bcrypt");
+
+            async function hashPassword(password) {
+            const saltRounds = 10;
+            return await bcrypt.hash(password, saltRounds);
+            }
+            Salt makes the hash unique—even if two users use the same password.
+            Slows down brute-force attacks.
+
+        2.3 Comparing Passwords During Login
+            async function comparePasswords(plainPassword, hashedPassword) {
+            return await bcrypt.compare(plainPassword, hashedPassword);
+            }
+            Compares the entered password with the stored hash securely.
+
+    
+    3. Token-Based Authentication with JWT:
+
+        3.1 Is Hashing Alone Enough?:
+            Hashing protects passwords, but doesn’t help with access management.
+            Once a user logs in, we need a way to allow access to protected routes without re-checking passwords constantly.
+
+        3.2 Why Use JWT?:
+            After login, server sends back a JWT token.
+            This token proves the user is authenticated.
+            The user sends this token with each request to access protected routes.
+            JWT = JSON Web Token Contains user data (e.g., ID, role) and is signed with a secret key.
+
+        3.3 Creating a JWT:
+            const jwt = require("jsonwebtoken");
+
+            function generateToken(userData) {
+            return jwt.sign(userData, "your_secret_key", { expiresIn: "1h" });
+            }
+            Token includes expiry (e.g., 1 hour).
+            Payload might look like: { id: "abc123", role: "admin" }
+
+        3.4 Verifying JWT on Protected Routes:
+            function authMiddleware(req, res, next) {
+            const token = req.headers.authorization?.split(" ")[1];
+            if (!token) return res.status(401).json({ message: "No token" });
+            try {
+                const decoded = jwt.verify(token, "your_secret_key");
+                req.user = decoded;
+                next();
+            } catch (err) {
+                res.status(401).json({ message: "Invalid token" });
+            }
+            }
+            This middleware checks if the token is valid before giving access to protected resources.
+
+    
+    Common Pitfalls
+        1️⃣ Security is a backend responsibility
+            Never assume frontend validation is enough.
+            Always sanitize, validate, and secure data on the backend.
+        2️⃣ Hashing ≠ Encryption
+            Hashing is one-way and used for passwords.
+            Don’t confuse it with encryption (e.g., HTTPS).
+        3️⃣ Hashing and JWT are not alternatives
+            Hashing protects the password.
+            JWT manages user sessions after authentication.
+
+    
+    Summary
+        Concept             Purpose
+        Hashing             Store passwords securely
+        bcrypt         	    Node.js library for hashing
+        JWT         	    Manage user sessions post-login
+        Token middleware    Check if user is allowed to access
+
+
+Authorization:
+
+    Authentication vs. Authorization
+        Feature         	Authentication              	Authorization
+        What it does         	Verifies who the user is              	Determines what the user can do
+        When it happens         	First step              	After authentication
+        Example	         Login with username & password              	Checking if the user is an admin before allowing access to delete a resource
+
+    Why Authorization is Needed
+        Imagine an LMS like Masai:
+
+        Everyone is a "user" — but not all users can perform the same actions.
+        Student Role: Can attend lectures, submit assignments
+        Admin Role: Can create lectures, assign homework, manage users
+        RBAC helps define who can do what and limits access based on roles, not individuals.
+        Benefits of RBAC:
+
+        Enhanced security
+        🧹 Cleaner permission management
+        ⚖️ Easily scalable for growing systems
+
+    Basic RBAC Implementation in Node.js:
+
+        1. Store role information with the user:
+
+            // When registering user
+            {
+            email: 'user@example.com',
+            password: 'hashed_password',
+            role: 'student' // or 'admin'
+            }
+        
+        2. Include role in the JWT token during login:
+
+            const token = jwt.sign({ userId, role }, process.env.JWT_SECRET, {
+            expiresIn: "20m",
+            });
+
+        3. Middleware to authorize roles:
+
+            const authorizeRoles = (...roles) => {
+            return (req, res, next) => {
+                if (!roles.includes(req.user.role)) {
+                return res.status(403).json({ msg: "Access Denied" });
+                }
+                next();
+            };
+            };
+
+            // Usage in routes:
+            router.post(
+            "/create-lecture",
+            authenticate,
+            authorizeRoles("admin"),
+            createLectureHandler
+            );
+    
+    Token Expiry (Why and How?):
+        Why expire tokens? To ensure that if a token is stolen, it can’t be used forever.
+
+        Used in:
+
+            Banking apps
+            Government portals
+            Secure web services
+            jwt.sign(payload, secret, { expiresIn: "10m" });
+            🔁 Downside: Repeated login prompts — which leads to the need for refresh tokens (covered later if time permits).
+
+    Third-Party Authentication (OAuth):
+
+        What Is Third-Party Authentication?
+            Instead of building and managing your own login system, you integrate authentication APIs provided by major platforms like:
+                Google
+                Facebook
+                GitHub
+                Twitter, and others
+
+        These companies act as Identity Providers.
+            Your system redirects the user to the provider.
+            The provider authenticates the user.
+            Upon success, the provider sends your system a token (usually via OAuth or OpenID Connect) confirming the user's identity.
+            You then allow access based on that confirmation.
+
+        Why Use It?
+            🌟 Better UX — users can sign in using Google, GitHub, Facebook
+            🔒 Improved security — no password storage in your DB
+            🧹 Simplified backend — rely on providers like Google/GitHub to verify identity
+        
+        How OAuth Works:
+            Flow:
+                User clicks "Login with GitHub"
+
+                Redirected to GitHub login
+
+                GitHub verifies credentials
+
+                Redirects back to your app with a temporary token
+
+                You use that token to:
+
+                Get user’s basic profile (name, email)
+                Create a local session or your own JWT
+        
+        GitHub OAuth Implementation (Using Passport.js):
+
+            Steps:
+                Install Dependencies:
+                npm install passport passport-github2 express-session
+            
+            Register App on GitHub:
+                Go to GitHub Developer Settings
+                Get Client ID and Client Secret
+                Configure Passport:
+                const GitHubStrategy = require("passport-github2").Strategy;
+
+                passport.use(
+                new GitHubStrategy(
+                    {
+                    clientID: GITHUB_CLIENT_ID,
+                    clientSecret: GITHUB_CLIENT_SECRET,
+                    callbackURL: "/auth/github/callback",
+                    },
+                    (accessToken, refreshToken, profile, done) => {
+                    // Save or find user in your DB
+                    return done(null, profile);
+                    }
+                )
+                );
+            
+            Auth Routes:
+                app.get(
+                "/auth/github",
+                passport.authenticate("github", { scope: ["user:email"] })
+                );
+                app.get(
+                "/auth/github/callback",
+                passport.authenticate("github", { failureRedirect: "/" }),
+                (req, res) => {
+                    // Successful login
+                    res.redirect("/dashboard");
+                }
+                );
+        
+        Access Token vs Refresh Token (If Covered):
+            Used to keep users logged in securely without asking them to re-authenticate frequently.
+
+            Token Type    	Validity             	Purpose
+            Access Token	Short (e.g., 10 mins)	Grants access to protected routes
+            Refresh Token	Long (e.g., 30–40 mins)	Used to get a new access token without login
+
+
+            Example Flow:
+                User logs in
+
+                Server sends:
+
+                Access Token (10 mins)
+                Refresh Token (40 mins)
+                After 10 mins, frontend silently sends refresh token to get a new access token.
+                After 40 mins, refresh token expires → login required again.
+
+            Key Concepts Recap
+                Authentication = Who are you?
+                Authorization = What are you allowed to do?
+                RBAC = Manage what users can do based on roles
+                OAuth = Login using third-party providers (GitHub, Google)
+                Access & Refresh Tokens = Maintain session security while improving user experience
+            
+
+Auth & Communication – Email Integration & Password Reset Flow:
+    1. Introduction: Need for Communication:
+
+        1.1 Why Communication is Needed
+            Communication bridges the app and the user. It builds trust, enhances user experience, and confirms actions.
+
+            It provides proof or acknowledgment for actions like:
+
+            Signup confirmations
+            Password resets
+            OTP verifications
+            Promotional offers
+            Transaction receipts
+
+        1.2 Modes of Communication
+            Email
+            SMS (Mobile Messages)
+            Social Media Messages (e.g., WhatsApp)
+            Voice Calls (less common)
+
+    2. Sending Emails Using Nodemailer
+        2.1 Nodemailer Overview
+            Nodemailer is a Node.js module that allows you to send emails using SMTP (Simple Mail Transfer Protocol).
+
+            Installation:
+
+            npm install nodemailer
+
+        2.2 Example Configuration
+            const nodemailer = require("nodemailer");
+
+            const transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false, // STARTTLS
+            auth: {
+                user: "your-email@gmail.com",
+                pass: "your-app-password",
+            },
+            });
+            host: SMTP server for Gmail
+            port: 587 (STARTTLS)
+            secure: false: Upgrades to secure connection via STARTTLS
+        
+    3. Google App Passwords for Nodemailer:
+
+        3.1 Why Use App Passwords?
+            Gmail doesn't allow direct use of your account password if 2-Step Verification is on.
+            App passwords are 16-digit tokens used specifically for third-party apps like Nodemailer.
+            
+        3.2 How to Generate App Passwords
+            Visit: https://myaccount.google.com/apppasswords
+            Ensure 2-Step Verification is enabled.
+            Choose App → "Mail", and Device → "Node.js".
+            Click Generate and copy the 16-digit app password.
+            Use it in your code instead of your actual Gmail password.
+
+    4. Implementing Forgot and Reset Password:
+        4.1 User Schema (Mongoose Example)
+            const mongoose = require("mongoose");
+            const bcrypt = require("bcrypt");
+
+            const userSchema = new mongoose.Schema({
+            email: { type: String, required: true, unique: true },
+            password: { type: String, required: true },
+            });
+
+            userSchema.pre("save", async function (next) {
+            if (!this.isModified("password")) return next();
+            this.password = await bcrypt.hash(this.password, 10);
+            next();
+            });
+
+            module.exports = mongoose.model("User", userSchema);
+        
+        4.2 Forgot Password Route
+            This route generates a token and sends a reset link to the user's email.
+
+            const jwt = require("jsonwebtoken");
+            const User = require("./models/User");
+
+            app.post("/forgot-password", async (req, res) => {
+            const { email } = req.body;
+
+            const user = await User.findOne({ email });
+            if (!user) return res.status(404).json({ message: "User not found" });
+
+            const token = jwt.sign({ id: user._id }, "RESET_SECRET", {
+                expiresIn: "10m",
+            });
+
+            const resetLink = `http://localhost:3000/reset-password/${token}`;
+
+            await transporter.sendMail({
+                from: "your-email@gmail.com",
+                to: email,
+                subject: "Reset Your Password",
+                html: `<p>Click <a href="${resetLink}">here</a> to reset your password.</p>`,
+            });
+
+            res.json({ message: "Reset link sent to your email." });
+            });
+        
+        4.3 Reset Password Route
+            This route accepts a valid token and updates the user’s password.
+
+            app.post("/reset-password/:token", async (req, res) => {
+            const { token } = req.params;
+            const { newPassword } = req.body;
+            try {
+                const decoded = jwt.verify(token, "RESET_SECRET");
+                const user = await User.findById(decoded.id);
+                if (!user) return res.status(404).json({ message: "User not found" });
+                user.password = newPassword;
+                await user.save();
+                res.json({ message: "Password reset successful." });
+            } catch (err) {
+                res.status(400).json({ message: "Invalid or expired token" });
+            }
+            });
+        
+    5. Token Blacklisting (Optional but Recommended):
+
+        5.1 Why Blacklist Tokens?
+            If a user resets their password, any previous token (JWT) could still be valid until it expires. Token blacklisting prevents misuse of those tokens.
+
+        5.2 Implementation Strategy
+            Create a new collection: BlacklistedTokens
+            During password reset, add the old refresh token or JWT to this collection.
+            In the auth middleware, check if the incoming token is blacklisted.
+            const isTokenBlacklisted = async (token) => {
+            const blacklisted = await Blacklist.findOne({ token });
+            return !!blacklisted;
+            };
+
+            // In auth middleware
+            if (await isTokenBlacklisted(token)) {
+            return res.status(401).json({ message: "Token is invalidated" });
+            }
+        
+    6. Optional: WhatsApp API Integration
+        
+        6.1 Overview
+            WhatsApp API allows programmatic messaging to users. Two ways to test:
+            Developer Test API (1 registered test user)
+            Meta WhatsApp Business API (limited to 1,000 free messages/month)
+
+        6.2 Meta API Flow
+            Get API Key from https://developers.facebook.com
+            Set recipient’s phone number in WhatsApp Business settings
+            Send messages using APIs like:
+            POST https://graph.facebook.com/v15.0/PHONE_NUMBER_ID/messages
+            Headers: Authorization: Bearer ACCESS_TOKEN
+            Body:
+            {
+            "messaging_product": "whatsapp",
+            "to": "recipient_number",
+            "type": "text",
+            "text": { "body": "Your OTP is 123456" }
+            }
+    
+    Pitfalls and Clarifications
+        Nodemailer is only a transporter. Password reset is a separate flow built around secure tokens.
+        Ensure email service credentials (App Password) are stored securely using .env.
+        Reset tokens must expire and should be invalidated (via blacklist) once used.
+        WhatsApp API integration requires more setup (Meta approval) than email.
+
+
+Caching with Redis, Cron Jobs & Utility Modules:
+
+    Understanding the Need for Caching
+        Imagine you're refreshing your LMS dashboard repeatedly. Your lectures and assignments are being fetched from the database every single time—even though the data hasn’t changed.
+
+        Problem: 
+            Repeated DB hits lead to unnecessary load and slower response times.
+        Solution: 
+            Use a temporary memory storage to serve frequently accessed data without re-querying the database every time.
+        This is called caching — storing frequently accessed data in memory (RAM) to improve performance.
+
+    Frontend vs Backend Caching
+        Frontend caching: Stored in the user's browser (e.g., localStorage, cache headers).
+        Backend caching:
+        
+    Introduction to Redis
+        What is Redis?
+            Redis stands for Remote Dictionary Server.
+            It is a key-value based NoSQL database stored entirely in RAM.
+            Redis is blazing fast and used extensively for caching, real-time analytics, queue systems, and pub-sub messaging.
+
+        Why Redis?
+            Data is stored in-memory, so read/write is extremely fast.
+            Stores data as key-value pairs, not documents.
+            Ideal for temporary, fast-access data like sessions, cached responses, and task queues.
+        
+    Installing and Using Redis Locally
+        For macOS and Linux:
+            brew install redis
+            brew services start redis
+
+            # or for Ubuntu
+            sudo apt update
+            sudo apt install redis-server
+            sudo systemctl start redis
+
+        For Windows:
+            Download from: https://github.com/microsoftarchive/redis/releases
+            Install Redis-x64-3.0.504.zip
+            Run Redis using redis-cli
+            Also install Redis VS Code Extension for GUI access.
+
+    Basic Redis CLI Commands
+        redis-cli
+
+        PING                 # Returns PONG
+        SET name "LMS App"   # Stores value
+        GET name             # Retrieves value
+        DEL name             # Deletes a key
+        EXISTS name          # Checks if key exists
+        SETEX temp 60 "data" # Sets a key with 60s expiration
+
+        TTL in Redis
+        TTL = Time to Live. You can check how long a key has before it expires using:
+        TTL name
+
+    Using Redis in Node.js:
+        npm install redis
+            const redis = require("redis");
+            const client = redis.createClient();
+
+            client.connect();
+
+            client.on("connect", () => console.log("Redis connected"));
+            client.on("error", (err) => console.error("Redis error", err));
+            Caching Example
+            await client.set("lectureData", JSON.stringify({ title: "Redis Intro" }), {
+            EX: 60,
+            });
+            const data = await client.get("lectureData");
+            console.log(JSON.parse(data));
+
+    Implementing Redis Caching in a Node.js App:
+
+        Step 1: Redis Configuration
+            // redis.config.js
+            const { createClient } = require("redis");
+
+            const client = createClient();
+
+            client.on("error", (err) => {
+            console.error("Redis connection error:", err);
+            });
+
+            async function connectRedis() {
+            if (!client.isOpen) {
+                await client.connect();
+                console.log("Redis connected successfully.");
+            }
+            }
+
+            module.exports = { client, connectRedis };
+
+        Step 2: Connect Redis in Server
+            const { connectRedis } = require("./config/redis.config");
+            connectRedis();
+        
+        Step 3: Use Redis to Cache GET Response
+                const { client } = require("../config/redis.config");
+                TodoRouter.get("/alltodos", async (req, res) => {
+                const userId = req.user;
+
+                const cached = await client.get(`todos:${userId}`);
+                if (cached) {
+                    return res.status(200).json({
+                    message: "Todos (from cache)",
+                    todos: JSON.parse(cached),
+                    });
+                }
+
+                const todos = await TodoModel.find({ userId });
+                await client.set(`todos:${userId}`, JSON.stringify(todos), { EX: 60 });
+
+                res.status(200).json({ message: "Todos List", todos });
+                });
+
+    Backend Utility Modules:
+        1. Cron Jobs
+            Use to schedule tasks (like background jobs).
+            Example: Sending weekly emails, processing uploads, cleanup tasks.
+            const cron = require("node-cron");
+
+            cron.schedule("*/2 * * * *", () => {
+            console.log("Running this task every 2 minutes");
+            });
+            
+        2. CSV Reader
+            Used to parse .csv files (e.g., bulk data uploads).
+            const csv = require("csv-parser");
+            const fs = require("fs");
+
+            fs.createReadStream("data.csv")
+            .pipe(csv())
+            .on("data", (row) => {
+                console.log(row);
+            });
+            
+        3. PDF Generator
+            Used to auto-generate reports, invoices, etc.
+            const PDFDocument = require("pdfkit");
+            const fs = require("fs");
+
+            const doc = new PDFDocument();
+            doc.pipe(fs.createWriteStream("report.pdf"));
+
+            doc.text("This is a sample PDF report.");
+            doc.end();
+
+    Integrated Use Case: Scheduled Bulk Todo Processing:
+        Problem:
+            A user uploads a CSV file containing todos.
+
+            The backend must immediately respond with: "Task Processing Started. You will receive a report shortly."
+
+            Data is stored in Redis temporarily.
+
+            A cron job runs in the background:
+
+            Reads from Redis
+            Processes todos into MongoDB
+            Tracks successes/failures
+            Generates a PDF report
+            Emails the report to the user
+        Modules Involved:
+            Redis – Caching uploaded data
+            Cron – Scheduling task execution
+            MongoDB – Final data storage
+            CSV Reader – Parsing bulk input
+            PDFKit – Report generation
+            Nodemailer – Sending email report
+            This mimics how real-world backend workflows operate — like how e-commerce platforms process orders, payments, and billing asynchronously.
+
+    Pitfalls to Watch Out For
+        Caching & Redis:
+            Don’t confuse caching with rate-limiting.
+            Redis is for temporary fast access, MongoDB is for permanent storage.
+            Redis stores data in RAM, MongoDB stores in disk.
+            TTL (Time To Live) ensures Redis doesn’t overload memory.
+        Cron Jobs:
+            Cron jobs are repeating tasks, unlike setTimeout which runs once.
+            Avoid overlapping cron executions — always ensure previous job is complete before starting the next.
+        Integration:
+            Ensure a smooth data flow between Redis → MongoDB → PDF → Email.
+            Always track failures and handle errors gracefully.
+
+
+Real-Time Communication: Events, Sockets & Chats:
+    What is Real-Time Communication (RTC)?
+        Real-time communication means exchanging information instantly or with minimal delay so that both parties can interact almost simultaneously.
+
+        Examples:
+
+        Chat messages
+        Live delivery or order updates
+        Video calls
+        Voice calls
+        Here, we focus mainly on text-based real-time communication like chat apps and notifications.
+
+    Types of Communication
+        Real-time communication can be categorized as:
+
+        One-Way Communication Only one side sends information, and the other just receives. Example: Radio, TV broadcasts.
+
+        Two-Way (Half-Duplex) Communication Both sides can send messages but not at the same time. One must wait for the other. Example: Walkie-talkies.
+
+        Full-Duplex Communication Both sides can send and receive messages simultaneously. Example: Phone calls, chat applications.
+
+    Why Traditional Request-Response Cycle Limits Real-Time Communication:
+        Traditional HTTP follows a request → response → close connection pattern.
+        For chat or live updates, constantly opening and closing connections is inefficient and slow.
+        It also causes high server load and delays message delivery.
+        We need a persistent, always-open connection to allow quick two-way data flow without repeated handshakes.
+    
+
+    Event-Driven Architecture (EDA)
+        EDA is a programming style where the application reacts to events (actions or changes).
+
+        Events are triggers, like button clicks or incoming messages.
+        Node.js uses this pattern heavily, making it efficient and scalable.
+        This fits real-time apps perfectly: code runs only when an event happens, saving resources.
+        Example: When User A sends a message, it triggers a sendMessage event. User B listens for an appendMessage event to display it instantly.
+
+
+        Quick Code Example for EDA in Node.js
+            const EventEmitter = require("events");
+            const emitter = new EventEmitter();
+
+            // Listen for 'greet' event
+            emitter.on("greet", (name) => {
+            console.log(`Hello, ${name}`);
+            });
+
+            // Fire the 'greet' event with 'Alice'
+            emitter.emit("greet", "Alice");
+            Output: Hello, Alice
+
+    What Are WebSockets and How Do They Help?
+        WebSocket is a protocol that allows full-duplex communication over a single, persistent TCP connection.
+        It starts as a normal HTTP request and then upgrades to a WebSocket connection.
+        This keeps the connection alive and allows the server and client to send messages to each other at any time.
+
+
+    How WebSockets Work
+        Client sends an HTTP request asking to upgrade to WebSocket.
+
+        GET /chat HTTP/1.1
+        Host: example.com
+        Upgrade: websocket
+        Connection: Upgrade
+        Server agrees and switches protocols.
+
+        A persistent TCP connection opens.
+
+        Both client and server can now send/receive messages freely.
+
+    Key Terms and Functions in Socket Programming (socket.io)
+        Term	Meaning
+        Socket	A single connection between client and server.
+        Server (io)	The backend WebSocket server instance.
+        Client	The frontend/browser that connects to the server.
+        Event	Named signals used to send or receive messages (e.g., 'chat').
+        Emit	Method to send an event with data.
+        On	Method to listen for events.
+        Broadcast	Send a message to all clients except the sender.
+        Room	Group of sockets for private or group messaging.
+
+    Server-Side Example (Node.js + socket.io)
+        io.on("connection", (socket) => {
+        console.log("User connected");
+
+        // Listen for chat messages from this client
+        socket.on("chatMessage", (msg) => {
+            console.log("Message received: ", msg);
+
+            // Send message to all clients (including sender)
+            io.emit("chatMessage", msg);
+
+            // Or send to all except sender:
+            // socket.broadcast.emit('chatMessage', msg);
+        });
+
+        // Detect when user disconnects
+        socket.on("disconnect", () => {
+            console.log("User disconnected");
+        });
+        });
+
+    Client-Side Example (Browser JavaScript)
+        const socket = io(); // Connect to server
+
+        // Send a message to server
+        socket.emit("chatMessage", "Hello Server");
+
+        // Listen for incoming messages
+        socket.on("chatMessage", (data) => {
+        console.log("New message:", data);
+        });
+    
+    Typical Message Flow
+        Client emits 'sendMessage' with data
+            ↓
+        Server listens with 'on(sendMessage)'
+            ↓
+        Server emits 'newMessage' to clients
+            ↓
+        Clients listen with 'on(newMessage)' and update UI
+
+    

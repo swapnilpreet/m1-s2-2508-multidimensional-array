@@ -1,0 +1,1646 @@
+Student Notes: S01 – System Design + TypeScript
+    1.0 Introduction to System Design
+        Why Learn System Design?
+            Can your app handle 10,000+ users?
+            System Design = Designing scalable, maintainable, and reliable software systems.
+            Think IRCTC, Swiggy, UPI, BookMyShow → They crash when poorly designed.
+
+        What Makes a Good System?
+            Factor	     Explanation
+            Scalable	  Handles growth: users, data, traffic (e.g. replicas, DB choice)
+            Maintainable	Modular, testable, DRY, good docs
+            Reliable	    Fault ≠ Failure. Handle faults via fault-tolerant design
+
+            Fault = Something went wrong Failure = Complete system breakdown
+
+        Two Layers of System Design:
+            Layer  	Focus	                Examples
+            HLD  	High-level Architecture	Servers, Load Balancers, Caching, DB choices
+            LLD  	Code-level Structure	Classes, Interfaces, Design Principles & OOP
+            E.g. Swiggy, Uber, Ola, IRCTC
+
+    2.0 Introduction to TypeScript
+        Activity: Compare JS vs TS
+            TS has more keywords, but...
+            TS is more predictable and less error-prone
+            Try this Playground Comparison
+
+        Why TypeScript?
+            Reason	What It Means
+            Type Safety	Errors caught before running code (compile-time)
+            Tooling	Better autocompletion, IntelliSense, and refactoring support
+            OOP Support	Supports classes, inheritance, encapsulation, and modularity
+            Example:
+            class User {
+            name: string;
+            age: number;
+
+            constructor(name: string, age: number) {
+                this.name = name;
+                this.age = age;
+            }
+
+            greet() {
+                console.log(`Hello, I’m ${this.name}`);
+            }
+            }
+
+        What is TypeScript?
+            Aspect	TypeScript
+            Is	A superset of JS that adds static typing
+            Is NOT	A replacement for JavaScript
+            Compatibility	Every valid JS code = valid TS code
+            Transpilation	TS → JS before running
+
+        Getting Started with TypeScript
+            Initialize TS Project
+            npm init -y
+            npm install -g typescript
+            tsc --init
+
+            tsconfig.json Example:
+            {
+            "compilerOptions": {
+                "target": "ES2016",
+                "outDir": "dist",
+                "strict": true
+            }
+            }
+
+            👣 Steps:
+            Code in src/index.ts
+            Transpile with tsc
+            Run node dist/index.js
+
+        Transpilation vs Compilation
+            Term	Meaning
+            Compilation	Code → Machine Language
+            Transpilation	Code → Another High-level Language (TS → JS)
+            Workflow:
+            tsc index.ts   # TS → JS
+            node index.js  # Run JS
+
+    3.0 TypeScript Types
+
+        Common Types
+            let name: string = "Masai";
+            let age: number = 10;
+            let isActive: boolean = true;
+            let scores: number[] = [90, 85, 70];
+
+            let user: { id: number; name: string } = {
+            id: 1,
+            name: "Alice"
+            };
+
+        Type	Use
+        string	Text data
+        number	Numbers
+        boolean	true/false
+        array	List of typed items
+        object	Custom structured data
+        any	Turns off type checking
+
+        Compilation vs Runtime Errors
+        Error Type     	When It Occurs        	                Example
+        Compilation Error     	During transpilation        	let count: number = "hello";
+        Runtime Error     	When running code        	console.log(undefinedVar.prop);
+
+    3.1 Important & Interview-Focused Types:
+
+        Type	Description
+        null	Explicit absence of value (let a: number | null = null)
+        undefined	Declared but not assigned
+        void	No return from a function
+        any	Disables type safety – use only if needed
+        unknown	Like any, but forces type checking before using the value
+        Example:
+        function sayHi(): void {
+        console.log("Hello!");
+        }
+
+        let a: any = "test";
+        a = 10; // no error
+
+        let b: unknown = "safe";
+        if (typeof b === "string") {
+        console.log(b.toUpperCase());
+        }
+
+    Summary
+        System Design teaches how to scale apps for real-world use.
+        TypeScript = JavaScript + Types
+        Catches bugs early
+        Makes code predictable
+        Adds structure with OOP principles
+        Use types (string, number, boolean, etc.) to write safe, readable code.
+        Prefer unknown over any when dealing with uncertain data types.
+
+Notes SAL S02:
+
+    1.0 OOPs:
+        1.1 Why do we need OOPs?
+
+            Object Oriented Programming (OOPS)
+
+            Imagine you're working on a system where you need to represent many people (with properties like name and interest). Initially, you may start by using variables or objects, but as your system grows, you'll start encountering problems related to efficiency, maintainability, and scalability. This is where OOPS come in, offering a structured, reusable, and organized way to model your data.
+        
+            What you need is some kind of template which can be reused again. But the important thing is how to create that template (technically class)?? In the above example, two properties i.e. name and interest is getting repeated for every Person so this we can generalise. After this we need to provide the syntax of class.
+
+            // Two Important things : 
+            // 1. ClassName should start with capital.
+            // 2. ClassName and FileName should be same (Good coding practice)
+
+            class ClassName {
+
+            // Properties or member variables
+            propertyName: type;
+
+            // Constructor to create the objects
+            constructor(parameter1: type, parameter2: type) {
+                
+                // Initialize properties
+                this.propertyName = parameter1;
+                // more initialization...
+            }
+
+            // Method or member functions
+            methodName(): returnType {
+                // method body
+                return value;
+            }
+            }
+
+        What are Classes?
+            Classes are the blueprint of objects.
+            Classes help you model real-world entities in your code by generalizing the properties and behaviors into a reusable template.
+            Instead of manually managing individual properties or creating repetitive objects, classes provide a structured, maintainable way to manage and manipulate your data.
+            Classes allow for easy scalability, flexibility, and organization of your code, making it easy to expand as your system grows.
+
+            How to create a class?
+                Identify the variables and behaviours which are repeating.
+                Generalise them by wrapping them into class.
+                class Person {
+
+                        // member variables which are repeating
+                        name:string;
+                        interest: string;
+
+                        // Constructor : to initialise the values of variables
+                    constructor(name, interest) {
+                        this.name = name;
+                        this.interest = interest;
+                    }
+                    
+                }
+
+                let person1 = new Person("Venu", "Backend");
+                let person2 = new Person("Dinkar", "Data Analysis");
+                let person3 = new Person("Ankit", "Data Structure");
+
+            What is constructor?
+                Constructors in TypeScript are special functions used to initialize objects when they are created from a class. When you define a class, the constructor allows you to set initial values for the object's properties. Without a constructor, the object would be created with default or uninitialized values, which could lead to errors or inefficiency in your application.
+
+                Initializing Values: When you create an instance of a class, the constructor allows you to pass values and initialize the object’s fields (properties). For example, in a Person class, the constructor might take values for name and interest to set them up when creating each Person object.
+                "this" Keyword: Inside the constructor, the this keyword refers to the current instance of the class. It helps to assign values to the object's properties. this.name = name assigns the passed name value to the object's name field.
+                In summary, the constructor is crucial because it initializes the object's properties, making it ready for use. It’s like setting the initial state for an object when it’s created, ensuring that it has the required values and functionality from the start.
+
+            Explain this keyword using memory Representation.
+                Memory for `person1`:
+                +-----------------------+
+                |    name: "Venu"       |  <-- this.name = "Venu"
+                |    interest: "Backend" |  <-- this.interest = "Backend"
+                +-----------------------+
+                    ^ (this points here)
+
+                Memory for `person2`:
+                +---------------------------+
+                |    name: "Ankit"          |  <-- this.name = "Ankit"
+                |    interest: "Data Structures" |  <-- this.interest = "Data Structures"
+                +---------------------------+
+                    ^ (this points here)
+                    this points to person1 or person2? person2 is the answer
+
+            How to create Object?
+                let p1 = new Person("Avinash", "Java Backend");v
+                // new keyword : triggers the constructor
+                Creating objects of a class in TypeScript is a straightforward process that allows you to instantiate objects based on the class template. The process involves the following steps:
+
+                Use the new Keyword: To create an object from a class, you need to use the new keyword followed by the class name. This triggers the constructor function of the class and creates a new instance of that class.
+                Pass Values to Constructor: If the class has a constructor that takes parameters (e.g., name, interest), you pass the necessary values when creating the object. These values will initialise the object’s properties.
+                Access Object Properties: Once the object is created, you can access its properties and methods using dot notation. The object now contains the values you initialized through the constructor.
+                Multiple Instances: You can create as many objects as needed from the same class, with different values for their properties. Each object will be a separate instance with its own state.
+            
+            Function inside Class
+                class Person {
+
+                        // member variables which are repeating
+                        name:string;
+                        interest: string;
+
+                        // Constructor function: to initialise the values of variables
+                    constructor(name, interest) {
+                        this.name = name;
+                        this.interest = interest;
+                    }
+                    
+                    // Member Function : Person also performs some actions like talking : introduce yourself
+                    introduce() {
+                        console.log(`Hello, my name is ${this.name} and I am interested in ${this.interest}.`);
+                    }
+                }
+
+                let person1 = new Person("Venu", "Backend");
+                let person2 = new Person("Dinkar", "Data Analysis");
+                let person3 = new Person("Ankit", "Data Structure");
+
+                person1.introduce();  // Output: Hello, my name is Venu and I am interested in Backend.
+                person2.introduce();  // Output: Hello, my name is Dinkar and I am interested in Data Analysis.##
+
+    2.0 Inheritance:
+        2.1 What is Inheritance?
+            Class based inheritance is syntactic sugar of prototype-based inheritance.
+            Under the hood, Class use prototype-based inheritance.
+
+            Solution is Inheritance
+                // Parent class
+                class Duck{
+
+                    swim():void{
+                        console.log("I know siwmming");
+                    }
+
+                    sound():void{
+                        console.log("Quack!! Quack!!");
+                    }
+                    
+                    fly():void{
+                        console.log("I fly at xkmph");
+                    }
+                }
+
+                //Child class
+                class IndianDuck extends Duck{
+
+                }
+
+                //Child class
+                class AmericanDuck extends Duck{
+
+                }
+
+                let indianDuck = new IndianDuck();
+                indianDuck.sound();
+                indianDuck.swim();
+                indianDuck.fly();
+
+                // child class
+                class AfricanDuck extends Duck{
+                fly():void{
+                        console.log("I fly at 15kmph");
+                    }
+                }
+
+
+                // Parent Class
+                    class Duck {
+                    name: string;
+                    interest: string;
+
+                    constructor(name: string, interest: string) {
+                        this.name = name;
+                        this.interest = interest;
+                    }
+
+                    // Method in Parent class
+                    swim(): string {
+                        return `${this.name} is swimming!`;
+                    }
+
+                    // Method in Parent class
+                    performFly(): string {
+                        return `${this.name} is flying!`;
+                    }
+
+                    // Method in Parent class
+                    makeSound(): string {
+                        return `${this.name} is quacking!`;
+                    }
+
+                    // New method added to the Parent class
+                    quack(): string {
+                        return `${this.name} is quacking loudly!`;
+                    }
+                    }
+
+                    // Child Class 1: MallardDuck
+                    class MallardDuck extends Duck {
+                    constructor(name: string, interest: string) {
+                        super(name, interest);  // Inheriting constructor from Parent class
+                    }
+
+                    // Method Overriding (same name as Parent class)
+                    makeSound(): string {
+                        return `${this.name} is quacking loudly!`;  // Overridden method
+                    }
+
+                    // Adding a new method specific to MallardDuck
+                    fly(): string {
+                        return `${this.name} is flying fast!`;  // New method in Child class
+                    }
+                    }
+
+                    // Child Class 2: WoodenDuck
+                    class WoodenDuck extends Duck {
+                    constructor(name: string, interest: string) {
+                        super(name, interest);  // Inheriting constructor from Parent class
+                    }
+
+                    // Method Overriding (same name as Parent class)
+                    makeSound(): string {
+                        return `${this.name} makes a squeaky sound!`;  // Overridden method
+                    }
+
+                    // Adding a new method specific to WoodenDuck
+                    fly(): string {
+                        return `${this.name} cannot fly!`;  // New method in Child class
+                    }
+                    }
+
+                    // Create instances of each duck type
+                    let mallardDuck = new MallardDuck("Mallard", "Swimming");
+                    let woodenDuck = new WoodenDuck("Wooden", "No interest");
+
+                    // Demonstrating Parent Class Methods
+                    console.log(mallardDuck.swim());         // Output: Mallard is swimming!
+                    console.log(mallardDuck.performFly());  // Output: Mallard is flying!
+                    console.log(mallardDuck.makeSound());   // Output: Mallard is quacking loudly!
+                    console.log(mallardDuck.quack());       // Output: Mallard is quacking loudly!
+                    console.log(mallardDuck.fly());         // Output: Mallard is flying fast!
+
+                    console.log(woodenDuck.swim());         // Output: Wooden is swimming!
+                    console.log(woodenDuck.performFly());  // Output: Wooden is flying!
+                    console.log(woodenDuck.makeSound());   // Output: Wooden makes a squeaky sound!
+                    console.log(woodenDuck.quack());       // Output: Wooden is quacking loudly!
+                    console.log(woodenDuck.fly());         // Output: Wooden cannot fly!
+
+            Method Overloading
+                class Greeter {
+                // Overload signatures
+                greet(name: string): string;
+                greet(age: number): string;
+
+                // Single implementation
+                greet(input: string | number): string {
+                    if (typeof input === "string") {
+                    return `Hello, ${input}!`;
+                    } else {
+                    return `You are ${input} years old.`;
+                    }
+                }
+                }
+
+                const g = new Greeter();
+
+                console.log(g.greet("Alice")); // Hello, Alice!
+                console.log(g.greet(25));      // You are 25 years old.
+
+        Public, Private, Protected Keyword:
+
+        1. public (Default)
+            Accessible everywhere: inside the class, outside the class, and in child classes.
+            If you don’t write anything, it's treated as public by default.
+            ✅ Example:
+            class Person {
+            public name: string;
+
+            constructor(name: string) {
+                this.name = name;
+            }
+
+            public greet() {
+                console.log(`Hello, my name is ${this.name}`);
+            }
+            }
+
+            const p = new Person("Alice");
+            console.log(p.name); // ✅ Accessible
+            p.greet();           // ✅ Accessible
+
+        2. private
+            Accessible only inside the same class.
+            ❌ Not accessible from outside or by child classes.
+            Use when you want to hide internal details of a class.
+            ✅ Example:
+            class Person {
+            private ssn: string;
+
+            constructor(ssn: string) {
+                this.ssn = ssn;
+            }
+
+            private logSSN() {
+                console.log(`SSN: ${this.ssn}`);
+            }
+            }
+
+            const p = new Person("123-45-6789");
+
+        3. protected
+            Accessible inside the class and in its child classes.
+            Not accessible from outside the class.
+            Use when you want to expose something only to inherited classes.
+            ✅ Example:
+            class Person {
+            protected department: string;
+
+            constructor(department: string) {
+                this.department = department;
+            }
+            }
+
+            class Employee extends Person {
+            showDepartment() {
+                console.log(`Department: ${this.department}`); //
+            }
+            }
+
+            const emp = new Employee("Engineering");
+            // console.log(emp.department);  
+            emp.showDepartment();           
+    
+        Summary Table:
+            Modifier	Accessible in Class   	Accessible in Child Class   	Accessible Outside Class
+            public	✅	✅	✅
+            private	✅	❌	❌
+            protected	✅	✅	❌
+
+        Types of Inheritance
+            Single Inheritance
+            Multi-level Inheritance
+            Hierarchical inheritance
+
+        Important Questions (Can ask to make them curious)
+
+            What is Parent Class and Child Class in the above code??
+            Child classes : Both classes will have the functions of Parent class
+            Can we add new functions in the Child class?
+            Yes, Child classes can add new methods that are specific to that class and are not present in the Parent class.
+            In the example above, both MallardDuck and WoodenDuck have added their own specific fly() methods.
+            Can we have a function with the same name as in the Parent?
+            Yes, this is called method overriding. If a function in the Child class has the same name as the function in the Parent class, the Child class method will override the Parent class method.
+            Example: Both MallardDuck and WoodenDuck override the makeSound() method. The Child class’s method will be the one that gets called when invoked on an instance of that Child class.
+            What will happen in second question, Which definition will work : Parent or child class? child class
+            method over-riding
+            Which function definition will be used when overridden? Parent or Child class?
+            The Child class’s method will be used if it overrides a method from the Parent class. This is known as method overriding.
+            Example: If you create an instance of MallardDuck and call makeSound(), it will use the makeSound() method from MallardDuck rather than the Parent Duck class, because the method was overridden in the Child class.
+            Can we add new functions to all the ducks?
+            Yes, by adding a new method to the Parent class, you can have all Child classes inherit this method. Alternatively, you can define specific new methods in each Child class to customize behavior.
+
+    3.0 Interface:
+
+        3.1 Need of Interface
+            In TypeScript, interfaces provide a way to define contract-based functionality without enforcing a concrete definition. This is useful when you want to ensure that different classes share the same structure or behavior without dictating how they implement the actual functionality. Essentially, interfaces define what needs to be done but leave how it is done to the implementing classes.
+
+            interface Duck {
+            swim(): void;    // Every duck must implement swim
+            sound(): void;   // Every duck must implement sound
+            fly(): void;     // Every duck must implement fly
+            }
+
+            class MallardDuck implements Duck {
+            swim(): void {
+                console.log("Mallard Duck is swimming.");
+            }
+
+            sound(): void {
+                console.log("Mallard Duck says Quack!");
+            }
+
+            fly(): void {
+                console.log("Mallard Duck is flying!");
+            }
+            }
+
+            class WoodenDuck implements Duck {
+            swim(): void {
+                console.log("Wooden Duck is floating.");
+            }
+
+            sound(): void {
+                console.log("Wooden Duck makes a squeaky sound.");
+            }
+
+            fly(): void {
+                console.log("Wooden Duck cannot fly.");
+            }
+            }
+
+        Scenario:
+            Suppose you need some functionality in your application, but you don’t want to dictate the exact implementation details for all the objects. In this case, you can use an interface to define the expected methods that any class should implement, without specifying the concrete implementation.
+
+        Can You Create Objects from an Interface?
+            No, interfaces cannot be instantiated. They are not meant to hold data but rather to define the structure that a class must implement. You cannot create an object directly from an interface because it doesn't provide any implementation—only a contract for what needs to be implemented.
+
+        Limitations of Interfaces:
+            Forces You to Define All Methods:
+
+            An interface in TypeScript forces you to implement all methods defined in it, regardless of whether your class actually needs them. This can lead to redundancy if some methods don't apply to certain classes or are not used, which makes your code unnecessarily verbose.
+            Example: If you define an interface with methods that don't apply to certain classes, TypeScript will still require you to provide implementations for those methods.
+        
+    3.2 Inheritance vs Interface
+        Inheritance:
+        Code reuse: Inheritance allows you to reuse code from the parent class.
+        Extend functionality: Child classes can add or modify the functionality inherited from the parent class.
+        Flexible behavior: Parent class methods can be overridden in the child class.
+        Interface:
+        No code reuse: Interfaces don't provide implementation; they only define method signatures.
+        Mandatory method definitions: Classes implementing the interface must define all the methods specified in the interface.
+        No flexibility in fields: Interfaces cannot contain fields or state, only methods.
+
+        Inheritance                 	Interface
+            All methods are concrete    	All methods are abstract
+            Template to create another objects with same states and behaviours   	Contract : that all other classes will surely have these methods but can have different implementation
+            Tight Coupling    	Loose Coupling
+
+    3.3 Closure : Classes, Inheritance, Interface
+        How OOPs will help in System Design?
+        Inheritance:
+            When to choose: Use inheritance when you need to reuse code or extend functionality. It allows a child class to inherit common behavior (methods and properties) from a parent class, promoting code reusability and maintainability.
+        
+        Interface:
+            When to choose: Use interfaces when you want to define a contract for behavior. Interfaces ensure that any class implementing them provides certain methods, allowing for consistency across different classes without enforcing implementation details. Ideal when you need flexibility in how methods are implemented.
+        
+        Design decisions :
+            If you need flexibility either go for abstract class or interface.
+            If you need to reuse the code go for inheritance.
+
+Notes SAL S03:
+
+    1. Abstract vs Concrete:
+        Term	Meaning
+        Abstract	Blueprint or idea — What should be done (not how)
+        Concrete	Real implementation — How it is done
+        Analogy: Abstract class = Blueprint Concrete class = Actual Building
+
+    2. Design Principle: Encapsulate What Varies
+        Goal: Isolate and manage parts of the system that change often (like duck behaviors).
+
+        Instead of writing code like this:
+
+        if (duckType === "rubber") {
+        // no fly, no sound
+        }
+
+        A better way is to:
+
+        Extract varying behavior (e.g., flying, quacking) into separate classes.
+        Use composition instead of inheritance.
+
+    3. The Problem (Bloated Duck Class)
+        As more duck types (Rubber, Wooden, Mallard, etc.) were added:
+
+        Too many if-else checks.
+        Duplicated behavior (fly, quack, swim).
+        Hard to extend without modifying the base class.
+        Violated the Open-Closed Principle.
+        Frequent merge conflicts in larger teams.
+
+    4. Solution: Interfaces for Reusable Behavior
+        Create fly behaviors with a common interface:
+
+        interface Flyable {
+        fly(): string;
+        }
+
+        class FlyNoWay implements Flyable {
+        fly() {
+            return "Sorry I don't fly!!";
+        }
+        }
+
+        class FlyWithWings implements Flyable {
+        fly() {
+            return "I fly with wings";
+        }
+        }
+
+        Now these classes can be reused across any duck.
+
+    5. Public vs Private
+        Keyword	Accessibility	Use Case
+        public	Accessible everywhere	To expose properties or methods
+        private	Accessible only within class	To protect internal data/logic
+        protected	Accessible in class and subclasses	For inheritance scenarios
+        Example:
+
+        class Duck {
+        public flyable: Flyable;
+        private age: number;
+        }
+
+    6. Setting Behavior Dynamically
+        You can change behavior at runtime:
+
+        const myDuck = new Duck(new FlyNoWay(), new MuteQuack());
+        myDuck.setFlyBehaviour(new FlyWithWings());  // now it flies!
+
+        This approach follows the Strategy Pattern.
+
+    7. Abstract Class vs Concrete Class
+        Feature	Abstract Class	Concrete Class
+        Instantiation	Not allowed	Allowed
+        Abstract methods allowed	Yes	No
+        Concrete methods allowed	Yes	Yes
+        Use case	Share code and enforce subclass rules	Create complete usable objects
+        Example:
+
+        abstract class Animal {
+        abstract makeSound(): void;
+        move(): void {
+            console.log("Moving...");
+        }
+        }
+
+    8. Polymorphism
+        Definition: The ability to take many forms, using the same interface with different behaviors.
+
+        Types of Polymorphism
+        Type	Description	When
+        Method Overloading	Same method name, different parameters	Compile-time
+        Method Overriding	Child class redefines a parent method	Runtime
+        Object Substitution	Parent reference refers to child object	Runtime
+        Real-life analogy: A printer prints different formats like PDFs, Word documents, or photos — all using the same method print(), but each with different logic.
+
+    9. Using Supertypes (Program to Interface or Abstract Class)
+        Options:
+        Interface
+        Abstract class
+        Regular class
+        Examples:
+
+        // Interface
+        interface Animal {
+        makeSound(): void;
+        }
+
+        class Dog implements Animal {
+        makeSound() {
+            console.log("Bark");
+        }
+        }
+
+        // Abstract class
+        abstract class Animal {
+        abstract makeSound(): void;
+        }
+
+        This enables flexibility and extendability.
+
+    10. Interface vs Abstract Class
+        Feature      	Interface             	Abstract Class
+        Method types      	All methods are abstract             	Can have both abstract and concrete
+        Object creation      	Not allowed             	Not allowed
+        Supports multiple inheritance      	Yes             	No
+        Preferred use case      	Enforcing structure only             	Reuse code + enforce some structure             
+
+    Summary Table: Polymorphism
+        Type          	Also Known As       	Resolved At         	Example
+        Method Overloading          	Static Polymorphism       	Compile-Time         	greet(name) vs greet(name, age)
+        Method Overriding          	Dynamic Polymorphism       	Runtime         	Subclass modifies inherited method
+        Object Substitution          	Subtype Polymorphism       	Runtime         	Duck d = new RubberDuck()
+
+
+Notes SAL S04:
+
+    1. Single Responsibility Principle (SRP):
+        Simple Explanation
+            A class should have only one responsibility or one reason to change.
+            If a class handles multiple concerns (e.g., generating reports, saving to files, and printing), it violates SRP.
+            Keeping one responsibility per class makes it easier to test, maintain, and reuse.
+        
+        How to Think About It
+            Ask: “Can I summarize what this class does in one sentence?”
+            If your answer contains “and” or “but,” the class may be doing too much.
+        
+        Identifying SRP Violations
+            A class handles multiple unrelated tasks:
+            Saves data and sends emails
+            Fetches API and updates UI
+            Changing one part of the class might break another
+            Large classes with mixed responsibilities
+
+        SRP Violation Example
+            class Report {
+            generate(): string {
+                return "Report Content";
+            }
+
+            print(report: string): void {
+                console.log("Printing report:", report);
+            }
+
+            saveToFile(report: string): void {
+                console.log("Saving report to disk:", report);
+            }
+            }
+
+            This class handles business logic, presentation, and persistence — violating SRP.
+
+        SRP Compliant Version
+            class Report {
+            generate(): string {
+                return "Report Content";
+            }
+            }
+
+            class ReportPrinter {
+            print(content: string): void {
+                console.log("Printing:", content);
+            }
+            }
+
+            class ReportSaver {
+            save(content: string): void {
+                console.log("Saving to file:", content);
+            }
+            }
+
+            Each class now has one clear responsibility and one reason to change.
+
+    2. Open/Closed Principle (OCP):
+
+        Simple Explanation
+            Software entities (classes, modules, functions) should be open for extension but closed for modification.
+            You should be able to add new behavior without changing existing code.
+        
+        How to Think About It
+            Can you add new features by writing new code, without modifying existing tested code?
+            Frequent edits to core logic for new use cases indicate a violation of OCP.
+        
+        Identifying OCP Violations
+            Use of if, else, or switch based on types or behaviors
+            Adding new features requires modifying existing classes
+            Frequent bugs introduced during feature addition
+
+        OCP Violation Example
+            class NotificationService {
+            send(type: string, message: string): void {
+                if (type === "email") {
+                console.log(`Sending EMAIL: ${message}`);
+                } else if (type === "sms") {
+                console.log(`Sending SMS: ${message}`);
+                }
+            }
+            }
+
+            Adding push notifications would require modifying the class, violating OCP.
+
+        OCP Compliant Version
+            interface Notifier {
+            send(message: string): void;
+            }
+
+            class EmailNotifier implements Notifier {
+            send(message: string) {
+                console.log(`Sending EMAIL: ${message}`);
+            }
+            }
+
+            class SMSNotifier implements Notifier {
+            send(message: string) {
+                console.log(`Sending SMS: ${message}`);
+            }
+            }
+
+            class NotificationService {
+            constructor(private notifier: Notifier) {}
+
+            notify(message: string) {
+                this.notifier.send(message);
+            }
+            }
+
+            const emailService = new NotificationService(new EmailNotifier());
+            emailService.notify("Welcome!");
+
+            const smsService = new NotificationService(new SMSNotifier());
+            smsService.notify("OTP: 1234");
+
+            New behavior can be added using a new class like PushNotifier without changing existing logic.
+
+    3. Liskov Substitution Principle (LSP):
+        Simple Explanation
+            Subtypes must be substitutable for their base types without altering the correctness of the program.
+            A derived class should be able to replace its base class without breaking functionality.
+        
+        How to Think About It
+            Is the subclass truly a "is-a" relationship?
+            Is the subclass violating expectations of the parent class?
+        
+        Identifying LSP Violations
+            Subclass throws errors for parent methods
+            Subclass adds conditionals to avoid executing parent behavior
+
+        LSP Violation Example
+            class MediaPlayer {
+            playAudio(): void {
+                console.log("Playing audio");
+            }
+
+            playVideo(): void {
+                console.log("Playing video");
+            }
+            }
+
+            class AudioPlayer extends MediaPlayer {
+            playVideo(): void {
+                throw new Error("Audio player can't play video");
+            }
+            }
+
+        LSP Compliant Version
+            interface AudioPlayable {
+            playAudio(): void;
+            }
+
+            interface VideoPlayable extends AudioPlayable {
+            playVideo(): void;
+            }
+
+            class AudioPlayer implements AudioPlayable {
+            playAudio(): void {
+                console.log("Playing audio only");
+            }
+            }
+
+            class FullMediaPlayer implements VideoPlayable {
+            playAudio(): void {
+                console.log("Playing audio");
+            }
+
+            playVideo(): void {
+                console.log("Playing video");
+            }
+            }
+
+            Each type now follows its intended interface without breaking behavior.
+
+    4. Interface Segregation Principle (ISP)
+        Simple Explanation
+            Do not force a class to implement interfaces it does not use.
+            Prefer multiple small interfaces over a single large one.
+        
+        ISP Violation Example
+            interface Machine {
+            print(): void;
+            scan(): void;
+            fax(): void;
+            }
+
+            class OldPrinter implements Machine {
+            print() {
+                console.log("Printing...");
+            }
+
+            scan() {
+                throw new Error("Scan not supported");
+            }
+
+            fax() {
+                throw new Error("Fax not supported");
+            }
+            }
+
+        
+        ISP Compliant Version
+            interface Printer {
+            print(): void;
+            }
+
+            interface Scanner {
+            scan(): void;
+            }
+
+            interface Fax {
+            fax(): void;
+            }
+
+            class SimplePrinter implements Printer {
+            print() {
+                console.log("Printing...");
+            }
+            }
+
+            class MultiFunctionPrinter implements Printer, Scanner, Fax {
+            print() {
+                console.log("Printing...");
+            }
+
+            scan() {
+                console.log("Scanning...");
+            }
+
+            fax() {
+                console.log("Faxing...");
+            }
+            }
+
+            Now, classes implement only what they need.
+
+    5. Dependency Inversion Principle (DIP)
+        Simple Explanation
+            High-level modules should not depend on low-level modules.
+            Both should depend on abstractions (e.g., interfaces).
+            Abstractions should not depend on details; details should depend on abstractions.
+        
+        What Is a Dependency?
+            A class depends on another class/service to do its job.
+            Example: A service class depending on a database class.
+        
+        Without DIP
+            Tight coupling between business logic and specific implementations.
+            Changing the low-level module (like the database) breaks the high-level module.
+        
+        DIP Violation Example
+            class MySQLDatabase {
+            save(data: string) {
+                console.log("Saving to MySQL:", data);
+            }
+            }
+
+            class UserService {
+            db = new MySQLDatabase();
+
+            registerUser(data: string) {
+                this.db.save(data);
+            }
+            }
+
+            UserService is tightly coupled to MySQLDatabase.
+        
+        DIP Compliant Version
+            interface Database {
+            save(data: string): void;
+            }
+
+            class MySQLDatabase implements Database {
+            save(data: string) {
+                console.log("Saving to MySQL:", data);
+            }
+            }
+
+            class MongoDB implements Database {
+            save(data: string) {
+                console.log("Saving to MongoDB:", data);
+            }
+            }
+
+            class UserService {
+            constructor(private db: Database) {}
+
+            registerUser(data: string) {
+                this.db.save(data);
+            }
+            }
+
+            const mysql = new MySQLDatabase();
+            const userService = new UserService(mysql);
+            userService.registerUser("John Doe");
+
+            Now UserService depends on the abstraction Database, not on a specific database class.
+
+        Related Concept: Dependency Injection (DI)
+            A technique to provide dependencies from outside rather than creating them inside.
+            Common types of DI:
+            Constructor Injection
+            Setter Injection
+            Interface Injection
+
+    Strategy Design Pattern:
+        
+        Problem Statement
+            You are building an e-commerce platform that initially had Credit Card Payments. As the platform expanded, the team added support for PayPal, Stripe, Bitcoin, and Apple Pay.
+
+            Initially, all payment methods were implemented inside one class: PaymentProcessor. As new payment options were added, this class became:
+
+            Large and difficult to maintain
+            Prone to bugs when changes were made
+            Hard to extend without modifying the original logic
+            Result: The team faced merge conflicts, slow reviews, and high maintenance effort.
+
+        Core Requirements
+            The system should support multiple payment methods.
+            It should be easy to add new strategies without modifying existing code.
+            Maintainability and extensibility are top priorities.
+
+        Strategy Pattern: Simple Definition
+            Strategy Pattern is a behavioral design pattern that:
+
+            Allows you to define a family of algorithms (or behaviors)
+            Encapsulates each algorithm inside its own class
+            Enables the interchangeability of these algorithms at runtime
+            In short: Do the same thing (e.g., processing payment) in different ways (Card, UPI, PayPal, etc.).
+
+        Goal-Oriented Client Code
+            Before diving into the full structure, understand how the client is expected to use the system:
+
+            const processor = new Payment(new CardPayment());
+            processor.process(100);
+
+            processor.setStrategy(new UPIPayment());
+            processor.process(200);
+
+            Key Idea: You can swap strategies at runtime without changing the logic in Payment.
+
+        Code Implementation
+            Step 1: Define a PaymentStrategy Interface
+                interface PaymentStrategy {
+                    performPayment(amount: number): void;
+                }
+
+                This acts as a contract that all payment strategies must follow.
+
+            Step 2: Create Concrete Strategies
+                class CardPayment implements PaymentStrategy {
+                    performPayment(amount: number): void {
+                        console.log(`Rs.${amount} Payment performed using Card`);
+                    }
+                }
+
+                class UPIPayment implements PaymentStrategy {
+                    performPayment(amount: number): void {
+                        console.log(`Rs.${amount} Payment performed using UPI`);
+                    }
+                }
+
+                Each class has its own logic for handling payments.
+
+            Step 3: Build the Context Class
+                class Payment {
+                    paymentStrategy: PaymentStrategy;
+
+                    constructor(paymentStrategy: PaymentStrategy) {
+                        this.paymentStrategy = paymentStrategy;
+                    }
+
+                    setStrategy(paymentStrategy: PaymentStrategy): void {
+                        this.paymentStrategy = paymentStrategy;
+                    }
+
+                    process(amount: number): void {
+                        this.paymentStrategy.performPayment(amount);
+                    }
+                }
+
+                This is the context that uses any payment strategy object.
+
+            Step 4: Use the Pattern
+                const processor = new Payment(new CardPayment());
+                processor.process(100); // Card
+
+                processor.setStrategy(new UPIPayment());
+                processor.process(200); // UPI
+
+
+            Class Diagram Overview
+                Participants:
+
+                    Payment → Uses the strategy
+                    PaymentStrategy → Interface
+                    CardPayment, UPIPayment, etc. → Concrete implementations
+                
+                Real-World Applications
+                    Payment Gateways: Card, UPI, PayPal, Stripe
+                    Authentication: Google, Facebook, Email login
+                    Shipping Options: Standard, Express, Overnight
+                    Sorting Algorithms: Quick Sort, Merge Sort, Bubble Sort
+                    Pricing Logic: Normal, Discounted, Premium pricing
+                    
+                Benefits
+                    Can switch algorithms at runtime without affecting client code.
+                    Encourages Open/Closed Principle: Add new strategies without modifying existing logic.
+                    Reduces code duplication by separating algorithm implementations.
+                    Promotes composition over inheritance.
+                    
+                Limitations
+                    If only 2–3 strategies are required, it might be overkill.
+                    For simple variations, functional programming (e.g., passing a function as a parameter) might be better.
+                    Too many classes: Every new strategy adds a new file or class.
+                    
+                Developer Tips
+                    Follow a clean folder structure:
+                    /src for TypeScript source files
+                    /dist for compiled JavaScript files
+                    While combining all logic in one file is possible, using separate files for each strategy improves readability and maintainability.
+                    Use interfaces to enforce contracts and ensure all strategies follow the same method structure.
+
+
+Notes SAL S05:
+    1.0 Concept: Tight Coupling vs Loose Coupling:
+        What is Tight Coupling?
+            When one class is heavily dependent on another.
+            You cannot change one class without affecting the other.
+            Difficult to test and extend.
+            Example:
+
+            class Engine {
+            start() {
+                console.log("Engine started");
+            }
+            }
+
+            class Car {
+            private engine = new Engine(); // Tight Coupling
+
+            drive() {
+                this.engine.start();
+                console.log("Car is driving");
+            }
+            }
+
+            Problem: Car is directly creating and depending on Engine.
+
+        What is Loose Coupling?
+            Classes are connected through abstraction (like interfaces).
+            You can change components without modifying the whole system.
+            Easier to test, extend, and maintain.
+        
+        Composition with Class (Still some coupling)
+            class Engine {
+            start(): void {
+                console.log("Engine started");
+            }
+            }
+
+            class Car {
+            private engine: Engine;
+
+            constructor(engine: Engine) {
+                this.engine = engine; // Injected from outside
+            }
+
+            drive(): void {
+                this.engine.start();
+                console.log("Car is driving");
+            }
+            }
+
+            const car = new Car(new Engine());
+            car.drive();
+
+            Car delegates behavior to Engine without knowing its internal details.
+            This reduces coupling compared to tight coupling.
+
+        Composition with Interface (Loose Coupling)
+            interface Vehicle {
+            start(): void;
+            }
+
+            class Car implements Vehicle {
+            start() {
+                console.log("Car is starting");
+            }
+            }
+
+            class Bike implements Vehicle {
+            start() {
+                console.log("Bike is starting");
+            }
+            }
+
+            class Driver {
+            constructor(private vehicle: Vehicle) {}
+
+            drive() {
+                this.vehicle.start();
+                console.log("Driving...");
+            }
+            }
+
+            Why is this better?
+
+            Driver doesn’t care what the vehicle is — as long as it follows the Vehicle interface.
+            Easily swap Car or Bike.
+
+    2.0 Strategy Pattern (UML & Code)
+        Concept:
+        Instead of writing multiple if-else, we define multiple interchangeable strategies (classes with common behavior).
+        Class Diagram Style:
+    
+    3.0 Observer Design Pattern – Loose Coupling in Action:
+
+        Problem Context:
+            You’re building a system like a weather station or YouTube notification system, where many devices need updates.
+
+            Central system: WeatherStation
+            Dependent devices: Smartphone, Tablet
+            Devices should be able to subscribe/unsubscribe any time.
+        
+        Observer Pattern Flow:
+            Subject = broadcaster
+            Observer = devices
+            Subject has a list of observers.
+            Whenever an update happens → all observers are automatically notified.
+
+        Code Breakdown:
+            1. Interfaces:
+                interface Subject {
+                attach(observer: Observer): void;
+                detach(observer: Observer): void;
+                notify(): void;
+                }
+
+                interface Observer {
+                update(subject: Subject): void;
+                }
+
+            2. Concrete Subject:
+                class WeatherStation implements Subject {
+                private observers: Observer[] = [];
+
+                attach(observer: Observer): void {
+                    if (!this.observers.includes(observer)) {
+                    this.observers.push(observer);
+                    console.log("Attached an observer.");
+                    }
+                }
+
+                detach(observer: Observer): void {
+                    const index = this.observers.indexOf(observer);
+                    if (index !== -1) {
+                    this.observers.splice(index, 1);
+                    console.log("Detached an observer.");
+                    }
+                }
+
+                notify(): void {
+                    for (const observer of this.observers) {
+                    observer.update(this);
+                    }
+                }
+
+                listAllObservers(): void {
+                    console.log(this.observers);
+                }
+                }
+
+            3. Concrete Observers:
+                class Smartphone implements Observer {
+                update(subject: Subject): void {
+                    console.log("Smartphone received update from:", subject);
+                }
+                }
+
+                class Tablet implements Observer {
+                update(subject: Subject): void {
+                    console.log("Tablet received update from:", subject);
+                }
+                }
+
+            4. Client Code:
+                const weatherStation = new WeatherStation();
+
+                const harshitPhone = new Smartphone();
+                const dinkarTablet = new Tablet();
+
+                weatherStation.attach(harshitPhone);
+                weatherStation.attach(dinkarTablet);
+
+                weatherStation.notify();       // All observers notified
+                weatherStation.listAllObservers();
+
+        Applications of Observer Pattern
+                Messaging Systems (WhatsApp, Telegram notifications)
+                Live Scoreboards (ESPN, CricBuzz)
+                Real-Time Stock Market Dashboards
+                IoT Systems (Weather sensors, smart homes)
+                Collaboration Tools (Google Docs real-time sync)
+            Benefits
+                Loose Coupling: Subject doesn't care who is observing.
+                Open/Closed Principle: Add new observers without changing subject.
+                Runtime Flexibility: Add or remove observers anytime.
+            Limitation
+                Notification Order is not guaranteed.
+                Can become hard to debug with many subscribers.
+
+        Summary
+            Concept	Tight Coupling	Loose Coupling
+            Flexibility	Low	High
+            Extensibility	Difficult	Easy to extend
+            Testing	Hard	Easy
+            Code Dependency	Concrete classes	Interfaces / Abstractions
+            Example Pattern	Direct object creation	Observer Pattern, Strategy Pattern
+
+Notes SAL S06:
+    Decorator Design Pattern:
+        1. Problem Statement: Beverage Customization System
+            In a cafe, customers can order various beverages like tea or coffee. These beverages can be enhanced with ingredients such as honey, sugar, or whipped cream.
+
+            Requirements:
+            Each beverage must have a description and a cost.
+            Users can customize beverages with zero or more ingredients.
+            Cost should update dynamically based on ingredients added.
+            The system must follow OOP principles and be extensible for new beverages and ingredients.
+        
+        2. Objective of the System
+            Allow creation of various base beverages with their base prices.
+            Use decorators to add ingredients like honey, sugar, etc.
+            Compute final cost and show full description after customizations.
+            Ensure extensibility without modifying core beverage classes.
+        
+        3. Why Decorator Pattern?
+            The Decorator Pattern allows behavior to be dynamically added or removed from an object at runtime.
+            It helps achieve flexibility, modularity, and adheres to the Open/Closed Principle.
+            Instead of modifying or extending the base class, decorators wrap it to add functionality.
+        
+        4. Core Design Approach
+            Class Types Used:
+            Abstract Beverage Class
+            Concrete Beverages (e.g., Margherita, Farmhouse)
+            Abstract Topping Decorator
+            Concrete Toppings (e.g., Cheese, Olives, Jalapeno)
+            Client Code to assemble and order
+            Design Decision:
+            We use inheritance here to ensure that each decorator behaves like a beverage (has getDescription() and getCost() methods), allowing nested wrapping.
+
+        5. Code Implementation
+            // Abstract base class
+            abstract class Pizza {
+            abstract getDescription(): string;
+            abstract getCost(): number;
+            }
+
+            // Concrete base classes
+            class Margherita extends Pizza {
+            getDescription() { return "Margherita"; }
+            getCost() { return 150; }
+            }
+
+            class Farmhouse extends Pizza {
+            getDescription() { return "Farmhouse"; }
+            getCost() { return 200; }
+            }
+
+            // Abstract topping decorator
+            abstract class ToppingDecorator extends Pizza {
+            constructor(protected pizza: Pizza) { super(); }
+            abstract getDescription(): string;
+            abstract getCost(): number;
+            }
+
+            // Concrete Toppings
+            class Cheese extends ToppingDecorator {
+            getDescription() { return this.pizza.getDescription() + " + Cheese"; }
+            getCost() { return this.pizza.getCost() + 40; }
+            }
+
+            class Olives extends ToppingDecorator {
+            getDescription() { return this.pizza.getDescription() + " + Olives"; }
+            getCost() { return this.pizza.getCost() + 30; }
+            }
+
+            class Jalapeno extends ToppingDecorator {
+            getDescription() { return this.pizza.getDescription() + " + Jalapeno"; }
+            getCost() { return this.pizza.getCost() + 25; }
+            }
+
+            Client Code Example
+            const myPizza = new Cheese(new Cheese(new Olives(new Margherita())));
+
+            console.log("Order:", myPizza.getDescription()); // Margherita + Olives + Cheese + Cheese
+            console.log("Total Cost: ₹", myPizza.getCost()); // ₹220
+
+        6. Class Diagram
+            Use UML to show:
+
+            Pizza is the base component.
+            Margherita and Farmhouse inherit Pizza.
+            ToppingDecorator also inherits Pizza.
+            Cheese, Olives, etc., inherit ToppingDecorator.
+        
+        7. Real-World Analogy: Car Customization
+            Customers build a custom car starting from a BasicCar and dynamically adding upgrades like:
+
+            Performance: Turbocharger, Carbon Fiber
+            Luxury: Leather Seats, Sound System
+            Safety: Blind-Spot Monitoring
+            Tech: Auto-Parking, 360° Camera
+            Decorators allow upgrades to be added dynamically, combined flexibly, and stacked without modifying the core Car class.
+
+        8. Benefits of Decorator Pattern
+            Runtime flexibility: Add/remove features as needed.
+            Avoids subclass explosion: No need to create many variants.
+            Open/Closed Principle: Easily add new toppings/upgrades.
+            Single Responsibility Principle: Each decorator has a specific purpose.
+            
+        9. Limitations of Decorator Pattern
+            Debugging is harder when many decorators are layered.
+            Order of decorators may impact output.
+            Initial setup of multiple decorators may look complex or verbose.
+        
+        10. When to Use and Avoid
+            Use Decorator Pattern when:
+            You need to add behaviors dynamically.
+            You want to reuse and combine features flexibly.
+            You want to follow clean OOP design principles.
+            Avoid Decorator Pattern when:
+            There are only a few fixed options.
+            Behavior doesn't change—only appearance or cost.
+            Simplicity and speed are prioritized.
+        
+        11. Comparison with Other Patterns
+            Design Choice      	Use When...
+            Strategy Pattern      	You want to change complete behavior
+            Decorator Pattern      	You want to extend existing behavior
+            Inheritance      	You know all behaviors at compile-time
+            Interface      	You only want to enforce structure/contract
+
+
+Notes NSD S07:
+
+    1.0 Factory Design Pattern:
+        
+        Concept: What Is the Factory Pattern?
+            The Factory Design Pattern provides an interface to create objects but hides the instantiation logic inside a dedicated factory function or class.
+
+            Instead of writing:
+
+            const laptop = new Laptop("Dell", 800);
+
+            You write:
+
+            const laptop = ProductFactory.createProduct("Laptop", "Dell", 800);
+
+            This encapsulates the object creation process and follows Open/Closed Principle — allowing new product types to be added without modifying client code.
+
+        Approach and Key Features
+            Feature	Description
+            Encapsulation	new is used inside the factory, not in client code
+            Simplifies object creation	Especially useful for objects with complex setup
+            Flexible	You can add new product types with minimal changes
+        
+        Real World Examples (Node.js)
+            Function	What it Returns	Factory?
+            fs.createReadStream()	A ReadStream object	Yes
+            jwt.sign()	A JWT string	Yes
+            express.Router()	A new Router instance	Yes
+            axios.create()	A configured Axios client	Yes
+
+        Implementation in TypeScript
+            // Step 1: Define Product Interface
+            interface Product {
+            name: string;
+            price: number;
+            getDescription(): string;
+            }
+
+            // Step 2: Concrete Product Classes
+            class Laptop implements Product {
+            constructor(public name: string, public price: number) {}
+            getDescription(): string {
+                return `Laptop: ${this.name}, Price: $${this.price}`;
+            }
+            }
+
+            class Mobile implements Product {
+            constructor(public name: string, public price: number) {}
+            getDescription(): string {
+                return `Mobile: ${this.name}, Price: $${this.price}`;
+            }
+            }
+
+            // Step 3: Factory Class
+            class ProductFactory {
+            static createProduct(type: string, name: string, price: number): Product {
+                if (type === "Laptop") {
+                return new Laptop(name, price);
+                } else if (type === "Mobile") {
+                return new Mobile(name, price);
+                }
+                throw new Error("Invalid product type");
+            }
+            }
+
+            // Step 4: Client Code
+            const mac = ProductFactory.createProduct("Laptop", "MacBook Pro", 2500);
+            console.log(mac.getDescription());
+
+            const iphone = ProductFactory.createProduct("Mobile", "iPhone 15", 1200);
+            console.log(iphone.getDescription());
+
+        When to Use Factory Pattern?
+            Use this pattern when:
+
+            You want to abstract object creation away from the user.
+            You have multiple subclasses sharing a common interface.
+            You want to centralize the object creation logic.
+            Object creation requires logic or branching.
+
+        Applications in Real Projects
+            Component Libraries: Create dropdowns, modals, cards dynamically.
+            Databases: Create MongoDB, PostgreSQL, or Redis connections from one point.
+            Game Development: Dynamically generate enemies, levels, or weapons.
+            Authentication Services: Return the correct strategy (Google, GitHub, OTP, etc.)
+        
+        Benefits
+            Cleaner code with centralized instantiation
+            Makes the system easily extensible
+            Hides the complexity of object creation
+            Avoids duplication of object creation logic
+            
+        Limitations
+            Adds extra abstraction
+            If not carefully managed, adding new types might still violate Open/Closed Principle
+            Makes debugging harder in large systems
+
+    2.0 Singleton Design Pattern:
+
+        Problem Statement
+            You want to ensure that only one instance of a class is created and used across the entire application.
+
+            Real-world analogy:
+
+            There should be only one config manager, one logger, or one database connection shared across all files.
+        
+        Concept: What Is a Singleton?
+            Singleton is a creational design pattern.
+            It ensures that only one instance of a class exists.
+            The instance is shared across the app.
+            New instance is never created again.
+        
+        Use Cases
+            Logger: One logger shared across modules
+            Database Client: Only one connection to DB
+            App Configurations: Single source of truth
+        
+        Singleton Implementation in TypeScript
+            class Singleton {
+            static #instance: Singleton;
+
+            private constructor() {
+                // Private prevents direct instantiation
+            }
+
+            public static get instance(): Singleton {
+                if (!Singleton.#instance) {
+                Singleton.#instance = new Singleton();
+                }
+                return Singleton.#instance;
+            }
+
+            public log(message: string) {
+                console.log("Log:", message);
+            }
+            }
+
+            // Usage
+            const s1 = Singleton.instance;
+            const s2 = Singleton.instance;
+
+            console.log(s1 === s2); // true
+
+        TypeScript Note: Getter Access
+            class Example {
+            private value = 42;
+
+            get data(): number {
+                return this.value;
+            }
+            }
+
+            const obj = new Example();
+            console.log(obj.data); // No () needed
+
+            In TypeScript, getter methods are accessed like properties, without parentheses.
+
+            Constructor is private.
+            Static method controls object creation.
+            First call creates the instance.
+            Later calls return the same instance.
+        
+        When to Use Singleton?
+            Use when:
+
+            You want exactly one instance of a class.
+            That instance needs to be shared across modules/files.
+            You want lazy initialization (create when needed).
+        
+        Applications in Real Projects
+            Logger services (e.g., Winston, Bunyan)
+            Database connections (e.g., MongoDB, PostgreSQL)
+            Settings manager in frameworks like NestJS
+            Telemetry client (e.g., New Relic, Datadog)
+        
+        Benefits
+            Global Access to shared state or resource
+            Ensures resource efficiency (e.g., 1 DB connection)
+            Centralized management of config/state
+        
+        Limitations
+            Violates Single Responsibility Principle (does both instance control + global access)
+            Can hide dependencies — tight coupling
+            Can be hard to test/mocks
+            In multi-threaded environments, needs lock mechanisms
+

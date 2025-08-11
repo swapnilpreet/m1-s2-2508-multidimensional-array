@@ -1,12 +1,27 @@
 
-inbuild function :
-    predefined fn provied by js engine  perform common tool 
-    it is part of js language 
-    ex. math.max(),push(),pop()..etc..
-    tc. O(n) sort() > O(n log n) slice(st,end) > O(k)
-    k = size of slice return arr
+Intro
+    JavaScript is a scripting or programming language that allows you to implement complex features on web pages 
+    every time a web page does more than just sit there and display static information for you to look at — 
+    displaying timely content updates, interactive maps, animated 2D/3D graphics, scrolling video jukeboxes, etc. — 
+    you can bet that JavaScript is probably involved.
 
-    why used : optimise a performance ,increase readability,maintainabity
+    JavaScript enables you to create dynamically updating content, control multimedia, animate images, and pretty much everything else. (Okay, not everything, but it is amazing what you can achieve with a few lines of JavaScript code.)
+
+Node JS
+    Node.js is an open-source, cross-platform, back-end JavaScript runtime environment 
+    that runs and executes JavaScript code outside a web browser. 
+    
+    Node.js lets developers use JavaScript to write command-line tools and for server-side scripting. 
+    Consequently, Node.js represents a "JavaScript everywhere" paradigm, unifying web application development around a single programming language, rather than different languages for server-side and client-side scripts.
+
+inbuild function :
+    predefined fn provied by js engine  perform common task it is part of js language.
+
+        ex. math.max(),push(),pop()..etc..
+
+    tc. O(n) sort() > O(n log n) slice(st,end) > O(k) k = size of slice return arr
+
+    why used : optimise a performance ,increase readability, maintainabity
 
 Immunitable:
     can't be chnaged,if you modifed a value of get oldified value ,not original value,
@@ -19,7 +34,7 @@ mutable:
 
 Datatypes;
     1 primitive : Immunitable store the value,total we have 7 datatype 
-                ex.number,str,boolean,null,undefiend,bogInt,symbol.
+                ex.number,str,boolean,null,undefiend,bigInt,symbol.
 
     2 non-primitive : mutable store the refences,total we have many data 
                     type like obj,arr,fn,data etc..
@@ -28,10 +43,10 @@ Object :
     it is non-premitive data type, used to store a data in key:vlaue pair,
 
     why we used :
-         for key-based storage,str data,fast lookup O(1),flexible and dynamic.
+        for key-based storage,str data,fast lookup O(1),flexible and dynamic.
 
     ex.
-         const car={         
+        const car={         
             brand="toyata";
             year=2025;
         }
@@ -42,15 +57,15 @@ Object :
 
     update/add :
         car.color=blue // check if key found then update colour or add new key value pair add new field color
-        car.year=2015; chnaged the modified the value .
+        car.year=2015; chnaged the modified the value.
 
     delete:
         delete car.year;
     
-    How many way create obj : 
+    How many way create obj:
         6 main ways to create an object 
 
-        1 Object Literal (Most Common)
+        1. Object Literal (Most Common)
             ex.
                 const person = {
                     name: "Alice",
@@ -58,12 +73,12 @@ Object :
                 };
 
             why used :
-                 When creating simple, static objects,Simple and readable, Good for small objects.
+                When creating simple, static objects,Simple and readable, Good for small objects.
 
             Cons: 
                 Not reusable or scalable for multiple instances.
 
-        2 Using new Object() Constructor
+        2. Using new Object() Constructor
             ex. 
                 const person = new Object();
                 person.name = "Alice";
@@ -166,6 +181,8 @@ Object :
             
 Instance:
     An instance is just an object created using a class.
+    an instance is a specific object created from a class or constructor function, which contains its own data (properties) and can use the methods defined by that class or constructor.
+ 
 
     ex.
         class Car {
@@ -204,7 +221,7 @@ Function:
 
     Function types:
 
-        1 Named Function:
+        1 Function Declaration / Named Function:
             A function with a name ,declared using the function keyword.
 
             ex.
@@ -244,6 +261,23 @@ Function:
         5. Immediately Invoked Function Expression (IIFE)
             Runs as soon as it’s defined. It avoids polluting the global scope.
             Use Case: One-time initialization.
+
+            note When placing an IIFE after another statement or variable, put a semicolon before it to avoid the “intermediate value” error.
+            
+            why give ist 
+            or else used on top of the page;
+
+            Why it happens
+                JavaScript sees:
+                something (function() { ... })();
+                and thinks:
+
+                “Oh, something(...) returns a value… let’s try to call that value as a function.”
+
+                If that returned value isn’t actually a function, JS throws:
+
+                
+                TypeError: (intermediate value) is not a function
 
             ex.
                 (function() {
@@ -338,7 +372,7 @@ Factory Function :
         No new keyword required, Can create private variables via closures,Easier to test, extend, compose
     
     Cons:
-        Each instance has its own copy of methods unless optimized, No instanceof relation
+        Each instance has its own copy of methods unless optimized, No instance of relation
 
 Array Destructuing :
     Destructuring means unpacking values from arrays (or properties from objects) into distinct variables.
@@ -358,6 +392,7 @@ Array Destructuing :
             [x, y] = [y, x];
             console.log(x); // 2
             console.log(y); // 1
+    
     Destructuring with Default Values:
         ex.
             const [name = "Guest", age = 30] = [];
@@ -370,21 +405,21 @@ Array Destructuing :
         Returning multiple values from a function
 
     Other Common Array Operations in JavaScript:
-        Operation	            Description     	Example
+        Operation	            Description     	                    Example
 
-        push()          Adds item to the end	   arr.push(5)
-        pop()           Removes last item	       arr.pop()
-        shift()	        Removes first item	       arr.shift()
-        unshift()    	Adds item to the beginning  	arr.unshift(0)
-        map()	        Transforms every item, returns new array	arr.map(x => x*2)
-        filter()	    Returns items that match a condition	arr.filter(x => x > 10)
-        reduce()	    Reduces array to a single value	        arr.reduce((a, b) => a + b, 0)
+        push()          Adds item to the end	                        arr.push(5)
+        pop()           Removes last item	                            arr.pop()
+        shift()	        Removes first item	                            arr.shift()
+        unshift()    	Adds item to the beginning  	                arr.unshift(0)
+        map()	        Transforms every item, returns new array        arr.map(x => x*2)
+        filter()	    Returns items that match a condition	        arr.filter(x => x > 10)
+        reduce()	    Reduces array to a single value	                arr.reduce((a, b) => a + b, 0)
         forEach()	    Executes a function for each item (no return)	arr.forEach(x => console.log(x))
-        find()	       Finds the first item matching condition	      arr.find(x => x > 10)
-        includes()	  Checks if item exists       	             arr.includes(3)
-        indexOf()	   Finds index of item	                     arr.indexOf("banana")
-        slice()	       Returns part of an array	                 arr.slice(1, 3)
-        splice()	   Adds/removes elements	                 arr.splice(2, 1)
+        find()	        Finds the first item matching condition	        arr.find(x => x > 10)
+        includes()	    Checks if item exists       	                arr.includes(3)
+        indexOf()	    Finds index of item	                            arr.indexOf("banana")
+        slice()	        Returns part of an array	                    arr.slice(1, 3)
+        splice()	    Adds/removes elements	                        arr.splice(2, 1)
 
 
     Array Methods:
@@ -496,14 +531,14 @@ null and undefined :
 
         
     Differences Between undefined and null :
-        Feature         	undefined               	null
-
-        Type             	undefined         	        object (weird JS quirk)
-        Set by       	JavaScript (automatically)     	Developer (manually assigned)
-        Meaning       	Variable declared but no value assigned      	Variable assigned no value intentionally
-        Common Use    	Default value for uninitialized variables     	Used to clear an object or indicate absence
-      Comparison (==)        	null == undefined → true	
-      Comparison (===)       	null === undefined → false	
+        Feature         	undefined               	            null
+        Type             	undefined         	                    object (weird JS quirk)
+        Set by       	JavaScript (automatically)     	            Developer (manually assigned)
+        Meaning       	Variable declared but no value assigned     Variable assigned no value intentionally
+        Common Use    	Default value for uninitialized variables   Used to clear an object or indicate absence
+      
+        Comparison (==)        	null == undefined → true	
+        Comparison (===)       	null === undefined → false	
 
 
 == vs === :
@@ -528,12 +563,14 @@ Execution Context in js:
 
     Phases of Execution Context:
         Every execution context goes through two main phases:
+
             1. Creation Phase:
                 JavaScript scans the code before executing.Memory is allocated.
 
                 ✅ Key actions:
                         Term                        	Definition
-                        Variable Object (VO) / Lexical Environment   	Stores variables, function declarations.
+                        Variable Object (VO)
+                         / Lexical Environment   	    Stores variables, function declarations.
                         Scope Chain                  	Provides access to variables in outer contexts.
                         this Binding                 	Sets the value of this keyword (depends on how function is called).
                         Hoisting                    	Variable and function declarations are moved to the top of their scope.
@@ -602,7 +639,7 @@ Hoisting :
         variable :
            variable var hoisted as undefiend but in case of let and const they also hosited but stay in temporal dead zone.
 
-           whern we access a vairble that are present in tdz we get refrenscceError 
+           when we access a vairble that are present in tdz we get refrenscceError 
 
            ex.
             Example 1: var
@@ -658,22 +695,22 @@ lexical Scope:
             outer();
     
     1. Lexical Scope is Created When Code is Written
-        Lexical Scope is static and created based on where functions are defined — not when they are executed.
+        Lexical Scope is static and created based on where functions are defined—not when they are executed.
         Since inner() is defined inside outer(), it forms a lexical relationship — it can access everything in outer()’s scope.
             ex.
                 Global Scope
                 │
-                ├── function outer() {                    ← Lexical scope of outer
-                │     const outerVar = "I am from outer";← declared inside outer's scope
+                ├──function outer() {                        ← Lexical scope of outer
+                │     const outerVar = "I am from outer";    ← declared inside outer's scope
                 │
-                │     └── function inner() {             ← inner is lexically scoped inside outer
-                │           console.log(outerVar);       ← outerVar is accessible here due to lexical scope
+                │     └── function inner() {                 ← inner is lexically scoped inside outer
+                │           console.log(outerVar);           ← outerVar is accessible here due to lexical scope
                 │        }
                 │
-                │     inner();                            ← call inner
+                │     inner();                               ← call inner
                 │ }
                 │
-                └── outer();                              ← call outer
+                └── outer();                                 ← call outer
                     
 Closure :
     function that remebers the variables from its lexical scope even after outer fn done there executing.
@@ -732,7 +769,7 @@ Closure :
             ex.
                 function multiply(a) {
                     return function(b) {
-                        return a * b;
+                        return a*b;
                     };
                 }
                 const double = multiply(2);
@@ -774,10 +811,9 @@ HOF:
         Promote reusability and modular code Enable functional programming style Allow custom logic injection Enhance code readability and composition
 
     Technical Term Definitions:
-            Term             	Definition
-
-            Function         	A block of code designed to perform a specific task.
-            Callback         	A function passed as an argument to another function.
+            Term             	            Definition
+            Function         	            A block of code designed to perform a specific task.
+            Callback         	            A function passed as an argument to another function.
             HOF (Higher-Order Function)  	A function that can accept or return another function.
             Method Chaining          	Calling multiple methods on the same object in a single statement (e.g., .map().filter().reduce() chaining).
             Pure Function           	A function that returns the same output for the same input and has no side effects.
@@ -827,6 +863,7 @@ HOF:
         Reduces the array to a single value by accumulating the result.
         const sum = nums.reduce((acc, n) => acc + n, 0); // 6
 
+    
     Custom Sorting with .sort():
         Sort numbers in descending order:
             const numbers = [5, 1, 10, 2];

@@ -1,0 +1,1026 @@
+Introduction to Backend, NodeJs and Modules:
+
+    Why is Backend Needed?:
+        Backend development is essential for creating dynamic, scalable, and secure applications. It acts as the brain of the application, handling data management, business logic, and communication between the frontend and the database.
+
+    Importance of Backend Development:
+        Data Storage & Management – It stores and organizes data securely.
+            Example: A social media app stores user profiles, posts, and comments.
+        Business Logic & Processing – It ensures that data is processed according to the application's rules.
+            Example: An e-commerce site calculates discounts and applies taxes before checkout.
+
+    Difference Between Backend and Frontend
+        Feature         	Frontend                          	Backend
+        Definition         	The part of the application users see and interact with                          	Manages data, business logic, and interactions with the database
+        Languages Used         	HTML, CSS, JavaScript (React, Angular, Vue)                          	JavaScript (Node.js), Python (Django, Flask), Java (Spring Boot)
+        Example         	A login page with input fields and buttons	                          Validates login credentials, checks the database, and returns user data
+
+    What is the Task of the Frontend?
+        The frontend handles the visual and interactive aspects of a web application.
+
+        Key Responsibilities
+            User Interface (UI) Design – Ensuring a visually appealing layout.
+            User Experience (UX) Optimization – Making the interface smooth and user-friendly.
+            Data Presentation – Fetching and displaying data from the backend dynamically.
+            Handling User Input – Capturing and validating user actions before sending them to the backend.
+        Example:
+            In a banking app, the frontend displays account balances and enables transactions.
+            In a food delivery app, it shows restaurant menus and allows users to place orders.
+    
+    What is a Server?
+        A server is a computer or software that processes requests and provides responses to clients over a network.
+
+        Types of Servers:
+            Web Server – Delivers web pages over HTTP/HTTPS (e.g., Apache, Nginx).
+            Application Server – Runs backend logic and serves dynamic content (e.g., Node.js, Express).
+    
+    What is Business Logic? What are Database Interactions?
+        Business logic is the set of rules that define how data should be processed.
+        Database interactions involve CRUD operations (Create, Read, Update, Delete) in a database.
+            
+        Example of Business Logic:
+            E-commerce platform – Calculates discounts, taxes, and final pricing.
+            Banking system – Verifies account balance before processing withdrawals.
+            
+        Example of Database Interactions:
+            A login system verifies user credentials against stored records in a database.
+            A blogging platform retrieves all posts from a database and displays them on the frontend.
+    
+    What is the Client-Server Model?
+        The client-server model is a networking architecture where a client (frontend) sends requests to a server (backend), which processes them and returns the required data.
+
+        How it Works?
+        
+            The client sends a request to the server (e.g., asking for product details).
+            The server processes the request, retrieves data from the database, and applies business logic.
+            The server sends the processed data back to the client.
+        Example:
+            When you search for a product on Amazon, the frontend (client) sends a request to the backend, which fetches matching products from the database and returns the results.
+
+
+    What is 3-Tier Architecture?
+        The 3-tier architecture is a widely used software architecture that divides an application into three separate layers for better scalability, security, and maintenance.
+
+        Layers of 3-Tier Architecture
+            Presentation Layer (Frontend) – The UI that users interact with.
+            Application Layer (Backend) – The logic that processes requests and applies business rules.
+            Data Layer (Database) – The storage system where application data is managed.
+
+        Example:
+            In a food delivery app:
+            The frontend displays menus and allows users to place orders.
+            The backend processes orders and assigns delivery drivers.
+            The database stores customer details, orders, and restaurant menus.
+    
+    Why is 3-Tier Architecture in Demand Nowadays?
+        The 3-tier architecture is widely adopted due to the following benefits:
+
+        Scalability – 
+            Each layer can be scaled independently, making it easy to handle large amounts of traffic.
+        Security – 
+            The separation of concerns enhances security by keeping the database protected from direct user access.
+        Maintainability – 
+            Changes in one layer do not affect others, making updates and debugging easier.
+        Cloud & Microservices Compatibility – 
+            Modern applications use cloud-based services and microservices, which align well with the 3-tier model.
+    
+    Famous Websites Using 3-Tier Architecture
+        Many popular web applications use 3-tier architecture due to its efficiency and flexibility.
+
+            Amazon – Handles millions of requests with separate frontend, backend, and database layers.
+            Netflix – Uses 3-tier architecture to process video streaming requests efficiently.
+            Facebook – Manages billions of users by separating UI, business logic, and database operations.
+            Uber – Uses a multi-tier architecture to handle ride-booking, pricing, and driver allocation.
+
+    Why is Node.js Used as a Backend?
+        Node.js is a runtime environment that allows JavaScript to run on the server side, making it a popular choice for backend development.
+
+    Advantages of Using Node.js for Backend
+
+        Non-blocking, Asynchronous Architecture:
+            Node.js uses an event-driven model, meaning it handles multiple requests simultaneously without waiting for one to finish before starting another.
+            Example: A real-time chat app processes multiple messages at the same time without delay.
+
+        Single Programming Language (JavaScript):
+            With Node.js, developers use JavaScript for both frontend and backend, reducing context switching.
+            Example: A web application built with React (frontend) and Express (backend) uses the same language.
+
+        High Performance with V8 Engine:
+            Node.js runs on Google's V8 engine, which compiles JavaScript into machine code for faster execution.
+            Example: Netflix migrated its backend to Node.js to improve load times and reduce response latency.
+
+        Scalability & Microservices Support:
+            Node.js is lightweight and works well for microservices architecture, where different services (like authentication, payments, etc.) run separately.
+            Example: Uber uses Node.js to handle thousands of ride requests in real-time.
+
+        Large Ecosystem with npm (Node Package Manager):
+            Node.js has a vast collection of open-source libraries, making development faster and easier.
+            Example: bcrypt for password hashing, jsonwebtoken for authentication.
+
+            V8 Engine – Compiles JavaScript into machine code for fast execution.
+            Libuv – Handles non-blocking I/O, event loop, and thread pool.
+            Event Loop – Manages asynchronous tasks efficiently.
+            Node.js APIs – Built-in modules (fs, http, path, os) for system operations.
+            Module System – Supports CommonJS (CJS) and ES Modules (ESM).
+            npm – Manages external packages and dependencies.
+
+        How Node.js Works?
+            Client request → Event Loop receives it.
+            Non-blocking tasks run asynchronously via Libuv.
+            Blocking I/O tasks use Thread Pool.
+            Once complete, response is sent to the client.
+        
+        Role of Libuv
+            Implements Event Loop & Thread Pool.
+            Handles file system, networking, and timers asynchronously.
+            Provides cross-platform support (Windows, Linux, macOS).
+
+        Where is Node.js Used?
+            Use Case	    Example
+            Real-time Apps	    WhatsApp, Slack, Discord
+            Streaming Services	    Netflix, YouTube
+            E-commerce Websites	    Amazon, eBay
+            APIs & Microservices	    PayPal, Uber
+
+        
+    Brief Working of JavaScript in the Browser:
+        JavaScript is a single-threaded language, meaning it executes code line by line in a synchronous manner. However, to handle multiple tasks efficiently, the browser provides asynchronous execution using Web APIs and the Event Loop.
+
+    
+    How Asynchronous Tasks are Handled?
+        JavaScript uses the Event Loop and Callback Queue to handle async tasks like API calls, timers, and event listeners.
+
+        Key Components in Async Handling:
+            Call Stack – Executes JavaScript code in a Last-In, First-Out (LIFO) manner.
+            Web APIs – Browser-provided APIs like setTimeout, fetch, and DOM Events.
+            Callback Queue – Stores async callbacks that are executed when the call stack is empty.
+            Event Loop – Monitors the call stack and moves tasks from the queue to execution.
+        Example of Asynchronous Execution:
+            console.log("Start");
+
+            setTimeout(() => {
+            console.log("Async Task Done");
+            }, 2000);
+
+            console.log("End");
+            Output:
+
+            Start
+            End
+            Async Task Done (after 2 seconds)
+            The setTimeout function is executed asynchronously using the Web API, allowing the rest of the code to run without waiting.
+
+    Web APIs and Their Role in JavaScript Execution:
+        Web APIs are provided by the browser to handle tasks asynchronously. Some commonly used Web APIs:
+
+            DOM API – document.getElementById(), addEventListener().
+            Timer API – setTimeout(), setInterval().
+            Fetch API – Handles HTTP requests asynchronously.
+            Storage API – localStorage, sessionStorage, cookies.
+            Geolocation API – Retrieves user's location.
+            Example: Fetch API (Web API)
+            console.log("Fetching data...");
+
+            fetch("https://jsonplaceholder.typicode.com/todos/1")
+            .then((response) => response.json())
+            .then((data) => console.log(data));
+
+            console.log("Other tasks running...");
+            Here, fetch runs in the background, and the Event Loop ensures non-blocking execution.
+
+        Execution Flow in Node.js
+            JavaScript Code Execution – Runs on the V8 Engine, converting code to machine code.
+            Event Loop – Manages the execution of synchronous and asynchronous tasks.
+            Libuv – Provides Thread Pool and event-driven non-blocking I/O operations.
+            Worker Threads (Optional) – Allows multithreading for CPU-intensive tasks.
+            Callback Queue & Microtask Queue – Ensures asynchronous tasks execute in the correct order.
+
+    How Asynchronous Tasks Work in Node.js?:
+        Event Loop – Manages tasks in different phases (timers, I/O, callbacks).
+        Thread Pool – Manages heavy operations like file I/O, DNS, and cryptographic functions.
+        Worker Threads – Used for CPU-bound tasks (e.g., image processing, data crunching).
+        Example:
+
+            const fs = require("fs");
+
+            console.log("Start");
+            fs.readFile("file.txt", "utf-8", (data) => {
+            console.log("File Read Done");
+            });
+            console.log("End");
+            💡 Output:
+
+            Start  
+            End  
+            File Read Done (After file reading completes)
+            ➡ Why? fs.readFile is handled by Thread Pool, freeing up the Event Loop to continue execution.
+
+    Role of Event Loop, Thread Pool & Worker Threads
+        Feature       	Purpose
+        Event Loop       	Manages async tasks, ensuring non-blocking execution.
+        Thread Pool       	Handles expensive I/O operations (default size: 4 threads).
+        Worker Threads       	Runs CPU-intensive tasks on separate threads.
+        Example of Worker Threads
+        Worker threads are ideal for CPU-heavy tasks like video processing.
+
+
+    Comparison of CommonJS (CJS) and ECMAScript Modules (ESM)
+        Feature	CommonJS (CJS)                                             	                            ECMAScript Modules (ESM)
+        Default Usage	                Node.js (default)                                             	Modern Browsers & Node.js ("type": "module")
+        File Extension	                .js                                             	            .mjs (or .js with "type": "module" in package.json)
+        Import Syntax	                const module = require('module')                                import module from 'module'
+        Export Syntax	                module.exports = {}                                             export default or export {}
+        Synchronous or Asynchronous?	Synchronous                                                     Asynchronous (Non-blocking module loading)
+                                        (Blocks execution while loading modules)
+        Support in Browsers          	❌ Not supported                                               ✅ Supported in modern browsers
+        Dynamic Imports             	❌ Not supported (except with require())                       ✅ import() allows dynamic imports
+        Can Be Used in Node.js?     	✅ Default in Node.js                                          ✅ Requires "type": "module" in package.json
+        Top-Level await Support     	❌ Not supported                                               ✅ Supported in ESM
+        Best For                     	Traditional Node.js projects                                    Modern JavaScript projects and frontend/backend compatibility
+
+
+        Key Takeaways
+            CJS is best for Node.js-only projects (simpler, widely used).
+            ESM is the modern standard for both frontend and backend JavaScript.
+            ESM supports async imports and works in browsers without additional setup.
+
+    Types of Modules in Node.js:
+        1. Built-in Modules (Inbuilt in Node.js)
+            Node.js provides core modules without installation.
+
+            Examples of Built-in Modules:
+                Module	Description	Example
+                fs	File system operations	Read/write files
+                http	Create web servers	Build APIs
+                path	Work with file paths	Resolve directory paths
+                os	Get OS information	Fetch system details
+                Example: Using the fs Module
+                const fs = require("fs");
+
+            fs.writeFileSync("message.txt", "Hello from Node.js!");
+            console.log("File created successfully!");
+        
+        2. Custom Modules (Only in CJS)
+            Custom modules allow developers to write their own reusable logic.
+
+            Example: Creating a Custom Module
+            // greetings.js
+            module.exports.hello = function (name) {
+            return `Hello, ${name}!`;
+            };
+            Using the Custom Module
+            const greetings = require("./greetings");
+
+            console.log(greetings.hello("John")); // Output: Hello, John!
+
+
+Session Notes: Package Manager, npm, and Express:
+
+    What is a Package Manager?:
+        A package manager is a tool that helps developers install, update, manage, and remove software libraries (packages) in a project. These packages contain pre-written code that simplifies development by avoiding the need to write everything from scratch.
+    
+        Why is a Package Manager Needed?
+            Efficient Dependency Management – Automates package installation and updates.
+            Version Control – Ensures consistency across environments.
+            Fast & Easy Setup – Install all dependencies with a single command.
+
+        Examples of Package Managers
+            Language             	Package Manager
+            JavaScript (Node.js)	npm (Node Package Manager), Yarn
+            Python                	pip
+            Java                 	Maven, Gradle
+            PHP                 	Composer
+
+    What is npm (Node Package Manager)?
+        npm (Node Package Manager) is the default package manager for Node.js. It allows developers to easily install and manage JavaScript libraries in their projects.
+
+        Features of npm
+            Manages Dependencies – Install, update, and remove libraries.
+            Provides Access to Open-Source Packages – Thousands of libraries are available via npm.
+            Handles Versioning – Prevents compatibility issues between different package versions.
+        Check npm Version
+            To check if npm is installed, run:
+
+            npm -v
+            If npm is installed, this command will return a version number (e.g., 9.0.0).
+
+    Basic npm Commands
+        Command                   	Purpose
+        npm init -y              	Initialize a Node.js project with default settings (package.json).
+        npm install <package>   	Install a package (e.g., npm install express).
+        npm install <package> -g	Install a package globally (e.g., npm install nodemon -g).
+        npm uninstall <package> 	Remove a package (e.g., npm uninstall express).
+        npm list                	List installed dependencies.
+        npm update <package>    	Update a package to the latest version.
+    
+    Project Initialization (npm init -y)
+        To start a new Node.js project, initialize npm, which creates a configuration file (package.json) for managing project dependencies.
+
+        Initialize a Node.js Project
+        npm init -y
+        This command generates a package.json file with default settings.
+
+    What is package.json? How Important is It?
+        package.json is a configuration file that contains information about a Node.js project, including:
+
+        Project Metadata (name, version, description).
+        Dependencies (external libraries required for the project).
+        Scripts (commands for running, testing, and building the project).
+            Example package.json File
+            {
+            "name": "my-app",
+            "version": "1.0.0",
+            "description": "A sample Node.js project",
+            "dependencies": {
+                "express": "^4.18.2"
+            }
+            }
+            Why is package.json Important?
+            Defines all project dependencies, ensuring consistency.
+            Helps developers easily install all dependencies using npm install.
+            Allows easy project sharing and collaboration.
+
+    What is package-lock.json, node_modules?:
+        1. package-lock.json
+            Stores the exact versions of installed dependencies.
+
+            Ensures that all developers get the same dependency versions.
+
+            Why is it needed?
+
+            Prevents version mismatches across environments.
+
+            Ensures stability in production deployments.
+
+        2. node_modules Folder
+            Stores all installed libraries and their dependencies.
+            Contains compiled and executable versions of the installed packages.
+
+        ⚠️ Important:
+
+            node_modules can be very large and should not be uploaded to GitHub.
+            Developers use .gitignore to exclude node_modules from version control.
+            Using the first external modules
+            /// npm init -y  ---> project initialization
+            /// npm i is-even ---> install is-even
+            // import the external module 
+            var isEven = require("is-even");
+
+            // use the external module
+            console.log(isEven(0));
+            //=> true
+            console.log(isEven("1"));
+            //=> false
+            console.log(isEven(2));
+            //=> true
+            console.log(isEven("3"));
+            //=> false
+    
+    What is Express.js? Why is It Needed?
+        Express.js is a minimal and flexible web framework for Node.js that simplifies server and API development.
+
+        Why Use Express?
+            Feature	Benefit
+            Simple Routing	Easily handle different HTTP requests (GET, POST, PUT, DELETE).
+            Middleware Support	Process requests before reaching the final route handler.
+            Performance	Lightweight and fast.
+            Easy Integration	Works well with databases like MongoDB and PostgreSQL.
+
+        Installing Express
+            npm install express
+
+    Key Express Concepts
+        Term	              Description
+        Port	              A communication channel for a server (e.g., localhost:3000).
+        Request (req)	              Data sent by the client (e.g., query parameters, form data).
+        Response (res)	              Data sent back to the client (e.g., JSON, HTML, error messages).
+        Route	              A defined URL path that triggers a function.
+        Endpoint	              A specific route that provides a response to the client request.
+        Example:
+        Route: https://api.example.com/users
+        Endpoint with query param: https://api.example.com/users?id=123
+
+    Using Nodemon for Auto Restart:
+        When using node index.js, any code changes require manually stopping and restarting the server. Nodemon automatically restarts the server when a file changes.
+
+        Install Nodemon Globally
+            npm install -g nodemon
+
+        Run the Server with Nodemon
+            nodemon index.js
+        Benefits of Nodemon
+
+            Auto-restarts the server on code changes.
+            Saves time during development.
+    
+
+Session Notes: Express Request Methods, CRUD Operations & Dynamic Routing:
+
+    1️⃣ Understanding the Request-Response Cycle
+        Before diving into request methods and CRUD operations, let's revisit the request-response cycle:
+
+        Client sends a request – A user or API client (browser, Postman, mobile app) sends a request.
+        Server processes the request – The Express server handles the request, applies logic, and interacts with a database if needed.
+        Server sends a response – The server returns data, a success/error message, or a status code.
+        📌 Example flow of a request:
+
+        Client  --->  [HTTP Request]  --->  Server  --->  [Process Request]  --->  [Send Response]  --->  Client
+
+    2️⃣ Exploring HTTP Request Methods in Express
+        Express provides built-in methods to handle different HTTP requests:
+
+        Method	Purpose	Example Use Case
+        GET	Retrieve data	Fetch a list of users
+        POST	Create new data	Add a new user
+        PUT	Update existing data	Modify user details
+        DELETE	Remove data	Delete a user
+        📌 Why are different HTTP methods needed?
+
+        They follow RESTful API principles, ensuring a clear structure.
+        Each method serves a distinct purpose, reducing confusion.
+
+        ✅ Example: Handling different HTTP methods in Express
+                const express = require("express");
+                const app = express();
+
+                app.use(express.json()); // Middleware to parse JSON body
+                let users = [{ id: 1, name: "John Doe" }];
+                // GET request - Fetch all users
+                app.get("/users", (req, res) => {
+                res.json(users);
+                });
+                // POST request - Add a new user
+                app.post("/users", (req, res) => {
+                const newUser = { id: users.length + 1, ...req.body };
+                users.push(newUser);
+                res.status(201).json(newUser);
+                });
+                // PUT request - Update a user
+                app.put("/users/:id", (req, res) => {
+                const user = users.find((u) => u.id == req.params.id);
+                if (!user) return res.status(404).send("User not found");
+                user.name = req.body.name || user.name;
+                res.json(user);
+                });
+                // DELETE request - Remove a user
+                app.delete("/users/:id", (req, res) => {
+                users = users.filter((u) => u.id != req.params.id);
+                res.send("User deleted successfully");
+                });
+                app.listen(3000, () => console.log("Server running on port 3000"));
+
+            Key Takeaways:
+
+                app.use(express.json()) is necessary to parse JSON request bodies.
+                req.params retrieves dynamic values from the URL.
+                req.body contains the data sent in POST and PUT requests.
+
+    3️⃣ Creating a Simple CRUD Operation in Express
+        CRUD stands for Create, Read, Update, Delete – the four basic operations performed on a database.
+
+        Operation	HTTP Method	Endpoint	Description
+        Create	POST	/users	Add a new user
+        Read	GET	/users	Get all users
+        Update	PUT	/users/:id	Modify user details
+        Delete	DELETE	/users/:id	Remove a user
+        📌 How CRUD works in Express?
+
+        POST creates a new user.
+        GET retrieves users from the database.
+        PUT updates existing user data.
+        DELETE removes a user.
+
+    4️⃣ Understanding Dynamic Routing in Express
+        📌 Path Parameters (req.params)
+        📌 Definition:
+        Path parameters are used to create dynamic routes by capturing values from the URL.
+
+        📌 Why needed?
+
+        To access specific resources, such as fetching user details by ID.
+        Useful for CRUD operations that require identification (e.g., /users/:id).
+        ✅ Example: Fetching a user by ID
+
+        app.get("/users/:id", (req, res) => {
+        const user = users.find((u) => u.id == req.params.id);
+        if (!user) return res.status(404).send("User not found");
+        res.json(user);
+        });
+        💡 How it works:
+
+        A request to /users/2 will extract 2 as req.params.id.
+        The server searches for a user with ID 2 in the users array.
+        If found, it returns user details; otherwise, it sends a 404 Not Found message.
+
+    Query Parameters (req.query)
+        📌 Definition:
+            Query parameters allow sending additional information in a URL for filtering, sorting, or searching.
+
+        📌 Why needed?
+
+            Used to refine search results (e.g., filtering users by name).
+            Helps with pagination, sorting, and search queries.
+            ✅ Example: Searching users by name
+
+            app.get("/search", (req, res) => {
+            const keyword = req.query.q;
+            res.send(`Searching for: ${keyword}`);
+            });
+        💡 How it works:
+
+            A request to /search?q=John extracts John as req.query.q.
+            The server processes the query and returns relevant results.
+        📌 Difference between Path Params and Query Params
+
+        Feature          	Path Params (req.params)	Query Params (req.query)
+        Usage          	    Identify a specific resource	Modify/filter the request
+        Format          	/users/:id (e.g., /users/1)	/search?q=John
+        Required?          	Yes (part of the route)	No (optional)
+        Best For          	CRUD operations	Filtering, sorting
+
+    5️⃣ Response Methods: res.send() vs res.json():
+        Method        	    Usage	                Example Output
+        res.send()        	Sends a response (string, object, buffer, etc.)	                res.send("Hello World")
+        res.json()        	Sends JSON response (auto-sets Content-Type: application/json)	                res.json({ message: "Hello" })
+        📌 Key Differences:
+
+        res.send() can return any type of content (HTML, plain text, JSON).
+        res.json() strictly sends JSON data.
+        ✅ Example: Sending different response types
+
+        app.get("/send", (req, res) => {
+        res.send("<h1>Welcome to My API</h1>"); // Sends HTML
+        });
+
+        app.get("/json", (req, res) => {
+        res.json({ message: "Hello, this is JSON!" }); // Sends JSON
+        });
+
+
+
+Session Notes: Express Router, Project Structuring (MVC) & Middlewares:
+    Understanding Express Router
+        Express Router allows you to modularize route definitions and keep your code clean and organized.
+
+    Why Use Routers?
+        Keeps routes modular and maintainable
+        Prevents the main index.js file from becoming too cluttered
+        Helps in scaling large applications
+
+    Basic Usage of Router
+
+        // routes/userRoutes.js
+        const express = require("express");
+        const router = express.Router();
+
+        router.get("/", (req, res) => {
+        res.send("Get all users");
+        });
+
+        router.post("/", (req, res) => {
+        res.send("Create a new user");
+        });
+
+        module.exports = router;
+        // index.js
+        const express = require("express");
+        const app = express();
+        const userRoutes = require("./routes/userRoutes");
+
+        app.use(express.json());
+        app.use("/users", userRoutes); // Mounting the router
+
+        app.listen(3000, () => console.log("Server running"));
+
+    How It Works:
+        /users acts as a base route.
+        Inside userRoutes, / becomes /users/.
+        Clean separation of concerns between modules.
+
+    Project Structuring with MVC Pattern:
+        MVC stands for Model-View-Controller – a design pattern to organize code better.
+
+        What is MVC?
+            Component	Responsibility	Example
+            Model	Data & DB logic	Mongoose schemas
+            View	UI layer	Not used in APIs (used in frontend apps)
+            Controller	Logic for handling requests	Express route handlers
+            
+        Common Folder Structure:
+
+            |- controllers
+            |   |- userController.js
+            |- models
+            |   |- userModel.js
+            |- routes
+            |   |- userRoutes.js
+            |- index.js
+
+        How it fits together:
+            // controllers/userController.js
+            exports.getUsers = (req, res) => {
+            res.send("Fetching users");
+            };
+            // routes/userRoutes.js
+            const express = require("express");
+            const router = express.Router();
+            const { getUsers } = require("../controllers/userController");
+
+            router.get("/", getUsers);
+            module.exports = router;
+            Benefits of MVC:
+
+            Clear separation of concerns
+            Easy to debug and test
+            Scalable for larger projects
+
+    Introduction to Middlewares in Express:
+        What is Middleware?
+            A middleware is a function that runs between the request and response cycle.
+
+        Why Use Middlewares?
+            For processing or validating incoming data
+            Logging, authentication, error handling
+            Reusing logic across routes
+
+        Structure of Middleware
+            (req, res, next) => {
+            // Do something
+            next(); // Pass control to the next middleware/route
+            };
+            
+        Example: Logger Middleware
+
+            const logger = (req, res, next) => {
+            console.log(`${req.method} ${req.url}`);
+            next();
+            };
+
+            app.use(logger); // Applies to all routes
+
+        Types of Middlewares:
+
+            Type              	Use Case
+            Application-level              	Applied globally using app.use()
+            Router-level              	Applied on specific routers
+            Built-in              	Like express.json()
+            Error-handling              	Catches and handles errors
+            Third-party              	cors, morgan, helmet, etc.
+
+            Using Built-in Middleware
+                app.use(express.json()); // Parses JSON body
+
+            Using Router-level Middleware
+                router.use(authMiddleware); // Applies only to this router
+
+External Middlewares, Introduction to Databases & MongoDB Shell CRUD:
+
+    1. External Middlewares (Recap + Intro):
+
+            What are Middlewares?
+                Middlewares are functions that execute between request and response cycle.
+                They can modify request/response objects or end the request-response cycle.
+            
+            What are External Middlewares?
+                Pre-built middlewares available through npm.
+                Examples:
+                morgan → Logging
+                cors → Cross-Origin Resource Sharing
+                express.json() → Parse incoming JSON
+                helmet → Secure headers
+            
+            How to Use External Middleware:
+                const express = require('express');
+                const cors = require('cors');
+                const morgan = require('morgan');
+
+                const app = express();
+
+                app.use(cors());
+                app.use(morgan('dev'));
+            
+    2. Why Not Just Use db.json?:
+
+        Limitations of db.json or File-Based Storage:
+            Feature   	db.json (File-based)      	Database (like MongoDB)
+            Performance   	Slower on large data      	Optimized
+            Scalability   	Not scalable	      Highly scalable
+            Querying   	Manual filtering	      Advanced querying
+            Concurrent Access   	Not safe	      Designed for it
+            Data Integrity   	Risk of corruption	      Managed
+
+    3. Why Do We Need Databases?
+        To store, retrieve, and manage structured data efficiently.
+        Enable multi-user access and concurrent requests.
+        Support querying, filtering, and sorting.
+        Provide security, integrity, and reliability.
+
+    4. Characteristics of Ideal Databases
+        Fast Read/Write performance
+        Scalable horizontally
+        Flexible schema (NoSQL) or well-defined schema (SQL)
+        High availability
+        Secure and ACID-compliant (SQL) or BASE (NoSQL)
+
+    5. Types of Databases
+        Type	Examples	Characteristics
+        SQL	MySQL, PostgreSQL	Structured tables, strict schema
+        NoSQL	MongoDB, Firebase	Flexible schema, JSON-like documents
+        In-Memory	Redis	Fast, temporary storage
+        Graph DB	Neo4j	Relationship-oriented data
+        For this session, we focus on MongoDB – a NoSQL document database.
+
+    6. MongoDB Software Stack
+        Tool	Purpose
+        MongoDB	Database Engine (runs in background)
+        Mongo Shell	Command-line interface to interact with DB
+        Mongo Compass	GUI for database operations (browse, insert, delete)
+
+    7. MongoDB Data Organization
+        Databases – like a container (e.g., schoolDB)
+        Collections – like folders inside DB (e.g., students)
+        Documents – actual data (JSON-like objects)
+        {
+        name: "Ravi",
+        age: 21,
+        enrolled: true
+        }
+
+    8. Basic Mongo Shell Commands
+        ➤ Connect using terminal:
+        mongosh
+        ➤ Useful Commands:
+        show dbs                     // List all databases
+        use schoolDB                 // Switch to/create database
+        db.createCollection("students") // Create collection
+        show collections             // List collections
+    
+    9. MongoDB CRUD in Shell
+        ➤ Insert:
+        db.students.insertOne({ name: "Ravi", age: 22, enrolled: true })
+        db.students.insertMany([
+        { name: "Priya", age: 20 },
+        { name: "Amit", age: 24 }
+        ])
+        ➤ Read:
+        db.students.find()                  // All documents
+        db.students.find({ age: { $gt: 21 } }) // Age > 21
+        ➤ Update:
+        db.students.updateOne(
+        { name: "Ravi" },
+        { $set: { age: 23 } }
+        )
+        ➤ Delete:
+        db.students.deleteOne({ name: "Amit" })
+        db.students.deleteMany({ enrolled: false })
+    
+    10. Query Operators (Mini Preview)
+        Operator	Description	Example
+        $gt	Greater than	{ age: { $gt: 18 } }
+        $lt	Less than	{ marks: { $lt: 40 } }
+        $lte	Less than or equal	{ age: { $lte: 25 } }
+        $eq	Equal	{ name: { $eq: "Priya" } }
+        $ne	Not equal	{ enrolled: { $ne: true } }
+
+    Bonus Tip
+        MongoDB supports hundreds of other powerful functions:
+
+        Text search
+        Aggregation pipelines
+        Geospatial queries
+        Indexing
+        Transactions (for critical use cases)
+    
+
+Mongoose: Connecting MongoDB and Node.js:
+
+    1️⃣ MongoDB Recap
+        MongoDB is a NoSQL document-based database that stores data in flexible, JSON-like documents (BSON). Core MongoDB concepts:
+
+        Documents are like JS objects:
+
+        {
+        _id: ObjectId("..."),
+        name: "Alice",
+        age: 25,
+        email: "alice@example.com"
+        }
+        Collections are groups of related documents (like SQL tables).
+
+        CRUD operations:
+
+        insertOne, find, updateOne, deleteOne
+        Flexible schema: Not enforced by default, allows fast prototyping.
+
+    2️⃣ Need for Drivers and ORMs/ODMs
+        2.1 The Driver Concept
+            Node.js cannot talk directly to MongoDB — it needs a driver (like a translator).
+            MongoDB Node.js Driver (mongodb package) lets us connect and perform operations in native JavaScript.
+        2.2 Pain Points with the Raw Driver
+            While powerful, the raw driver is verbose and lacks:
+
+            Schema validation
+            Middleware/hooks
+            Relationship modeling
+            Cleaner abstractions
+
+    3️⃣ Introduction to Mongoose: A MongoDB ODM
+        3.1 What is Mongoose?
+            Mongoose is an ODM (Object Data Modeling) library for MongoDB and Node.js.
+            It helps define schemas, create models, and interact with MongoDB more intuitively.
+        3.2 Analogy
+            Think of UPI Apps as Mongoose and Bank Server as MongoDB. You don’t go to the bank for every small task; instead, use an app with defined formats and security.
+    
+    4️⃣ Installation and Project Setup:
+        4.1 Install Mongoose
+            npm install mongoose
+            4.2 Setup Connection
+            In index.js:
+
+            const mongoose = require("mongoose");
+
+            mongoose
+            .connect("mongodb://localhost:27017/myapp")
+            .then(() => console.log("MongoDB connected"))
+            .catch((err) => console.error(err));
+    
+    5️⃣ Schema and Model
+        5.1 Schema
+            Defines the shape and rules for a document in a collection.
+
+            📌 Analogy: Like an ice cream mould — decides the shape (fields), not the content (values).
+
+            const mongoose = require("mongoose");
+
+            const userSchema = new mongoose.Schema({
+            name: { type: String, required: true },
+            email: { type: String, unique: true },
+            age: Number,
+            isActive: { type: Boolean, default: true },
+            });
+        
+        5.2 Model
+            A model is a wrapper over the schema used to perform CRUD on the collection.
+
+            📌 Analogy: If the schema is the mold, the model is the refrigerator where finished ice creams (documents) are stored and retrieved.
+            const User = mongoose.model("User", userSchema);
+
+    6️⃣ CRUD Operations with Mongoose
+        6.1 Create
+            const user = new User({ name: "Bob", email: "bob@gmail.com" });
+            await user.save();
+        or using create():
+        await User.create({ name: "Alice", email: "alice@gmail.com" });
+        6.2 Read
+            const users = await User.find(); // all
+            const user = await User.findById("id"); // by ID
+        6.3 Update
+             await User.findByIdAndUpdate(id, { age: 30 }, { new: true });
+        6.4 Delete
+            await User.findByIdAndDelete(id);
+        
+
+Advanced Mongoose – Complex Schemas, Validations & Queries:
+
+    Scene 1: Schema Validations in Mongoose:
+
+        1.1 Why Are Validations Needed?
+            Mongoose allows us to define schemas (data structures), but how do we ensure the data being entered is valid and meaningful?
+
+            Doing manual checks is possible but inefficient.
+            Mongoose provides built-in schema-level validation to reject invalid or malformed data before it gets saved.
+
+        
+        1.2 Common Schema Validations (with examples)
+            Validator         	Description	Example
+            required         	Ensures field must be provided	required: true
+            default         	Provides a fallback if value not supplied	default: 'Anonymous'
+            type         	Enforces the expected data type	type: String
+            enum         	Limits field to certain allowed values	enum: ['male', 'female']
+            min / max         	Sets numeric or date boundaries	min: 18, max: 60
+            match         	Regex pattern matching (e.g. for emails, usernames)	match: /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/
+            unique         	Ensures values are not duplicated in the collection	unique: true
+            trim         	Trims whitespace from string	trim: true
+            lowercase         	Converts input to lowercase before storing	lowercase: true
+            validate         	Custom validation logic	validate: { validator: fn, message: msg }
+            immutable         	Prevents field from being changed after document creation	immutable: true
+
+    Scene 2: Complex Schemas in Mongoose:
+
+        2.1 Why Do We Need Complex Schemas?
+            In real-world applications, data isn't flat or standalone.
+
+            Example: In a Course document for an LMS, we may have:
+
+            An array of lectures
+            An array of students
+            Assignments, instructors, and more
+            These require complex nested structures — either embedded inside the document or referenced externally.
+
+        2.2 Types of Complex Schemas
+            A. Nested Documents
+                Objects or arrays directly embedded within the main schema.
+                Best when data is tightly coupled and doesn’t need to exist separately.
+                Example:
+
+                const courseSchema = new mongoose.Schema({
+                title: String,
+                lectures: [
+                    {
+                    title: String,
+                    startDateTime: Date,
+                    endDateTime: Date,
+                    },
+                ],
+                });
+            
+            B. Subdocuments (Embedded Schemas)
+                Defined using separate Mongoose Schemas and embedded into another schema.
+                Adds structure, reusability, and internal _id fields.
+                Example:
+
+                const lectureSchema = new mongoose.Schema({
+                title: String,
+                videoUrl: String,
+                });
+
+                const courseSchema = new mongoose.Schema({
+                title: String,
+                lectures: [lectureSchema],
+                });
+                🎯 Key Difference: Subdocuments use new Schema() and are better structured; Nested documents are plain objects.
+
+            C. Referenced Documents
+                Instead of embedding full data, we only store an ObjectId reference to another document in a different collection.
+                Used when data is large, shared, or independent.
+                Example:
+
+                const courseSchema = new mongoose.Schema({
+                title: String,
+                instructor: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "Instructor",
+                },
+                });
+
+        
+        Comparison Table
+            Type      	Tightly Coupled	       Has _id?    	Reusable	Best Use Case
+            Nested Documents      	✅ Yes	  ❌ No    	❌ No	   Small, non-reusable, tightly coupled data
+            Subdocuments      	✅ Yes	      ✅ Yes    	✅ Yes	    Structured, reusable, moderate-sized data
+            Referenced Docs      	❌ No	  ✅ Yes     ✅ Yes	    Large, shared, loosely-coupled independent data
+
+        
+    Scene 3: Mongoose Beyond CRUD:
+
+        3.1 Life Without Inbuilt Queries
+            Writing custom filters for every condition is hard.
+
+            That’s why Mongoose (and MongoDB) offers powerful query operators.
+        
+        3.2 Common MongoDB Query Operators
+            Operator	Purpose	                                  Example Usage
+            $eq   	    Equal to	                             { age: { $eq: 18 } }
+            $ne   	    Not equal to	                         { age: { $ne: 18 } }
+            $gt   	    Greater than	                         { age: { $gt: 30 } }
+            $gte   	    Greater than or equal to	             { age: { $gte: 18 } }
+            $lt   	    Less than	                             { age: { $lt: 65 } }
+            $lte   	    Less than or equal to	                 { age: { $lte: 60 } }
+            $in   	    Value exists in array	                 { gender: { $in: ['male', 'female'] } }
+            $and   	    Combine multiple query conditions        { $and: [{ age: { $gt: 18 } }, { isActive: true }] }
+            $or   	    Match if at least one condition is true	  { $or: [{ age: { $lt: 18 } }, { isActive: false }] }
+
+        3.3 Cursor Methods
+            Useful for pagination, filtering, and performance optimization.
+
+            Method      	Description	Example
+            .skip()      	Skips a certain number of results	.find().skip(10)
+            .limit()      	Limits the number of results	.find().limit(5)
+            .sort()      	Sorts results by a field	.find().sort({ age: -1 })
+
+    Pitfalls to Avoid:
+        Schema Validation
+            Don’t forget that unique is not a validator, it's a MongoDB index.
+            Use custom validators for complex logic.
+            Remember match uses regex — always test your pattern.
+
+        Complex Schemas
+            Know the difference between nested objects vs subdocuments.
+            Subdocuments get their own _id, which might confuse you initially.
+            Use references when data is reused across collections.
+
+        Advanced Queries
+            Many students stop at .find(). Explore MongoDB operators!
+            Practice combining operators ($and, $in, $or) in one query.
+            Don’t forget .limit() and .skip() — they’re crucial for pagination.
+
+        Schema validations in Mongoose ensure only clean, reliable, and expected data is stored in MongoDB.
+        Mongoose supports a variety of built-in validators like required, enum, min/max, and match, plus custom validators for complex needs.
+        Nested documents, subdocuments, and referenced documents help model complex data based on how tightly the data is coupled.
+        Subdocuments are structured and reusable, while references are ideal for large, shared, or loosely related data.
+        MongoDB provides powerful query operators ($gte, $in, $or, etc.) for flexible and dynamic data filtering.
+        Cursor methods like .skip(), .limit(), and .sort() are essential for building paginated or sorted API responses.
+        A solid understanding of these concepts enhances both backend performance and data modeling accuracy.
+
+
+    
