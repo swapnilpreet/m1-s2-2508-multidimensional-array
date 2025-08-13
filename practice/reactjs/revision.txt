@@ -26,7 +26,6 @@ React as a Single Page Application (SPA):
         Initial Load Time	Loading the entire app initially can take longer.
         JavaScript Dependency	Heavily reliant on JavaScript execution.
 
-
 Server-Side Rendering (SSR) vs Client-Side Rendering (CSR):
 
     What is SSR?
@@ -49,10 +48,10 @@ Server-Side Rendering (SSR) vs Client-Side Rendering (CSR):
         Frameworks/Tools: React (default), Angular, Vue.
     
     Comparison of SSR vs CSR
-        Feature         	Server-Side Rendering (SSR)          	Client-Side Rendering (CSR)
-        SEO              	Better SEO, crawlers see complete HTML. 	Poor SEO; content may load after crawling.
-        Load Time        	Faster initial load.                    	Slower initial load but faster interactions.
-        Performance     	Relies on server processing power.       	Relies on browser processing power.
+        Feature         	Server-Side Rendering (SSR)          	                Client-Side Rendering (CSR)
+        SEO              	Better SEO, crawlers see complete HTML. 	            Poor SEO; content may load after crawling.
+        Load Time        	Faster initial load.                    	            Slower initial load but faster interactions.
+        Performance     	Relies on server processing power.       	            Relies on browser processing power.
         Interactivity   	Delayed interactivity due to server round trips.    	Immediate after JavaScript execution.
 
     When to Use SSR, CSR, or Hybrid Rendering
@@ -77,25 +76,28 @@ JavaScript and DOM vs React and ReactDOM: A Closer Look:
     
 How ReactDOM and the Virtual DOM Work
     The Virtual DOM (VDOM)
-    What is it?
-         A lightweight copy of the DOM that exists in memory, allowing React to make efficient updates.
-    How does it work?
-        React compares the current VDOM with the previous one (a process called "diffing").
-    Only the elements that have changed are updated in the actual DOM (known as "reconciliation").
-    Why does it matter?
-        Direct DOM manipulations are slow because browsers re-render the entire UI for even small changes.
-    React's VDOM minimizes these re-renders, making updates faster and more efficient.
+        What is it?
+            A lightweight copy of the DOM that exists in memory, allowing React to make efficient updates.
+        How does it work?
+            React compares the current VDOM with the previous one (a process called "diffing").
+        Only the elements that have changed are updated in the actual DOM (known as "reconciliation").
 
-    ReactDOM
-        ReactDOM acts as a renderer that applies the Virtual DOM changes to the actual DOM.
+        Why does it matter?
+            Direct DOM manipulations are slow because browsers re-render the entire UI for even small changes.
+
+        React's VDOM minimizes these re-renders, making updates faster and more efficient.
+
+        ReactDOM
+            ReactDOM acts as a renderer that applies the Virtual DOM changes to the actual DOM.
     
 Key Differences Between Direct DOM and React's Virtual DOM
-    Feature     	Direct DOM (Vanilla JS)     	React's Virtual DOM
-    Control	Complete control over every DOM change.	Abstracted control through React.
-    Performance	Slower due to frequent re-renders.	Faster, updates only the changed parts.
-    Ease of Use	Requires detailed, verbose instructions.	Declarative and simpler to manage.
-    Code Maintenance	Harder to debug and maintain.	Cleaner, reusable components.
-    Use Case	Suitable for small, simple applications.	Ideal for dynamic, complex UIs.
+
+    Feature     	            Direct DOM (Vanilla JS)     	            React's Virtual DOM
+    Control	                    Complete control over every DOM change.	    Abstracted control through React.
+    Performance	                Slower due to frequent re-renders.	        Faster, updates only the changed parts.
+    Ease of Use      	        Requires detailed, verbose instructions.	Declarative and simpler to manage.
+    Code Maintenance            Harder to debug and maintain.	            Cleaner, reusable components.
+    Use Case            	    Suitable for small, simple applications.	Ideal for dynamic, complex UIs.
 
 JSX and Babel
     What is JSX?
@@ -125,7 +127,7 @@ JSX and Babel in Action
 Advanced JSX Features
     Key Features
         Interpolation:
-             Embed JavaScript logic in JSX.
+            Embed JavaScript logic in JSX.
 
             const userName = "Alice";
             const element = <p>Hello, {userName}!</p>;
@@ -142,8 +144,8 @@ Advanced JSX Features
 
         const box = <div style={{ color: "blue", fontSize: "20px" }}>Styled Box</div>;
 
-
 1. Components and Props in React:
+   
     Introduction
         React components are the building blocks of any React application. They encapsulate UI logic and presentation, enabling developers to create reusable, modular, and maintainable interfaces. Props (short for properties) allow data to flow from parent components to child components, making components dynamic and customizable.
     
@@ -228,6 +230,7 @@ Advanced JSX Features
     Unidirectional Flow	Data flows from parent to child only.
     Immutability	Props cannot be modified by the receiving component.
 
+
 2. React Component Architecture:
     React applications follow a component hierarchy, where the application is composed of multiple nested components. This promotes:
 
@@ -309,7 +312,6 @@ Advanced JSX Features
             return <button onClick={increment}>Count: {count}</button>;
             }
 
-    
 2. Introduction to React Hooks: useState
     What are Hooks?
         Hooks are special functions introduced in React 16.8 to enable state and side effects in functional components.
@@ -853,17 +855,16 @@ useReducer:
 Redux:
     Redux is a state management library often used with JavaScript applications. It provides a predictable state container for JavaScript apps, making it easier to manage the state of your application in a centralized and predictable way. The core principles of Redux involve a single source of truth (the store), state that is read-only (can only be changed by emitting actions), and changes made with pure functions (reducers).
 
-
     Explain the implementation and initial setup of core redux:
         Imnitial Setup
             1. Create a react application
-            npm create vite@latest -- --template react
+                npm create vite@latest -- --template react
         
             1. install redux in your react application
-            npm install redux
+                npm install redux
 
-    
     Implementing Redux:
+
         1. Defining Action Types
             Action types are constants that represent the actions in your application. They are strings that are used to ensure that there are no typos in action names.
 
@@ -1168,7 +1169,6 @@ Redux:
             );
             }
         
-    
     Hooks provided by React-Redux:
 
         useSelector:
@@ -1392,7 +1392,7 @@ Organize a React-Redux codebase:
                     // Component logic...
                     };
                 
-                Thunk middleware enables you to write more expressive and powerful action creators in Redux, allowing you to handle complex asynchronous logic within your Redux actions while keeping your codebase clean and maintainable.
+                  Thunk middleware enables you to write more expressive and powerful action creators in Redux, allowing you to handle complex asynchronous logic within your Redux actions while keeping your codebase clean and maintainable.
 
 More on Redux:
     Redux vs. Context API:
@@ -1407,6 +1407,7 @@ More on Redux:
                 Redux is a powerful state management library designed for managing global state across complex applications.
                 It is best suited for applications with complex state logic, where the state needs to be accessed and updated across multiple components and potentially by different slices of state.
                 Ideal for large-scale applications where predictable state management is crucial.
+
 
             Context API:
                 Context API is a built-in feature of React that allows you to pass data through the component tree without having to pass props manually at every level.

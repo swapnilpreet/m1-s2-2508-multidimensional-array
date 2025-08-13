@@ -1,3 +1,25 @@
+
+    Aspect		
+        What it is
+    Library
+	    A collection of reusable functions, classes, or methods to perform specific tasks.	
+        
+    Framework
+        A complete structure or skeleton for building an application.
+
+
+    Aspect		
+        Control Flow
+    Library
+	    You call the library’s code when you need it (you are in control).	
+        
+    Framework
+        The framework calls your code at specific points (framework is in control) — known as Inversion of Control.
+
+
+
+		
+
 Introduction to Backend, NodeJs and Modules:
 
     Why is Backend Needed?:
@@ -216,9 +238,9 @@ Introduction to Backend, NodeJs and Modules:
             ➡ Why? fs.readFile is handled by Thread Pool, freeing up the Event Loop to continue execution.
 
     Role of Event Loop, Thread Pool & Worker Threads
-        Feature       	Purpose
-        Event Loop       	Manages async tasks, ensuring non-blocking execution.
-        Thread Pool       	Handles expensive I/O operations (default size: 4 threads).
+        Feature       	        Purpose
+        Event Loop       	    Manages async tasks, ensuring non-blocking execution.
+        Thread Pool       	    Handles expensive I/O operations (default size: 4 threads).
         Worker Threads       	Runs CPU-intensive tasks on separate threads.
         Example of Worker Threads
         Worker threads are ideal for CPU-heavy tasks like video processing.

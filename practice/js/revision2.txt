@@ -1,13 +1,13 @@
 
 
-this Keyword in JavaScript:
+"this" Keyword in JavaScript:
     this refers to the object that is currently executing the function.
 
     In Simple Words:
         It is a special keyword in JavaScript used to access the context in which a function is running.
         Its value depends on how the function is called, not where it is defined.
     
-    Use Cases                       and Behavior:
+    Use Cases                           and Behavior:
         Context                         this Refers To
         In global scope             	window (in browser) or global (in Node.js)
         Inside a method             	The object the method is called on
@@ -21,7 +21,7 @@ this Keyword in JavaScript:
         All three methods are used to explicitly set the value of this inside a function.
 
         call():
-            Calls a function with a given this value and arguments passed individually.
+            The call() method calls a function immediately with a specified this value and arguments provided individually (comma-separated).
 
             Syntax:
             func.call(thisArg, arg1, arg2, ...)
@@ -34,14 +34,16 @@ this Keyword in JavaScript:
             greet.call(person, "Hello"); // Hello, Swapnil
 
         apply()
-            Similar to call(), but arguments are passed as an array.
+            The apply() method calls a function immediately with a specified this value, and arguments provided as an array (or array-like object).
+
             Syntax:
             func.apply(thisArg, [arg1, arg2, ...])
             Example:
             greet.apply(person, ["Hi"]); // Hi, Swapnil
 
-        bind()
-            Returns a new function with a fixed this value (does not invoke the function immediately).
+        bind():
+            The bind() method returns a new function with a specified this value and optionally pre-set arguments, without immediately executing it.
+
             Syntax:
             const newFunc = func.bind(thisArg, arg1, arg2, ...)
             Example:
@@ -49,18 +51,18 @@ this Keyword in JavaScript:
             boundGreet(); // Hey, Swapnil
 
     Difference Between call, apply, and bind
-        Feature        	call()        	apply()                  	bind()
-        Invocation 	Immediately invoked 	Immediately invoked   	Returns a new function
-        Arguments	Passed individually  	Passed as an array	    Passed individually
-        Use Case	Simple function calls	Dynamic arg arrays (e.g. Math)	Delayed execution with preset this
-        Return Value	Result of function call  	Result of function call   	A new function with bound this
+        Feature        	     call()        	            apply()                  	        bind()
+        Invocation 	     Immediately invoked 	    Immediately invoked   	           Returns a new function
+        Arguments	     Passed individually  	    Passed as an array	               Passed individually
+        Use Case	     Simple function calls	    Dynamic arg arrays (e.g. Math)	   Delayed execution with preset this
+        Return Value	 Result of function call  	Result of function call   	       A new function with bound this
 
     Real Use Case Example
         ex.
             const person1 = { name: "Alice" };
             const person2 = { name: "Bob" };
             function showDetails(age, city) {
-            console.log(`${this.name} is ${age} years old and lives in ${city}.`);
+                console.log(`${this.name} is ${age} years old and lives in ${city}.`);
             }
             showDetails.call(person1, 25, "Mumbai");
             showDetails.apply(person2, [30, "Delhi"]);
@@ -206,12 +208,12 @@ Web APIs (Browser APIs):
             clearInterval(id); // Stops the repeated execution
 
 
-    3. Key Differences: setTimeout vs setInterval
-        Feature     	setTimeout()        	            setInterval()
-        Purpose     	One-time delayed execution      	Repeated execution at regular intervals
-        Runs after delay    	Yes	                      Yes, repeatedly
-        Stops automatically?	Yes, after one call        	No, must manually stop with clearInterval()
-        Return value	     Timeout ID                       	Interval ID
+    3. Key Differences:         setTimeout                          setInterval
+        Feature     	        setTimeout()        	            setInterval()
+        Purpose     	        One-time delayed execution      	Repeated execution at regular intervals
+        Runs after delay    	Yes	                                Yes, repeatedly
+        Stops automatically?	Yes, after one call        	        No, must manually stop with clearInterval()
+        Return value	        Timeout ID                       	Interval ID
     
     Advanced Example: Controlled setInterval:
         ex.
@@ -262,7 +264,7 @@ Callback Functions :
     A function passed as an argument to another function and executed after some operation (can be sync or async).
 
     ex.
-        function doSomething(cb) {
+        function doSomething(cb){
             console.log("Doing something");
             cb(); // callback
         }
@@ -335,15 +337,15 @@ Deep Example: async/await + Web APIs:
 
 Technical Glossary
 
-    Term                  	Definition
-    Call Stack            	A LIFO stack that keeps track of function calls.
-    Web APIs            	Asynchronous APIs provided by browser (e.g., fetch, setTimeout).
+    Term                  	                Definition
+    Call Stack            	                A LIFO stack that keeps track of function calls.
+    Web APIs            	                Asynchronous APIs provided by browser (e.g., fetch, setTimeout).
     Callback Queue (Macrotask Queue)    	Queue where callbacks from Web APIs are placed.
-    Microtask Queue	         Higher-priority queue holding resolved Promise callbacks, await results.
-    Event Loop              	JavaScript mechanism that manages execution between call stack & queues.
-    Callback                	A function passed to another function to run later.
-    Promise                     	A JS object representing a future value from an async operation.
-    Async/Await              	Modern syntax for working with Promises, making code easier to read.
+    Microtask Queue	                        Higher-priority queue holding resolved Promise callbacks, await results.
+    Event Loop              	           JavaScript mechanism that manages execution between call stack & queues.
+    Callback                	           A function passed to another function to run later.
+    Promise                     	       A JS object representing a future value from an async operation.
+    Async/Await              	           Modern syntax for working with Promises, making code easier to read.
 
 Global Context :
     The global context refers to the outermost scope in JavaScript, where variables and functions are accessible throughout the entire code unless overridden locally.
@@ -493,8 +495,8 @@ Object-Oriented Programming (OOP) in JavaScript:
         Paradigm         	Description     	Example Languages
         Imperative         	Focus on how to do things (step-by-step instructions)     	C, Java, JavaScript
         Declarative         	Focus on what to do, not how (describe the result)     	SQL, HTML
-        Procedural         	Based on procedures/functions that operate on data     	C, Pascal
-        Object-Oriented (OOP)         	Code is organized into objects with data and behavior     	Java, C++, JS
+        Proc    	C, Pascal
+        Object-Oriented (OOP)         	Code is organized into objects with dedural         	Based on procedures/functions that operate on data ata and behavior     	Java, C++, JS
         Functional         	Code is composed of pure functions with no side effects     	Haskell, Elm, JS
         Event-driven         	Flow is controlled by events (e.g., user actions, messages)	     JavaScript, Node.js
         Logic-based         	Describes facts and rules, lets engine infer solutions     	Prolog
@@ -522,12 +524,12 @@ Object-Oriented Programming (OOP) in JavaScript:
             ex.
                 const car = {
                     brand: "Toyota",
-                    drive() {
+                    drive(){
                         console.log("Driving...");
                     }
                 };
                 car.drive(); // Driving...
-            
+
             Use Case:
                 Represent a user, product, car, etc.
 
@@ -536,9 +538,7 @@ Object-Oriented Programming (OOP) in JavaScript:
         
         B. Constructor Function:
             Function used with new to create multiple similar objects.
-
             A constructor is a special function that gets called automatically when a new object is created from a class.
-
             The constructor() method in a class is used to initialize the newly created object’s properties.
 
             ex.
@@ -547,9 +547,10 @@ Object-Oriented Programming (OOP) in JavaScript:
                     this.greet = function () {
                         console.log("Hello, " + this.name);
                     };
-                }
+                };
                 const p1 = new Person("Swapnil");
                 p1.greet(); // Hello, Swapnil
+
 
                 class Car {
                     constructor(model, year) {
@@ -581,6 +582,7 @@ Object-Oriented Programming (OOP) in JavaScript:
                         }
                     };
                 }
+
                 const u1 = createUser("Kashish");
                 u1.greet(); // Hi, Kashish
 
@@ -596,7 +598,8 @@ Object-Oriented Programming (OOP) in JavaScript:
         D. Class (ES6):
             Blueprint for creating objects using modern class syntax.
             A class is like a blueprint for creating objects with specific properties and methods.
-            In JavaScript, a class is a syntactic sugar over JavaScript’s existing prototype-based inheritance. It allows you to define constructors, properties, and methods in a clean and organized way.
+            In JavaScript, a class is a syntactic sugar over JavaScript’s existing prototype-based inheritance. 
+            It allows you to define constructors, properties, and methods in a clean and organized way.
 
             ex.
                 class Animal {
@@ -624,9 +627,9 @@ Object-Oriented Programming (OOP) in JavaScript:
             ex.
                 class Person {
                     constructor(name, age) {
-                    this.name = name;
-                    this.age = age;
-                }
+                        this.name = name;
+                        this.age = age;
+                    }
                     greet() {
                         console.log(`Hello, my name is ${this.name}`);
                     }
@@ -689,14 +692,15 @@ Object-Oriented Programming (OOP) in JavaScript:
 
         G. Encapsulation:
             Hiding internal object data using closures or private fields.
-
+            
             Encapsulation means hiding internal details and exposing only what’s necessary.
+            It’s the bundling of data (properties) and methods that operate on the data -
+            within one unit and restricting direct access to some of the object’s components.
 
-            It’s the bundling of data (properties) and methods that operate on the data within one unit and restricting direct access to some of the object’s components.
 
             ex.
-                function BankAccount(balance) {
-                    let _balance = balance; // private variable
+                function BankAccount(balance){
+                    let balance = balance; // private variable
 
                     return {
                         deposit(amount) {
@@ -753,7 +757,6 @@ Object-Oriented Programming (OOP) in JavaScript:
 
         I. Abstraction:
             Abstraction means hiding complex logic and showing only necessary parts.
-
             It is the concept of exposing only essential features of an object and hiding implementation details via methods or classes.
 
             ex.
@@ -791,15 +794,17 @@ Object-Oriented Programming (OOP) in JavaScript:
         Managing complex state      Objects & this
         Secure sensitive data       Encapsulation
 
-
-
 Introduction to Prototypical Inheritance:
-    JavaScript follows a unique approach to inheritance, using prototypal inheritance rather than classical inheritance seen in languages like Java or C++. This inheritance system allows objects to inherit properties and methods from other objects.
+        JavaScript follows a unique approach to inheritance, using prototypal inheritance rather than
+        classical inheritance seen in languages like Java or C++.
+        This inheritance system allows objects to inherit properties and methods from other objects.
 
     Key Points:
         Prototypes: 
-            In JavaScript, every object has an internal property called [[Prototype]], commonly accessed via the __proto__ property. This property points to another object (called the prototype), from which it can inherit properties and methods.
-        Inheritance: 
+            In JavaScript, every object has an internal property called [[Prototype]], commonly accessed via the __proto__ property. 
+            This property points to another object (called the prototype), from which it can inherit properties and methods.
+
+        Inheritance:
             JavaScript objects can inherit properties and methods from their prototypes. If a property or method is not found in the object itself, JavaScript looks for it on the object's prototype. If not found there, it continues searching up the prototype chain until it reaches null, marking the end of the chain.
    
     Why is Prototypal Inheritance Important?
@@ -831,7 +836,7 @@ The Prototype Chain:
             JavaScript first looks for a property or method directly on the object.
         Prototype lookup: 
             If the property or method is not found, JavaScript moves up the prototype chain to the object's prototype.
-        Prototype of prototype: 
+        Prototype of prototype:
             If still not found, it continues this lookup process, climbing the chain until it reaches the end.
 
     Verifying the Prototype Chain:

@@ -124,9 +124,12 @@ Introduction to ES6 Classes:
     While JavaScript is primarily a prototype-based language, ES6 introduces classes to offer a more readable and structured approach to defining objects and inheritance. However, under the hood, classes in JavaScript still rely on prototypal inheritance.
 
     Key Concepts of ES6 Classes:
-        Constructor: A method used to initialize object properties when an object is created.
-        Inheritance: With the extends keyword, a class can inherit properties and methods from another class.
-        Encapsulation: Achieved using private fields, getters, and setters to control access to properties.
+        Constructor:
+             A method used to initialize object properties when an object is created.
+        Inheritance:
+             With the extends keyword, a class can inherit properties and methods from another class.
+        Encapsulation: 
+            Achieved using private fields, getters, and setters to control access to properties.
     
     ex.
         class Animal {
@@ -146,7 +149,8 @@ Introduction to ES6 Classes:
         dog.speak();  // Output: Rex barks.
     
 Static Methods in ES6 Classes:
-    Static methods are class-level methods that belong to the class itself, not to instances of the class. They are useful for utility functions that do not require access to instance-specific data.
+    Static methods are class-level methods that belong to the class itself, not to instances of the class. 
+    They are useful for utility functions that do not require access to instance-specific data.
 
     Example: Static Methods
         class MathOperations {
@@ -164,7 +168,8 @@ Static Methods in ES6 Classes:
         Static methods are often used for utility operations like logging, data formatting, or mathematical operations that don’t need to refer to instance-specific properties.
 
 Private Fields in ES6 Classes:
-    Private fields in ES6 classes are used to store data that should not be accessible outside the class. Private fields are denoted by a # symbol and can only be accessed within the class itself.
+    Private fields in ES6 classes are used to store data that should not be accessible outside the class. 
+    Private fields are denoted by a # symbol and can only be accessed within the class itself.
 
     Example: Private Fields
         class Person {
