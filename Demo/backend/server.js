@@ -74,3 +74,51 @@ app.get("/users", async (req, res) => {
 app.listen(3000,()=>{
     console.log("surver runing on 3000...")
 })
+
+
+// const express = require('express');
+// const router = express.Router();
+// const Movie = require('../models/Movie');
+// const User = require('../models/User');
+
+// // /analytics endpoint for generating reports
+// router.get('/analytics', async (req, res) => {
+//     try {
+//         // Step 1: Average Rating by Genre
+//         const avgRatingByGenre = await Movie.aggregate([
+//             { $group: { _id: "$genre", averageRating: { $avg: "$rating" } } },
+//             { $sort: { averageRating: -1 } }
+//         ]);
+
+//         // Step 2: Movies Released Per Year
+//         const moviesByYear = await Movie.aggregate([
+//             { $group: { _id: "$year", count: { $sum: 1 } } },
+//             { $sort: { _id: 1 } }
+//         ]);
+
+//         // Step 3: Top-Rated Movies
+//         const topRatedMovies = await Movie.aggregate([
+//             { $sort: { rating: -1 } },
+//             { $limit: 5 },
+//             { $project: { title: 1, rating: 1, genre: 1, _id: 0 } }
+//         ]);
+
+//         // Step 4: Number of Users with Favorite Movies
+//         const usersWithFavorites = await User.aggregate([
+//             { $match: { favoriteMovies: { $exists: true, $ne: [] } } },
+//             { $count: "totalUsersWithFavorites" }
+//         ]);
+
+//         res.json({
+//             avgRatingByGenre,
+//             moviesByYear,
+//             topRatedMovies,
+//             usersWithFavorites: usersWithFavorites[0]?.totalUsersWithFavorites || 0
+//         });
+//     } catch (error) {
+//         console.error("Error generating analytics report:", error);
+//         res.status(500).send("Error generating analytics report");
+//     }
+// });
+
+// module.exports = router;

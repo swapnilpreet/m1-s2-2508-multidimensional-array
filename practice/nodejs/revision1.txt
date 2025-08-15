@@ -309,10 +309,10 @@ Mongoose Design Patterns – ER Diagrams, Junction Schemas & Cascading:
 
         
         Pitfalls to Avoid
-        Area                                	Mistake
-        Relationship Type Confusion       	Using M:N when 1:N is enough (or vice versa)
-        Linking IDs Everywhere          	Just putting object IDs is not enough; junction schemas give clarity
-        Deleting Means Removing          	Instead of hard delete, prefer soft delete or archive for better safety
+            Area                                	Mistake
+            Relationship Type Confusion       	Using M:N when 1:N is enough (or vice versa)
+            Linking IDs Everywhere          	Just putting object IDs is not enough; junction schemas give clarity
+            Deleting Means Removing          	Instead of hard delete, prefer soft delete or archive for better safety
 
 
         ✅ Summary
@@ -604,9 +604,9 @@ Authentication:
 Authorization:
 
     Authentication vs. Authorization
-        Feature         	Authentication              	Authorization
+        Feature             	Authentication              	            Authorization
         What it does         	Verifies who the user is              	Determines what the user can do
-        When it happens         	First step              	After authentication
+        When it happens         	First step              	        After authentication
         Example	         Login with username & password              	Checking if the user is an admin before allowing access to delete a resource
 
     Why Authorization is Needed
@@ -771,6 +771,7 @@ Authorization:
             
 
 Auth & Communication – Email Integration & Password Reset Flow:
+
     1. Introduction: Need for Communication:
 
         1.1 Why Communication is Needed
