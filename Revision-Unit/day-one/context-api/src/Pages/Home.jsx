@@ -1,11 +1,12 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
-import '../index.css'
+import "../index.css";
 const Home = () => {
+
   const { logout, getAlluser } = useContext(AuthContext);
   const user = useContext(AuthContext);
-  const {theme,toggletheme}=useTheme();
+  const { theme, toggletheme } = useTheme();
   const [alluser, setalluser] = useState([]);
   const handlelogout = async () => {
     await logout();
@@ -17,16 +18,15 @@ const Home = () => {
     console.log(response);
     setalluser(response);
   };
-  
 
   return (
-    <div >
+    <div>
       <h1>Home</h1>
-      <div className={`${theme==="light"? "lighttheme" :"darktheme" }`}>
+      <div className={`${theme === "light" ? "lighttheme" : "darktheme"}`}>
         <h1>{theme === "light" ? "🌞 Light Mode" : "🌙 Dark Mode"}</h1>
         <button onClick={toggletheme}>
-        Switch to {theme === "light" ? "Dark" : "Light"}
-      </button>
+          Switch to {theme === "light" ? "Dark" : "Light"}
+        </button>
       </div>
       {user.user != "User" ? (
         <>
@@ -42,8 +42,9 @@ const Home = () => {
       {alluser &&
         alluser.map((user) => (
           <div key={user.id}>
-            <li >{user.id}{" "}
-              Email : {user.email}, Name: {user.first_name} {user.last_name}
+            <li>
+              {user.id} Email : {user.email}, Name: {user.first_name}{" "}
+              {user.last_name}
             </li>
           </div>
         ))}

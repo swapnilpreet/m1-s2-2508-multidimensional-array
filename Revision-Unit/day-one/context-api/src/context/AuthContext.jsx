@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react";
-import { Navigate } from "react-router-dom";
+
 
 export const AuthContext = createContext();
 
@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
         body:JSON.stringify({ email, password }),
       });
       const data = await res.json();
-      console.log("data",res);
+      // console.log("data",res);
       if (data.token) {
         settoken(data.token);
         localStorage.setItem("token", data.token);

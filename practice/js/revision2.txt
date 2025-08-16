@@ -246,10 +246,10 @@ Microtask Queue :
     A higher-priority queue than the callback queue, holding promise .then() callbacks and async/await results.
 
     Examples:
-        Promise.then()
-        Promise.catch()
-        Promise.finally()
-        async/await resolved values
+        Promise.then();
+        Promise.catch();
+        Promise.finally();
+        async/await resolved values;
 
 Event Loop:
     A mechanism that continuously monitors the Call Stack, Microtask Queue, and Callback Queue, and manages asynchronous execution.

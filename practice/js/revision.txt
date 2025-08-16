@@ -16,9 +16,7 @@ Node JS
 
 inbuild function :
     predefined fn provied by js engine  perform common task it is part of js language.
-
         ex. math.max(),push(),pop()..etc..
-
     tc. O(n) sort() > O(n log n) slice(st,end) > O(k) k = size of slice return arr
 
     why used : optimise a performance ,increase readability, maintainabity
@@ -273,10 +271,7 @@ Function:
                 and thinks:
 
                 “Oh, something(...) returns a value… let’s try to call that value as a function.”
-
                 If that returned value isn’t actually a function, JS throws:
-
-                
                 TypeError: (intermediate value) is not a function
 
             ex.
