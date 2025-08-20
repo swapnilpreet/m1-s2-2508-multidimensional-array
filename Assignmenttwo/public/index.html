@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Realtime Group Chat</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      :root {
+        --bg: #0b1320;
+        --bg-2: #0f1729;
+        --header: #111a2b;
+        --border: #1f2a44;
+        --text: #e6edf3;
+        --accent: #1e90ff;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial,
+          sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+      header {
+        padding: 16px;
+        background: var(--header);
+        border-bottom: 1px solid var(--border);
+      }
+      h1,
+      h2,
+      h3,
+      h4 {
+        margin: 0;
+      }
+      .container {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: 12px;
+        padding: 12px;
+        height: calc(100vh - 64px);
+      }
+      .panel {
+        background: var(--bg-2);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 12px;
+        min-width: 0;
+      }
+      .login {
+        display: grid;
+        gap: 8px;
+      }
+      input,
+      button,
+      textarea {
+        border-radius: 10px;
+        border: 1px solid #283656;
+        background: var(--bg);
+        color: var(--text);
+        padding: 10px;
+        outline: none;
+      }
+      input:focus,
+      textarea:focus {
+        border-color: var(--accent);
+      }
+      button {
+        cursor: pointer;
+      }
+      button.primary {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
+      }
+      .row {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .online {
+        height: 100%;
+        overflow: auto;
+      }
+      .online h3 {
+        margin-top: 0;
+      }
+      #onlineUsers {
+        list-style: none;
+        padding: 0;
+        margin: 8px 0;
+      }
+      #onlineUsers li {
+        padding: 6px 8px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        margin-bottom: 6px;
+        background: #0b1426;
+      }
+      .badge {
+        font-size: 12px;
+        padding: 2px 6px;
+        border-radius: 8px;
+        background: var(--border);
+        margin-left: 6px;
+      }
+      .chat {
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        gap: 8px;
+        height: 100%;
+      }
+      .messages {
+        overflow: auto;
+        padding-right: 4px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: #0b1426;
+      }
+      .msg {
+        padding: 10px;
+        margin: 8px;
+        background: #0b1426;
+        border: 1px solid #1a2642;
+        border-radius: 10px;
+        word-wrap: break-word;
+      }
+      .msg .meta {
+        font-size: 12px;
+        opacity: 0.8;
+        margin-bottom: 4px;
+      }
+      .msg.admin {
+        border-color: #2563eb;
+        box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.4);
+      }
+      .msg.system {
+        border-style: dashed;
+        opacity: 0.9;
+      }
+      .composer {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+        align-items: center;
+      }
+      .hidden {
+        display: none !important;
+      }
+      .footer-tip {
+        font-size: 12px;
+        opacity: 0.8;
+        text-align: right;
+      }
+      @media (max-width: 900px) {
+        .container {
+          grid-template-columns: 1fr;
+          height: auto;
+        }
+        .chat {
+          height: 70vh;
+        }
+      }
+    </style>
+  </head>
+  
+  <body>
+    <header>
+      <h2>Realtime Group Chat</h2>
+    </header>
+
+    <div class="container">
+      <aside class="panel">
+        <div id="login" class="login">
+          <label for="name">Your Name</label>
+          <input id="name" placeholder="Enter your name" autocomplete="name" />
+          <label for="adminToken">Admin Token (optional)</label>
+          <input
+            id="adminToken"
+            placeholder="Enter admin token if you have one"
+          />
+          <button id="joinBtn" class="primary">Join</button>
+        </div>
+
+        <div id="onlinePanel" class="online hidden">
+          <div class="row" style="justify-content: space-between">
+            <h3>Online <span id="onlineCount" class="badge">0</span></h3>
+            <button id="disconnectBtn" title="Disconnect from server">
+              Disconnect
+            </button>
+          </div>
+
+          <ul id="onlineUsers"></ul>
+
+          <div id="adminPanel" class="hidden" style="margin-top: 12px">
+            <h4>Admin Announcement</h4>
+            <textarea
+              id="adminText"
+              rows="3"
+              placeholder="Write announcement to all..."
+            ></textarea>
+            <button id="announceBtn" class="primary" style="margin-top: 6px">
+              Broadcast
+            </button>
+          </div>
+        </div>
+      </aside>
+      <main class="panel chat">
+        <div
+          class="row"
+          style="justify-content: space-between; align-items: baseline"
+        >
+          <h3>Group Chat</h3>
+          <div class="footer-tip">
+            Press <kbd>Enter</kbd> to send, <kbd>Shift+Enter</kbd> for a new
+            line
+          </div>
+        </div>
+
+        <div
+          id="messages"
+          class="messages"
+          aria-live="polite"
+          aria-label="Messages"
+        ></div>
+
+        <div id="composer" class="composer hidden">
+          <input
+            id="messageInput"
+            placeholder="Type a message"
+            aria-label="Message input"
+          />
+          <button id="sendBtn" class="primary" aria-label="Send message">
+            Send
+          </button>
+        </div>
+      </main>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+  </body>
+</html>
