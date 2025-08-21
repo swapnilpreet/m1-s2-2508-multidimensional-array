@@ -1,0 +1,116 @@
+:root {
+  --border: #dcdcdc;
+  --bg: #f7f7f9;
+  --white: #fff;
+  --red-bg: #ffe5e5;
+  --green-bg: #e7ffe7;
+  --blue: #2563eb;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: #222;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+h1 { margin: 8px 0 16px; }
+
+.input-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--white);
+}
+
+button {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--white);
+  cursor: pointer;
+}
+button.primary {
+  background: var(--blue);
+  color: #fff;
+  border-color: var(--blue);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 16px;
+}
+
+.column {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+}
+
+.column h2 {
+  margin-top: 0;
+}
+
+.list {
+  flex: 1;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  padding: 8px;
+  background: #fafafa;
+  min-height: 320px;
+}
+
+.item {
+  user-select: none;
+  margin-bottom: 8px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: var(--white);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+}
+
+.item.pending { background: var(--red-bg); color: #b00000; }
+.item.completed { background: var(--green-bg); color: #0a6b0a; }
+
+.item.selected {
+  outline: 2px solid var(--blue);
+}
+
+.middle-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.badge {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #f1f1f1;
+  border: 1px solid var(--border);
+}
