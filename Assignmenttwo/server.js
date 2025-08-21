@@ -16,7 +16,7 @@ redisClient.on("error", (err) => console.error("Redis error:", err));
 
 (async () => {
   await redisClient.connect();
-  console.log("✅ Connected to Redis");
+  console.log("Connected to Redis");
 })();
 
 mongoose
@@ -24,7 +24,7 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("✅ Connected to MongoDB"))
+  .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB error:", err));
 
 const messageSchema = new mongoose.Schema({
@@ -39,7 +39,7 @@ let onlineUsers = new Map();
 app.use(express.static(path.join(__dirname, "public")));
  
 io.on("connection", async (socket) => {
-  console.log("⚡ New connection:", socket.id);
+  console.log("New connection",socket.id);
   socket.on("join", async (username) => {
     if (!username) return;
 
@@ -64,6 +64,7 @@ io.on("connection", async (socket) => {
     await redisClient.rPush("chat:messages", JSON.stringify(msgData));
     io.emit("chatMessage", msgData);
   });
+
   socket.on("adminMessage", async (data) => {
     const user = onlineUsers.get(socket.id);
     if (!user) return;
@@ -71,7 +72,7 @@ io.on("connection", async (socket) => {
       process.env.ADMIN_SECRET &&
       data.secret !== process.env.ADMIN_SECRET
     ) {
-      socket.emit("errorMessage", "❌ Unauthorized: Not an admin");
+      socket.emit("errorMessage", " Unauthorized: Not an admin");
       return;
     }
 
@@ -87,7 +88,7 @@ io.on("connection", async (socket) => {
   socket.on("disconnect", () => {
     const user = onlineUsers.get(socket.id);
     if (user) {
-      console.log(`❌ ${user} disconnected`);
+      console.log(`${user} disconnected`);
       onlineUsers.delete(socket.id);
       io.emit("userList", Array.from(onlineUsers.values()));
     }
@@ -96,21 +97,21 @@ io.on("connection", async (socket) => {
 
 cron.schedule("*/1 * * * *", async () => {
   try {
-    console.log("🗄️ Running backup job...");
+    console.log("Running backup job...");
     const allMessages = await redisClient.lRange("chat:messages", 0, -1);
 
     if (allMessages.length > 0) {
       const docs = allMessages.map((m) => JSON.parse(m));
       await Message.insertMany(docs);
-      console.log(`✅ Backed up ${docs.length} messages to MongoDB`);
+      console.log(`Backed up ${docs.length} messages to MongoDB`);
       await redisClient.del("chat:messages");
     }
   } catch (err) {
-    console.error("❌ Backup job failed:", err);
+    console.error("Backup job failed:", err);
   }
 });
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () =>
-  console.log(`🚀 Server running on http://localhost:${PORT}`)
+  console.log(`Server running on http://localhost:${PORT}`)
 );
