@@ -140,3 +140,57 @@ async function solve(){
 
 
 solve()
+
+
+
+
+const mongoose =require('mongoose');
+
+const UserSchema=new mongoose.Schema({
+  name:{
+    type:String,
+    required:true,
+  },
+  age:{
+    type:Number,
+    required:true,
+  },
+  email:{
+    type:String,
+    require:true,
+    unique:true
+  },
+  Subject:{
+    type:String,
+    enum:['math','science',"english"]
+  }
+})
+
+const UserModel=mongoose.model("User",UserSchema);
+// export default UserModel;
+
+const AuthorSchema=new mongoose.Schema({
+  name:{
+    type:String,
+    required:true,
+  }
+})
+
+const AuthorModel=mongoose.model("Author",AuthorSchema)
+// export default AuthorModel;
+
+const BookSchema=new mongoose.Schema({
+  title:{
+    type:String,
+    required:true,
+  },
+  year:{
+    type:Number,
+    required:true,
+  },
+  author:{
+    type:mongoose.Schema.Types.ObjectId, ref:"Author"
+  }
+})
+const BookModel=new mongoose.model("Book",BookSchema)
+export default BookModel
