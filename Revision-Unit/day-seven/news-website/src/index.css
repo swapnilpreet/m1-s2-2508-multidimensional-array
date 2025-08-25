@@ -1,0 +1,4 @@
+@import "tailwindcss";
+
+.line-clamp-2 { @apply line-clamp-2; }
+.line-clamp-3 { @apply line-clamp-3; }
