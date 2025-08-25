@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Meal Explorer</title>
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <header>
+    <h1>🍴 Meal Explorer</h1>
+    <div class="controls">
+      <input type="text" id="searchInput" placeholder="Search meals..." autocomplete="off"/>
+      <div id="suggestions"></div>
+
+      <select id="categoryFilter"></select>
+      <select id="sortDropdown">
+        <option value="default">Sort By</option>
+        <option value="name-asc">Name (A → Z)</option>
+        <option value="name-desc">Name (Z → A)</option>
+      </select>
+    </div>
+  </header>
+  <div id="loader" class="loader hidden"></div>
+  <main>
+    <div id="mealGrid" class="grid"></div>
+  </main>
+  <footer>
+    <button id="prevBtn">Prev</button>
+    <span id="pageInfo"></span>
+    <button id="nextBtn">Next</button>
+  </footer>
+  <script src="index.js"></script>
+</body>
+</html>

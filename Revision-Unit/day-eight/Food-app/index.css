@@ -1,0 +1,143 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: Arial, sans-serif;
+  background: #fafafa;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+header {
+  background: #ff7043;
+  padding: 1rem;
+  text-align: center;
+  color: white;
+}
+.controls {
+  margin-top: 1rem;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.controls input,
+.controls select {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  min-width: 180px;
+}
+#suggestions {
+  position: absolute;
+  top:110px;
+  left: 680px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 2px;
+  z-index: 100;
+  max-height: 150px;
+  overflow-y: auto;
+  width: 180px;
+  display: none;
+  color: black;
+}
+#suggestions div {
+  padding: 6px;
+  cursor: pointer;
+}
+#suggestions div:hover {
+  background: #eee;
+}
+main{
+    width: 60%;
+    margin: auto;
+    padding: 20px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  main{
+    width: 80%;
+    margin: auto;
+    /* padding: 10px; */
+}
+}
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+   main{
+    width: 100%;
+    margin: auto;
+}
+}
+.card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  width: 250px;
+}
+.card:hover {
+  transform: scale(1.03);
+}
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+.card-body {
+  padding: 10px;
+  text-align: center;
+}
+footer {
+  margin-top: auto;
+  padding: 10px;
+  text-align: center;
+}
+footer button {
+  padding: 8px 14px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 6px;
+  background: #ff7043;
+  color: white;
+  cursor: pointer;
+}
+footer button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+/* Loader from uiverse.io */
+.loader {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #ff7043;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+.hidden {
+  display: none;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
