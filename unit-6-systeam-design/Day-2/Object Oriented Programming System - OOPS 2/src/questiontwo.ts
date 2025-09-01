@@ -1,16 +1,49 @@
-class Bird {
+class PolyDuck {
   fly(): void {
-    console.log("I can fly");
+    console.log("Duck is flying...");
   }
 }
-class Penguin extends Bird {
+class DesiDuck extends PolyDuck {
   fly(): void {
-    console.log("I cannot fly");
+    console.log("DesiDuck flies at 10kmph");
   }
 }
-const bird = new Bird();
-bird.fly();
-const penguin = new Penguin();
-penguin.fly();
+class VidesiDuck extends PolyDuck {
+  fly(): void {
+    console.log("VidesiDuck flies at 20kmph");
+  }
+}
+class SmartDuck extends PolyDuck {
+  fly(): void {
+    console.log("SmartDuck flies at 50kmph");
+  }
+}
+function makeDuckFly(duck: PolyDuck): void {
+  duck.fly();
+}
+makeDuckFly(new DesiDuck());
+makeDuckFly(new VidesiDuck());
+makeDuckFly(new SmartDuck());
 
-
+class User {
+  public name: string;
+  private orgCode: string = "DuckCorp";
+  protected role: string;
+  constructor(name: string, role: string) {
+    this.name = name;
+    this.role = role;
+  }
+  introduce(): void {
+    console.log(`I am ${this.name} from ${this.orgCode}`);
+  }
+}
+class Manager extends User {
+  getRole(): void {
+    console.log(this.role);
+  }
+}
+const user = new User("Daffy", "Employee");
+user.introduce();
+const manager = new Manager("Donald", "Manager");
+manager.introduce();
+manager.getRole();

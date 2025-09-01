@@ -1,16 +1,26 @@
 "use strict";
-class ToyDuck {
-    swim() {
-        console.log("Can float on water");
-    }
+class FastFly {
     fly() {
-        console.log("Cannot fly");
-    }
-    sound() {
-        console.log("Cannot sound");
+        console.log("Flying fast like a rocket!");
     }
 }
-const toyDuck = new ToyDuck();
-toyDuck.fly();
-toyDuck.sound();
-toyDuck.swim();
+class NoFly {
+    fly() {
+        console.log("I cannot fly");
+    }
+}
+class NewDuck {
+    constructor(flyStrategy) {
+        this.flyStrategy = flyStrategy;
+    }
+    performFly() {
+        this.flyStrategy.fly();
+    }
+    setFlyStrategy(strategy) {
+        this.flyStrategy = strategy;
+    }
+}
+const duck = new NewDuck(new FastFly());
+duck.performFly();
+duck.setFlyStrategy(new NoFly());
+duck.performFly();

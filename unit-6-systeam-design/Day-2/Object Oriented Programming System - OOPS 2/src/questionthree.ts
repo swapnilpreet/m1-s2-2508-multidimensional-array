@@ -1,20 +1,32 @@
-interface IDuck {
-  swim(): void;
+interface FlyStrategy {
   fly(): void;
-  sound(): void;
 }
-class ToyDuck implements IDuck {
-  swim(): void {
-    console.log("Can float on water");
-  }
+class FastFly implements FlyStrategy {
   fly(): void {
-    console.log("Cannot fly");
-  }
-  sound(): void {
-    console.log("Cannot sound");
+    console.log("Flying fast like a rocket!");
   }
 }
-const toyDuck = new ToyDuck();
-toyDuck.fly();
-toyDuck.sound();
-toyDuck.swim();
+class NoFly implements FlyStrategy {
+  fly(): void {
+    console.log("I cannot fly");
+  }
+}
+class NewDuck {
+  private flyStrategy: FlyStrategy;
+
+  constructor(flyStrategy: FlyStrategy) {
+    this.flyStrategy = flyStrategy;
+  }
+
+  performFly(): void {
+    this.flyStrategy.fly();
+  }
+
+  setFlyStrategy(strategy: FlyStrategy): void {
+    this.flyStrategy = strategy;
+  }
+}
+const duck = new NewDuck(new FastFly());
+duck.performFly();
+duck.setFlyStrategy(new NoFly());
+duck.performFly();
