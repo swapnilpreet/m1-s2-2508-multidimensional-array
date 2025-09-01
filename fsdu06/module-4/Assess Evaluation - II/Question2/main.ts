@@ -13,4 +13,4 @@ function main(factory:IBookingProviderFacotory){
     console.log(newbooking.book(),newinvoice.generate(),newitinarary.display())
 }
 main(new HotelProviderFactory())
-// main(new FlightProviderFacotry())
+main(new FlightProviderFacotry())

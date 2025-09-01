@@ -20,4 +20,4 @@ export class HotelProviderFactory implements IBookingProviderFacotory{
     createItinerary(): Itinerary {
         return new HotelItinaray();
     }
-}
+} 

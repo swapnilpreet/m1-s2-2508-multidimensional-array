@@ -1,0 +1,64 @@
+class 1 :
+
+    what is typescript?
+        ts is superset of js , basically js with type,
+
+    why do we need ts?
+        its static type checking,checking the type in compile-time, and we need used Ooops for scalable, modularity
+
+        write the code => build file => compiled=>run
+
+    can we have scalable system without ts or without OOps?
+        yes,object Oriented programming
+            object => verthing we see we converted in obj in programming ,bcs we need to build a logic ,why we need logic bcs we need designing the system in scalable,maintainable,readable way 
+        ist easy way to make a system scalable,maintainable,readable  
+
+    check version of tsc   => tsc -v
+    install ts => npm install typescript
+
+    tsc => long form (typescript Compiler)
+    initialise project =>tsc --init
+
+    emited file => outDir:"dist"
+        emited means after transpilation generate file known as emited 
+
+        if you make chagnes in emited file but that chnages in not found in ts file then each tsc that code will be overide the code agin by using transpilation
+
+    Compilation of ts file => from  ts we generating js
+
+    what is transpilation
+        Whenever we want to generate High level to low lavel that process called transpilation
+        HL => HL
+        
+        HL=> ex. js ,ts, python,Java
+        LL=> ex. asm, binary
+
+    
+    what is Compilation?
+        Whenever we want to generate HL Language to low level Language that process we called Compilation
+        HL => LL
+
+        transpilation ts to js => then Compilation js to binary then => execution : start
+
+
+
+class 2 :
+
+    introduction of Oops:
+
+
+    class: blueprint of obj
+
+    object: is an instance of class 
+
+    constructor: is fn but a special fn why bcs it construct the obj for creating obj 
+
+    new keyword: new key word trigger constructor fn we pass value in constructor fn new ke word pinted current instances value not other obj instecnes thats whay constructor fn assign values usign taht
+
+    
+
+
+
+class 3 :
+
+    

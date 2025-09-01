@@ -31,19 +31,19 @@ Student Notes: S01 – System Design + TypeScript
             Tooling	Better autocompletion, IntelliSense, and refactoring support
             OOP Support	Supports classes, inheritance, encapsulation, and modularity
             Example:
-            class User {
-            name: string;
-            age: number;
-
-            constructor(name: string, age: number) {
-                this.name = name;
-                this.age = age;
-            }
-
-            greet() {
-                console.log(`Hello, I’m ${this.name}`);
-            }
-            }
+                class User {
+                name: string;
+                age: number;
+    
+                constructor(name: string, age: number) {
+                    this.name = name;
+                    this.age = age;
+                }
+    
+                greet() {
+                    console.log(`Hello, I’m ${this.name}`);
+                }
+                }
 
         What is TypeScript?
             Aspect	TypeScript

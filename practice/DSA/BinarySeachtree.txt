@@ -1,0 +1,189 @@
+
+
+what is binary Search tree ?
+
+    Introduction:
+        A Binary Search Tree (BST) is a hierarchical data structure that organizes data in a binary tree format. Each node in a BST contains a key and two pointers to its left and right children. The key property of a BST is that for any given node, all values in its left subtree are less than its key, and all values in its right subtree are greater than its key. This property enables efficient searching, insertion, and deletion operations.
+
+    binary Search tree is node based binary tree str which has following properties
+        the left subtree of a node conatians only nodes keys lesser then the nodes key
+
+        the right subtree node conatine onlu nide with keys greter then the node keys
+
+        let left and right subtree each must also a binary sreach tree 
+
+    Properties of Binary Search Trees:
+        Binary Tree Structure: 
+            Each node in a BST has at most two children: a left child and a right child.
+
+        Ordering Property: 
+            For any node in the BST, all values in its left subtree are less than its key, and all values in its right subtree are greater than its key.
+
+        Uniqueness: 
+            Each node in a BST has a unique key value. No two nodes can have the same key.
+
+        Recursion: 
+            The BST property applies recursively to every subtree of the BST. This means that each subtree is also a valid BST.
+
+properties bst
+        x 
+
+    x<n     x>n
+
+    x<n left side all nodes is less then root( parent) node 
+    x>n right side all nodes is greter then root( parent) node
+
+create bst from array [23,45,2,8,81,28,14,31,75,62,10]
+
+            23
+        2          45
+          8     28       81
+            13     31   95
+        10     14      62
+
+
+function seachBSt(root,val){
+    if(root===null){
+        return null
+    }
+    if(root.data===val){
+        return root
+    }
+    if(val<root.data){
+        return seachBSt(root.left,val)
+    }
+    if(val>root.data){
+        return fun(root.right,val)
+    }
+}    
+tc=O(n)
+
+
+let ans=[]
+function  inorder(root){
+    if(root==null){
+        inorder(root.left)
+        res.push(root.data) // sc will be O(n) do in O(1)
+        inorder(root.right)
+    }
+}
+
+function isBst(root){
+     return solve(root,-Infinity,Infinty)
+}
+
+function solve(node,min,max){
+    if(node==null){
+        return true;9209226397
+    }
+
+    if(node.data<min) return 
+}
+
+
+Inset node :
+    function solve(root,key){
+        let temp=new Node(key)
+        if(root===null){
+            return temp;
+        }
+        let curr=root
+        let prev=null
+        while(curr!=null){
+            if(key >curr.data){
+                prev=curr;
+                curr=curr.right
+            }else{
+                prev=curr;
+                curr=curr.left
+            }
+        }
+        if(key>prev.data){
+            prev.right=temp
+        }else{
+            prev.left=temp;
+        }
+        return root
+    }
+
+
+inorder predecessor
+    means parent x then find which node has less than x but that shoude be maximum from left side all nodes
+
+inorder successor
+    means parent x then find on right side which nide has max from all other nodes from right side
+
+
+delete node:
+    leaf node : means dont have a any child
+
+    middle node: delete have single child
+
+    delete top : delete have both child
+
+    function deletenode(root,key){
+        if(root==ull){
+            return null
+        }
+
+        if(key>root.val){
+            root.left=deletenode(root.left,key)
+        }
+        else if(key<root.val){
+            root.right=deletenode(root.right,key)
+        }
+        else{
+            if(root.left===null && root.right===null){
+                return null;
+            }
+
+            if(root.left==null){
+                return root.right
+            }
+
+            if(root.right===null){
+                return root.left
+            }
+
+            let ipre=inorder(root);
+            root.val=ipre.val
+            root.left=deletenode(root.leftmipre.val)
+        }
+        return root;
+    }
+
+    function inorderpreddseoor(root){
+        if(root===null || root.left===null){
+            return null;
+        }
+        root=root.left;
+        while(root.right!==null){
+            root=root.right
+        }
+        return root;
+    }
+
+
+build bst using arr:
+
+    let arr=[8,10,12,15,18,20,25]
+    
+    function constructBst(arr){
+        arr.sort((a,y)=>a-y)
+        return solve(arr,0,arr.length-1)
+    }
+
+    function solve(arr,l,r){
+
+        if(l>r){
+            return null
+        }
+
+        let mid=Math.floor((l+r)/2)
+        let temp=new Node(arr[mid])
+        temp.left=solve(arr,l,mid-1)
+        temp.right=solve(arr,mid-1,r)
+
+        return temp;
+    }
+
