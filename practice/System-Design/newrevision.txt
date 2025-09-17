@@ -43,9 +43,7 @@ class 1 :
 
 
 class 2 :
-
     introduction of Oops:
-
 
     class: blueprint of obj
 
@@ -55,10 +53,409 @@ class 2 :
 
     new keyword: new key word trigger constructor fn we pass value in constructor fn new ke word pinted current instances value not other obj instecnes thats whay constructor fn assign values usign taht
 
-    
+    Why do we need OOPs?
+        we need OOPs bcs we want our systeam when grows it should be well stractured,we can easyly reusable,and it should be organized way, so this things we can achived using OOPs bcs it offering stractured,readable.reusable,organized way to write a syteam.
 
+        example:
+            Method-1 : Wthout classes : just using variables
+                let name1= "Venu";
+                let interest1 = "Backend";
+
+                let name2 = "Dinkar";
+                let interest2 = "Data Analysis";
+
+                let name3 = "Ankit";
+                let interest3 = "Data Stucture";
+
+            Limitation : This method is okay for a small amount of data, but as your app grows, it becomes cumbersome and inefficient.
+
+            Method-2 : using JS object
+                // Repeating structure manually
+                let person1 = {
+                name: "Venu",
+                interest: "Backend",
+                introduce: function () {
+                    console.log(`Hi, I'm ${this.name} and I like ${this.interest}.`);
+                },
+                };
+
+                let person2 = {
+                name: "Dinkar",
+                interest: "Data Analysis",
+                introduce: function () {
+                    console.log(`Hi, I'm ${this.name} and I like ${this.interest}.`);
+                },
+                };
+
+                person1.introduce(); // Hi, I'm Venu and I like Backend.
+                person2.introduce(); // Hi, I'm Dinkar and I like Data Analysis.
+
+            Limitation :While using objects is an improvement over variables, you still lack a reusable template for creating and managing people efficiently.
+    
+                🔴 Problems:
+                Duplicated method code
+                No template
+                Easy to miss fields or introduce typos
+
+            Method-3 using JS Prototypes
+                function Person(name, interest) {
+                    this.name = name;
+                    this.interest = interest;
+                }
+
+                Person.prototype.introduce = function () {
+                    console.log(`Hi, I'm ${this.name} and I like ${this.interest}.`);
+                };
+
+                let person1 = new Person("Venu", "Backend");
+                let person2 = new Person("Dinkar", "Data Analysis");
+
+                person1.introduce(); // Hi, I'm Venu and I like Backend.
+                person2.introduce(); // Hi, I'm Dinkar and I like Data Analysis.
+
+                Improvements:
+                    Shared method via prototype
+                    Efficient memory usage
+
+            Limitations:
+                        Verbose and lower readability
+                        No type safety
+                        Beginners may find it unintuitive
+
+                        You can use Class to create as many objects as you want
+            Benefits:
+                Clean syntax
+                Type safety (in TypeScript)
+                Easy to scale
+                IDE support (autocomplete, refactoring)
+
+        
+        Two Important things : 
+            // 1. ClassName should start with capital.
+            // 2. ClassName and FileName should be same (Good coding practice)
+
+            class ClassName {
+
+            // Properties or member variables
+            propertyName: type;
+
+            // Constructor to create the objects
+            constructor(parameter1: type, parameter2: type) {
+                
+                // Initialize properties
+                this.propertyName = parameter1;
+                // more initialization...
+            }
+
+            // Method or member functions
+            methodName(): returnType {
+                // method body
+                return value;
+            }
+            }
+
+
+    What are Classes?
+        Classes are the blueprint of objects.
+        Classes help you model real-world entities in your code by generalizing the properties and behaviors into a reusable template.
+        Instead of manually managing individual properties or creating repetitive objects, classes provide a structured, maintainable way to manage and manipulate your data.
+        Classes allow for easy scalability, flexibility, and organization of your code, making it easy to expand as your system grows.
+
+    How to create a class?
+        Identify the variables and behaviours which are repeating.
+        Generalise them by wrapping them into class.
+
+        class Person {
+            // member variables which are repeating
+            name:string;
+            interest: string;
+            // Constructor : to initialise the values of variables
+            constructor(name, interest) {
+                    this.name = name;
+                    this.interest = interest;
+                }
+        }
+
+        let person1 = new Person("Venu", "Backend");
+        let person2 = new Person("Dinkar", "Data Analysis");
+        let person3 = new Person("Ankit", "Data Structure");
+
+    What is constructor?
+        Constructors in TypeScript are special functions used to initialize objects when they are created from a class. When you define a class, the constructor allows you to set initial values for the object's properties. Without a constructor, the object would be created with default or uninitialized values, which could lead to errors or inefficiency in your application.
+
+            Initializing Values: 
+                When you create an instance of a class, the constructor allows you to pass values and initialize the object’s fields (properties). For example, in a Person class, the constructor might take values for name and interest to set them up when creating each Person object.
+
+            "this" Keyword: 
+                Inside the constructor, the this keyword refers to the current instance of the class. It helps to assign values to the object's properties. this.name = name assigns the passed name value to the object's name field.
+
+        In summary, the constructor is crucial because it initializes the object's properties, making it ready for use. It’s like setting the initial state for an object when it’s created, ensuring that it has the required values and functionality from the start.
+
+        Creating objects of a class in TypeScript is a straightforward process that allows you to instantiate objects based on the class template. The process involves the following steps:
+
+            Use the new Keyword: 
+                To create an object from a class, you need to use the new keyword followed by the class name. This triggers the constructor function of the class and creates a new instance of that class.
+            Pass Values to Constructor: 
+                If the class has a constructor that takes parameters (e.g., name, interest), you pass the necessary values when creating the object. These values will initialise the object’s properties.
+            Access Object Properties: 
+                Once the object is created, you can access its properties and methods using dot notation. The object now contains the values you initialized through the constructor.
+            Multiple Instances: 
+                You can create as many objects as needed from the same class, with different values for their properties. Each object will be a separate instance with its own state.
+
+        Function inside Class
+            class Person {
+                    // member variables which are repeating
+                    name:string;
+                    interest: string;
+                    // Constructor function: to initialise the values of variables
+                constructor(name, interest) {
+                    this.name = name;
+                    this.interest = interest;
+                }
+                // Member Function : Person also performs some actions like talking : introduce yourself
+                introduce() {
+                    console.log(`Hello, my name is ${this.name} and I am interested in ${this.interest}.`);
+                }
+            }
+            let person1 = new Person("Venu", "Backend");
+            let person2 = new Person("Dinkar", "Data Analysis");
+            let person3 = new Person("Ankit", "Data Structure");
+            person1.introduce();  // Output: Hello, my name is Venu and I am interested in Backend.
+            person2.introduce();  // Output: Hello, my name is Dinkar and I am interested in Data Analysis.##
+
+    Inheritance:
+        Class based inheritance is syntactic sugar of prototype-based inheritance.
+        Under the hood, Class use prototype-based inheritance.
+
+        Coding of Inheritance
+        // class with methods (swim, sound, fly)
+        class IndianDuck{
+            swim():void{
+                console.log("I know siwmming");
+            }
+
+            sound():void{
+                console.log("Quack!! Quack!!");
+            }
+
+            fly():void{
+                console.log("I fly at 10 kmph");
+            }
+
+        }
+
+        // class with methods (swim, sound, fly)
+        class AmericanDuck{
+            swim():void{
+                console.log("I know siwmming");
+            }
+
+            sound():void{
+                console.log("Quack!! Quack!!");
+            }
+
+            fly():void{
+                console.log("I fly at 5kmph");
+            }
+        }
+
+        // Now user want to create a new class of AfricanDuck. But there is problem 
+        // with this approach. What is it?
+        // Duplication of Efforts : You have to 
+        // What is the solution?
+
+    Method Overloading :
+        class Greeter {
+        // Overload signatures
+        greet(name: string): string;
+        greet(age: number): string;
+
+        // Single implementation
+        greet(input: string | number): string {
+            if (typeof input === "string") {
+            return `Hello, ${input}!`;
+            } else {
+            return `You are ${input} years old.`;
+            }
+        }
+        }
+
+        const g = new Greeter();
+
+        console.log(g.greet("Alice")); // Hello, Alice!
+        console.log(g.greet(25));      // You are 25 years old.
+
+    Public, Private, Protected Keyword
+
+        public (Default)
+                Accessible everywhere: inside the class, outside the class, and in child classes.
+                If you don’t write anything, it's treated as public by default.
+            Example:
+                class Person {
+                public name: string;
+
+                constructor(name: string) {
+                    this.name = name;
+                }
+
+                public greet() {
+                    console.log(`Hello, my name is ${this.name}`);
+                }
+                }
+
+                const p = new Person("Alice");
+                console.log(p.name); // ✅ Accessible
+                p.greet();           // ✅ Accessible
+
+        private
+            Accessible only inside the same class.
+            ❌ Not accessible from outside or by child classes.
+            Use when you want to hide internal details of a class.
+            Example:
+                class Person {
+                private ssn: string;
+
+                constructor(ssn: string) {
+                    this.ssn = ssn;
+                }
+
+                private logSSN() {
+                    console.log(`SSN: ${this.ssn}`);
+                }
+                }
+
+                const p = new Person("123-45-6789");
+
+        protected
+            Accessible inside the class and in its child classes.
+            Not accessible from outside the class.
+            Use when you want to expose something only to inherited classes.
+            ✅ Example:
+            class Person {
+            protected department: string;
+
+            constructor(department: string) {
+                this.department = department;
+            }
+            }
+
+            class Employee extends Person {
+            showDepartment() {
+                console.log(`Department: ${this.department}`); //
+            }
+            }
+
+            const emp = new Employee("Engineering");
+            // console.log(emp.department);  
+            emp.showDepartment();           
+
+    Types of Inheritance
+            Single Inheritance
+            Multi-level Inheritance
+            Hierarchical inheritance
+
+            Important Questions (Can ask to make them curious)
+
+            What is Parent Class and Child Class in the above code??
+                Child classes : Both classes will have the functions of Parent class
+
+            Can we add new functions in the Child class?
+                Yes, Child classes can add new methods that are specific to that class and are not present in the Parent class.
+                In the example above, both MallardDuck and WoodenDuck have added their own specific fly() methods.
+
+            Can we have a function with the same name as in the Parent?
+                Yes, this is called method overriding. If a function in the Child class has the same name as the function in the Parent class, the Child class method will override the Parent class method.
+                Example: Both MallardDuck and WoodenDuck override the makeSound() method. The Child class’s method will be the one that gets called when invoked on an instance of that Child class.
+
+            What will happen in second question, Which definition will work : Parent or child class? child class
+                method over-riding
+
+            Which function definition will be used when overridden? Parent or Child class?
+                The Child class’s method will be used if it overrides a method from the Parent class. This is known as method overriding.
+                Example: If you create an instance of MallardDuck and call makeSound(), it will use the makeSound() method from MallardDuck rather than the Parent Duck class, because the method was overridden in the Child class.
+
+            Can we add new functions to all the ducks?
+                Yes, by adding a new method to the Parent class, you can have all Child classes inherit this method. Alternatively, you can define specific new methods in each Child class to customize behavior.
+
+    Interface:
+        Need of Interface
+            In TypeScript, interfaces provide a way to define contract-based functionality without enforcing a concrete definition. This is useful when you want to ensure that different classes share the same structure or behavior without dictating how they implement the actual functionality. Essentially, interfaces define what needs to be done but leave how it is done to the implementing classes.
+
+            interface Duck {
+            swim(): void;    // Every duck must implement swim
+            sound(): void;   // Every duck must implement sound
+            fly(): void;     // Every duck must implement fly
+            }
+
+            class MallardDuck implements Duck {
+            swim(): void {
+                console.log("Mallard Duck is swimming.");
+            }
+
+            sound(): void {
+                console.log("Mallard Duck says Quack!");
+            }
+
+            fly(): void {
+                console.log("Mallard Duck is flying!");
+            }
+            }
+
+            class WoodenDuck implements Duck {
+            swim(): void {
+                console.log("Wooden Duck is floating.");
+            }
+
+            sound(): void {
+                console.log("Wooden Duck makes a squeaky sound.");
+            }
+
+            fly(): void {
+                console.log("Wooden Duck cannot fly.");
+            }
+            }
+
+        Scenario:
+            Suppose you need some functionality in your application, but you don’t want to dictate the exact implementation details for all the objects. In this case, you can use an interface to define the expected methods that any class should implement, without specifying the concrete implementation.
+
+        Can You Create Objects from an Interface?
+            No, interfaces cannot be instantiated. They are not meant to hold data but rather to define the structure that a class must implement. You cannot create an object directly from an interface because it doesn't provide any implementation—only a contract for what needs to be implemented.
+
+        Limitations of Interfaces:
+            Forces You to Define All Methods:
+
+            An interface in TypeScript forces you to implement all methods defined in it, regardless of whether your class actually needs them. This can lead to redundancy if some methods don't apply to certain classes or are not used, which makes your code unnecessarily verbose.
+            Example: If you define an interface with methods that don't apply to certain classes, TypeScript will still require you to provide implementations for those methods.
+
+        3.2 Inheritance vs Interface
+            Inheritance:
+                Code reuse: Inheritance allows you to reuse code from the parent class.
+                Extend functionality: Child classes can add or modify the functionality inherited from the parent class.
+                Flexible behavior: Parent class methods can be overridden in the child class.
+            Interface:
+                No code reuse: Interfaces don't provide implementation; they only define method signatures.
+                Mandatory method definitions: Classes implementing the interface must define all the methods specified in the interface.
+                No flexibility in fields: Interfaces cannot contain fields or state, only methods.
+
+            Inheritance                 	Interface
+            All methods are concrete        	All methods are abstract
+            Template to create another objects with same states and behaviours              	Contract : that all other classes will surely have these methods but can have different implementation
+            Tight Coupling           	Loose Coupling
+
+    
+    Closure : Classes, Inheritance, Interface
+        How OOPs will help in System Design?
+
+            Inheritance:
+                When to choose: Use inheritance when you need to reuse code or extend functionality. It allows a child class to inherit common behavior (methods and properties) from a parent class, promoting code reusability and maintainability.
+
+            Interface:
+                When to choose: Use interfaces when you want to define a contract for behavior. Interfaces ensure that any class implementing them provides certain methods, allowing for consistency across different classes without enforcing implementation details. Ideal when you need flexibility in how methods are implemented.
+
+            Design decisions :
+                If you need flexibility either go for abstract class or interface.
+                If you need to reuse the code go for inheritance.
 
 
 class 3 :
-
     
