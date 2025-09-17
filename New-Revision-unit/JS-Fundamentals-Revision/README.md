@@ -46,6 +46,7 @@ Question 7:
     
 
 Question 8:
+
     Original Issue / Bug (if any)
         The first log printName prints undefined bcs its an arrow fn.
         Arrow fn don’t create their own this, they use this from the surrounding lexical scope in this case the global scope where this.name is undefined.
@@ -101,4 +102,3 @@ Question 9:
         2
         3 
 
-        
