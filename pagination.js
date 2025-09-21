@@ -38,7 +38,7 @@ const PostList = () => {
 
       {totalnoofbtn.map((ele, index) => (
         <button
-        disabled={currentpage===index+1}
+          disabled={currentpage===index+1}
           key={index + 1}
           onClick={() => setcurrentpage(index + 1)}
           style={{ margin: "5px" }}
