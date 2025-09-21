@@ -111,9 +111,10 @@ fetch("https://jsonplaceholder.typicode.com/posts")
   })
   .catch((err) => console.error("Error:", err));
 
+  
 fetch("https://jsonplaceholder.typicode.com/posts")
   .then((res) => res.json())
-  .then((data) => {
+  .then((data)=>{
     // Sort by title alphabetically
     const sorted = [...data].sort((a, b) => a.title.localeCompare(b.title));
     console.log("Sorted Titles:", sorted.slice(0, 5));
