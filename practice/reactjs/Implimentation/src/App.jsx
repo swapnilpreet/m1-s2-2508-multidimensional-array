@@ -1,12 +1,14 @@
-import './App.css'
-import Debounce from './components/Debounce'
+import "./App.css";
+import Debounce from "./components/Debounce";
+import Fetch from "./components/Fetch";
 
 function App() {
   return (
     <>
-        <Debounce/>
+      <Debounce />
+      <Fetch />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,0 +1,242 @@
+1️⃣ Node.js
+
+Definition:
+Node.js is a JavaScript runtime built on Chrome’s V8 engine that allows JS to run on the server-side.
+
+Type: Runtime environment, not a framework.
+
+Why used:
+
+Server-side scripting with JS.
+
+Handles high concurrency with non-blocking, event-driven architecture.
+
+Key Features:
+
+Asynchronous I/O
+
+Single-threaded, non-blocking
+
+NPM ecosystem for libraries
+
+Interview Tip: Difference between Node.js vs traditional server (e.g., PHP, Java)
+
+2️⃣ Express.js
+
+Definition:
+Minimal, fast Node.js web framework for building APIs and web apps.
+
+Type: Framework
+
+Why used:
+
+Simplifies server creation.
+
+Routing, middleware, request handling made easier.
+
+Example Libraries Used With Express:
+
+body-parser → parse JSON
+
+cors → Cross-Origin Resource Sharing
+
+jsonwebtoken → JWT authentication
+
+Difference:
+
+Express	Node.js
+Framework	Runtime
+Simplifies routing & middleware	Raw server & HTTP module
+Easier API creation	You must write raw request/response logic
+3️⃣ React.js
+
+Definition: Frontend library for building UI components.
+
+Type: Library (not full framework)
+
+Why used:
+
+Component-based architecture
+
+Virtual DOM for efficient rendering
+
+Single-page applications (SPA)
+
+Key Features:
+
+JSX
+
+Hooks (useState, useEffect, useRef, useMemo, etc.)
+
+Context API for global state
+
+React vs React Native:
+
+React	React Native
+Web applications	Mobile applications
+Renders HTML	Renders native UI components
+4️⃣ MongoDB
+
+Definition: NoSQL database storing data as JSON-like documents.
+
+Type: Database (Document-oriented)
+
+Why used:
+
+Flexible schema → easy to scale
+
+High performance for large data
+
+Works well with Node.js
+
+Key Terms:
+
+Collection → like SQL table
+
+Document → like SQL row (JSON object)
+
+Transaction/Session → atomic operations across multiple documents
+
+Difference: MongoDB vs SQL
+
+MongoDB	SQL (MySQL/Postgres)
+Schema-less	Fixed schema
+JSON documents	Tables & rows
+Horizontal scaling	Vertical scaling
+5️⃣ Mongoose
+
+Definition: Node.js ODM (Object Data Modeling) library for MongoDB.
+
+Type: Library
+
+Why used:
+
+Simplifies MongoDB queries
+
+Schema definition & validation
+
+Middleware/hooks support
+
+Example:
+
+const userSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  password: String
+});
+
+
+Mongoose vs MongoDB Native Driver:
+
+Mongoose	Native MongoDB Driver
+Schema-based	Flexible JSON
+Validation & middleware	Manual validation
+Easier for models & relations	Direct queries
+6️⃣ REST API & HTTP Methods
+
+Definition: REST = Representational State Transfer, architectural style for APIs.
+
+HTTP Methods:
+
+GET → fetch data
+
+POST → create data
+
+PUT → update/replace data
+
+PATCH → update part of data
+
+DELETE → remove data
+
+Why used:
+
+Stateless, scalable, and standardized API design
+
+REST vs GraphQL:
+
+REST	GraphQL
+Multiple endpoints	Single endpoint
+Over-fetching possible	Fetch exactly what you need
+Standard HTTP verbs	Queries & Mutations
+7️⃣ Authentication & Authorization
+
+Authentication: Verify who the user is (login).
+
+Authorization: Verify what user can access (roles & permissions).
+
+JWT (JSON Web Token):
+
+Token-based auth for stateless sessions
+
+Encodes payload + signature
+
+Role-based Access Control (RBAC):
+
+Users can have roles: admin, user
+
+Middleware checks permissions
+
+8️⃣ Frontend Concepts
+
+useState: Local component state.
+
+useEffect: Side-effects like API calls.
+
+useRef: Access DOM nodes or store mutable values.
+
+useMemo / useCallback: Optimize performance by memoizing results/functions.
+
+Debounce / Throttle: Optimize frequent events (scroll, input)
+
+9️⃣ Node.js & Express Middleware
+
+Definition: Functions executed before request reaches the final route.
+
+Types:
+
+Application-level → app.use()
+
+Router-level → router.use()
+
+Error-handling middleware → 4 params (err, req, res, next)
+
+Why used:
+
+Authentication, logging, parsing, error handling
+
+🔟 Other Libraries/Tools
+Tool/Library	Type	Purpose
+bcryptjs	Library	Hash passwords
+nodemailer	Library	Send emails
+multer	Library	File upload
+dotenv	Library	Manage env variables
+axios/fetch	Library	HTTP requests from frontend
+11️⃣ Full-Stack Architecture Terms
+
+MVC (Model-View-Controller):
+
+Model → Data (Mongoose schema)
+
+View → Frontend (React component)
+
+Controller → Route logic
+
+SPA (Single Page Application):
+
+Single HTML page, dynamic content via JS
+
+React/Angular/Vue
+
+SSR (Server Side Rendering):
+
+Render pages on server → better SEO
+
+Next.js is popular for React SSR
+
+12️⃣ Database & Index Terms
+
+Index: Speeds up queries
+
+Aggregation: Advanced queries (group, filter, sort, sum)
+
+Transactions & Session: Atomic multi-document operations

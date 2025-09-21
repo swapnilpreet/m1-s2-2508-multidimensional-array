@@ -38,11 +38,12 @@ const Debounce = () => {
   useEffect(() => {
     const timeid = setTimeout(() => {
         if(value){
-            fetchData(value);
+          fetchData(value);
         }
     }, 2000);
     return ()=> clearTimeout(timeid);
   }, [value]);
+
 
   return (
     <>

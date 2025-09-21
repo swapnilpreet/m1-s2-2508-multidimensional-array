@@ -11,7 +11,6 @@ AuthRouter.post("/register", async (req, res) => {
       .status(400)
       .json({ msg: "Please enter username, email, and password" });
   }
-
   try {
     let userByUsername = await UserModel.findOne({ username });
     if (userByUsername) {
