@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="controls">
+      <label for="sortSelect">Sort By:</label>
+      <select id="sortSelect">
+        <option value="name">Name (A-Z)</option>
+        <option value="reverse">Name (Z-A)</option>
+      </select>
+      <label for="categorySelect">Filter by Category:</label>
+      <select id="categorySelect">
+        <option value="all">All</option>
+      </select>
+    </div>
+    <div id="mealsContainer"></div>
+    <div id="pagination" class="pagination"></div>
+  </body>
+</html>
+<script src="index.js"></script>

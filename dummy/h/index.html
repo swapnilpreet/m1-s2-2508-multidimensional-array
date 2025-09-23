@@ -3,11 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="index.css">
-    <title>Document</title>
+    <title>DOM MAnipulation</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-        
+    <div class="container">
+        <h1>Meal Finder</h1>
+
+
+        <!-- Search Section -->
+      <div class="search-section">
+        <div class="search-controls">
+        <input type="text" placeholder="Search for meals" id="searchInput">
+        <button id="searchBtn">Search</button>
+        <button id="clearBtn">Clear</button>
+        </div> 
+
+        <select id="sortBy">
+            <!-- <option value="">Sort</option> -->
+            <option value="name-asc">Sort: A -> Z</option>
+            <option value="name-desc">Sort: Z-> A</option>
+        </select>
+      </div>
+
+
+
+
+      <div id="results"></div>
+     <div id="pagination">
+        <button id="prevBtn">Prev</button>
+        <span id="pageInfo"></span>
+        <button id="nextBtn">Next</button>
+     </div>
+    </div>
 </body>
+  <script src="index.js"></script>
 </html>
-<script src="index.js"></script>
+
