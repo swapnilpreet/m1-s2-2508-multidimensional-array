@@ -1,16 +1,19 @@
 import "./App.css";
-import BatteryStatus from "./components/BatteryStatus";
-import NetworkSpeed from "./components/NetworkSpeed";
-import ShowApiData from "./components/ShowApiData";
-import Speech from "./components/Speech";
+import { AuthProvider } from "./AuthContext/Authcontext";
+import BatteryStatus from "./AuthContext/components/BatteryStatus";
+import NetworkSpeed from "./AuthContext/components/NetworkSpeed";
+import ShowApiData from "./AuthContext/components/ShowApiData";
+import Speech from "./AuthContext/components/Speech";
 
 function App() {
   return (
     <>
+    <AuthProvider>
       <BatteryStatus />
       <NetworkSpeed />
       <Speech />
       <ShowApiData />
+    </AuthProvider>
     </>
   );
 }
