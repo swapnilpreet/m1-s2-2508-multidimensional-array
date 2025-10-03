@@ -52,7 +52,6 @@ const UserIcon = () => (
 export default function Header() {
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
-
   const handleLogout = async () => {
     try {
       await logout();
@@ -62,13 +61,9 @@ export default function Header() {
       alert("Failed to log out. Please try again.");
     }
   };
-
   return (
-    // Header with fixed position, high z-index, and YouTube dark colors
     <header className="fixed top-0 left-0 right-0 z-20 flex items-center justify-between h-14 px-4 bg-[#202020] border-b border-gray-700">
-      {/* Left Section: Menu and Logo */}
       <div className="flex items-center space-x-4">
-        {/* Menu Toggle (Placeholder - doesn't actually toggle state here) */}
         <button className="p-2 rounded-full hover:bg-[#3f3f3f] text-white">
           <MenuIcon />
         </button>
@@ -76,13 +71,10 @@ export default function Header() {
           to="/"
           className="flex items-center space-x-1 text-white text-xl font-bold"
         >
-          {/* Mock YouTube Logo */}
           <span className="text-red-500 text-3xl">▶</span>
           <span>YouTube Clone</span>
         </Link>
       </div>
-
-      {/* Center Section: Search Bar (Hidden on small screens) */}
       <div className="hidden sm:flex flex-grow max-w-xl mx-8">
         <input
           type="text"
@@ -95,16 +87,12 @@ export default function Header() {
           </div>
         </button>
       </div>
-
-      {/* Right Section: Auth Status */}
       <div className="flex items-center space-x-4">
         {currentUser ? (
           <>
-            {/* User Avatar/Icon */}
             <button className="p-2 rounded-full hover:bg-[#3f3f3f] text-white">
               <UserIcon />
             </button>
-            {/* Logout Button */}
             <button
               onClick={handleLogout}
               className="px-3 py-1 text-sm text-red-400 border border-red-400 rounded hover:bg-red-900/50 transition-colors"

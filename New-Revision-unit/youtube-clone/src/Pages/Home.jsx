@@ -11,7 +11,6 @@ export default function Home() {
     const getVideos = async () => {
       try {
         const data = await fetchPopularVideos();
-        // Filter out items that don't have all required data (e.g., deleted videos)
         const validVideos = data.filter(v => v.id && v.snippet && v.statistics);
         setVideos(validVideos);
       } catch (err) {
@@ -38,7 +37,6 @@ export default function Home() {
       <h1 className="text-2xl font-bold mb-6 text-white">Recommended</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-10">
         {videos.map((video) => (
-          // Using video.id as the key is safe here because it's unique
           <VideoCard key={video.id} video={video} />
         ))}
       </div>
