@@ -1,0 +1,22 @@
+.board-page {
+  padding: 20px;
+}
+.columns {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.column {
+  width: 300px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 10px;
+}
+.task-card {
+  background: #fafafa;
+  border: 1px solid #ddd;
+  padding: 8px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+}

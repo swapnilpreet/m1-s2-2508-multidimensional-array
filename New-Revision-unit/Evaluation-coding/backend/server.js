@@ -6,11 +6,18 @@ const authRoutes = require("./routes/auth.route");
 const boardRoutes = require("./routes/board.route");
 const taskRoutes = require("./routes/tasks.route");
 const app = express();
+app.use(cors({
+  origin: "http://localhost:5173", // Your frontend URL (Vite default port)
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE"],
   },
 });
 
