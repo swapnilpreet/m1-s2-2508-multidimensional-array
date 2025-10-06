@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import API from '../api/axios'
 import { saveAuth } from '../utils/auth'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 export default function Register(){
   const [name, setName] = useState('')
@@ -10,13 +11,19 @@ export default function Register(){
   const [error, setError] = useState('')
   const navigate = useNavigate()
   const submit = async (e) => {
-    e.preventDefault()
-    try{
-      const res = await API.post('/auth/register', { name, email, password })
-      saveAuth(res.data)
-      navigate('/')
-    } catch(err){ setError(err.response?.data?.message || err.message) }
+  e.preventDefault();
+  try {
+    const res = await axios.post('http://localhost:5000/api/auth/register', {
+      name,
+      email,
+      password,
+    });
+    saveAuth(res.data);
+    navigate('/');
+  } catch (err) {
+    setError(err.response?.data?.message || err.message);
   }
+};
   return (
     <div className="auth">
       <h2>Register</h2>
