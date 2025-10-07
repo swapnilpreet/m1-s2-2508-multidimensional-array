@@ -178,3 +178,21 @@
 // export default BookModel;
 
 
+
+
+// console.log('swa')
+
+
+
+
+function reverse(str) {
+    function solve(ind){
+        if(ind<0){
+            return ""
+        }
+        return str[ind]+solve(ind-1)
+    }
+    return solve(str.length-1)
+}
+
+console.log(reverse("Swapnil"))
