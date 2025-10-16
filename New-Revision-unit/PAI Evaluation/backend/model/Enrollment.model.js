@@ -13,4 +13,4 @@ const EnrollmentSchema = new mongoose.Schema({
 });
 
 const EnrollmentModel = mongoose.model("Enrollment", EnrollmentSchema);
-export default EnrollmentModel;
+module.exports = EnrollmentModel;
