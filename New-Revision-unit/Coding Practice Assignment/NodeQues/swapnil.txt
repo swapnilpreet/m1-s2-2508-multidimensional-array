@@ -1,0 +1,5 @@
+Hello World
+This is a sample text file.
+It contains multiple lines
+for testing the countLines function.
+This is a newly added line.This is a newly added line.

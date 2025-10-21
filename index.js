@@ -199,37 +199,3 @@
 
 
 
-
-function solve(n) {
-  let board=Array(n).fill().map(()=>Array(n).fill(0));
-  let count=0;
-
-  function isSafe(r,c){
-    for (let i=0;i<r;i++) {
-      if (board[i][c]===1) return false;
-    }
-    for (let i=r-1,j=c-1;i>=0&&j>=0;i--,j--){
-      if (board[i][j]===1) return false;
-    }
-    for (let i=r-1,j=c+1;i>=0&&j<n;i--,j++){
-      if(board[i][j]===1)return false;
-    }
-    return true;
-  }
-
-  function solve1(r){
-    if (r===n) {
-      count++;
-      return;
-    }
-    for (let c=0;c<n;c++) {
-      if (isSafe(r,c)){
-        board[r][c]=1;
-        solve1(r+1);
-        board[r][c]=0;
-      }
-    }
-  }
-  solve1(0);
-  return count;
-}
