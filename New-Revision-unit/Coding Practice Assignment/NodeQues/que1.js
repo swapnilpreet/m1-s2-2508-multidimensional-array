@@ -1,8 +1,8 @@
 const fs = require("fs");
 
-function countLines(filePath) {
+function countLines(filePath){
   try {
-    if (!fs.existsSync(filePath)) {
+    if (!fs.existsSync(filePath)){
       const dummyText = `Hello World
         This is a sample text file.
         It contains multiple lines
