@@ -72,7 +72,7 @@ DOM Tree Structure:
                 Elements that share the same parent (e.g., <h1> and <p> are siblings since they are both children of <body>).
 
 Selecting Elements in the DOM:
-    To manipulate the DOM using JavaScript, you first need to select elements from the DOM. JavaScript provides several methods for selecting elements, which allow you to target specific parts of the DOM for manipulation.
+    To manipulate the DOM using JavaScript, we first need to select elements from the DOM. JavaScript provides several methods for selecting elements, which allow ous to target specific parts of the DOM for manipulation.
 
     getElementById():
         The getElementById() method selects a single element based on its id attribute. Since id is unique within an HTML document, this method always returns one element.
@@ -90,7 +90,6 @@ Selecting Elements in the DOM:
             In this example, the <h1> element with the id="main-heading" is selected, and its text content is changed to "Welcome to the DOM!".
     
     querySelector():
-
         The querySelector() method allows you to select the first element that matches a given CSS selector. This method is versatile, allowing you to target elements by tag name, class, id, or more complex selectors.
 
         Syntax:

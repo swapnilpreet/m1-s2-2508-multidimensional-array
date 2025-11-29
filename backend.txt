@@ -240,3 +240,82 @@ Index: Speeds up queries
 Aggregation: Advanced queries (group, filter, sort, sum)
 
 Transactions & Session: Atomic multi-document operations
+
+
+
+Difference Between Authentication and Authorization
+🔹 Definition
+
+Authentication means verifying the identity of a user — checking who the user is.
+
+Authorization means checking user permissions — what the user is allowed to do.
+
+🔹 Explanation (Simple for Freshers)
+Authentication
+
+This step happens first.
+
+The system checks if the user is real.
+
+Example:
+
+Entering email + password
+
+OTP verification
+
+Logging in with Google
+
+Authorization
+
+This step happens after authentication.
+
+Once the system knows who you are, it checks what actions you can perform.
+
+Example:
+
+Admin can delete a user
+Normal user cannot delete another user
+Premium user can access paid content
+
+🔥 Main Difference (Short Table)
+Authentication	Authorization
+Checks identity	Checks permissions
+Happens first	Happens after authentication
+Login/OTP/password	Roles, access control
+Same for all users	Different for each user
+🔹 Pros & Cons
+✔ Authentication Pros
+
+Increases security
+
+Protects user data
+
+Simple to implement (password login)
+
+❌ Authentication Cons
+
+Password leaks can cause risk
+
+Extra steps like OTP can slow login
+
+✔ Authorization Pros
+
+Ensures correct access control
+
+Protects sensitive actions (like admin features)
+
+❌ Authorization Cons
+
+Complex role management in big systems
+
+Mistakes can cause data leakage or restriction
+
+🎯 Two Follow-up Questions (with short fresher answers)
+1. Why do we need both authentication and authorization?
+
+Because authentication verifies who the user is, and authorization decides what they can do. Both are required for secure systems.
+
+2. Can a user be authorized without authentication?
+
+No.
+The system must first know who the user is before giving any permissions.

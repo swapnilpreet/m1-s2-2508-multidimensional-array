@@ -17,7 +17,6 @@ function App() {
         <Route path="/add" element={<AddEditBook token={token} />} />
         <Route path="/edit/:id" element={<AddEditBook token={token} />} />
         <Route path="/login" element={<Login setToken={setToken} setRole={setRole} />} />
-        {/* <Route path="/about" element={<About />} /> */}
       </Routes>
     </Router>
   );

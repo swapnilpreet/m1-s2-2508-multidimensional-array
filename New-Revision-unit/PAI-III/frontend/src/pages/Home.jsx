@@ -40,7 +40,7 @@ export default function Home({ token, role }) {
 
   return (
     <div className="container">
-      <h2>📚 All Books</h2>
+      <h2>All Books</h2>
 
       <div className="filters">
         <input

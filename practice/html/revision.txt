@@ -318,6 +318,7 @@ Combinators and Specificity in CSS:
         h1 + p {
         color: green;
         }
+   
     General Sibling Combinator (~)
         The general sibling combinator selects all elements that are siblings of another element, regardless of their position in relation to that element.
 
