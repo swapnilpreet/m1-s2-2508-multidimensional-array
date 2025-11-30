@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Todo</title>
+<style>
+  body{font-family:Arial;padding:20px}
+  input{padding:8px;width:260px}
+  ul{list-style:none;padding:0}
+  li{display:flex;justify-content:space-between;padding:6px;border-bottom:1px solid #eee}
+  .done{text-decoration:line-through;color:green}
+</style>
+</head>
+<body>
+  <h3>Todo</h3>
+  <input id="task" placeholder="New task..." />
+  <button id="add">Add</button>
+  <ul id="list"></ul>
+
+<script>
+  const key='todos_v1';
+  function load(){ return JSON.parse(localStorage.getItem(key) || '[]'); }
+  function save(arr){ localStorage.setItem(key, JSON.stringify(arr)); }
+  let todos = load();
+
+  const list = document.getElementById('list');
+  function render(){
+    list.innerHTML = todos.map((t,i)=>`
+      <li>
+        <span class="${t.done ? 'done':''}">${t.text}</span>
+        <span>
+          <button data-i="${i}" class="toggle">${t.done ? 'Undo':'Done'}</button>
+          <button data-i="${i}" class="del">Delete</button>
+        </span>
+      </li>`).join('');
+  }
+  render();
+
+  document.getElementById('add').addEventListener('click', ()=>{
+    const v = document.getElementById('task').value.trim();
+    if(!v) return;
+    todos.push({text:v, done:false});
+    save(todos); render(); document.getElementById('task').value='';
+  });
+
+  list.addEventListener('click', e=>{
+    const i = e.target.dataset.i;
+    if(!i) return;
+    if(e.target.classList.contains('toggle')){ todos[i].done = !todos[i].done; save(todos); render(); }
+    if(e.target.classList.contains('del')){ todos.splice(i,1); save(todos); render(); }
+  });
+</script>
+</body>
+</html>

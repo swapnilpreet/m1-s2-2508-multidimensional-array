@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Table Filter Sort</title>
+    <style>
+      body {
+        font-family: Arial;
+        padding: 20px;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th,
+      td {
+        padding: 8px;
+        border: 1px solid #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    <input id="nameq" placeholder="Filter by name" />
+    <button id="sortMarks">Sort Marks ↓</button>
+    <button id="sortAge">Sort Age ↓</button>
+    <table id="tbl">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Marks</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <script>
+      const students = [
+        { name: "A", age: 20, marks: 88 },
+        { name: "B", age: 23, marks: 77 },
+        { name: "C", age: 22, marks: 91 },
+        { name: "D", age: 21, marks: 65 },
+      ];
+      let sortMarksAsc = false,
+        sortAgeAsc = false;
+      function render(list) {
+        document.querySelector("#tbl tbody").innerHTML = list
+          .map(
+            (s) =>
+              `<tr><td>${s.name}</td><td>${s.age}</td><td>${s.marks}</td></tr>`
+          )
+          .join("");
+      }
+      render(students);
+
+      document.getElementById("nameq").addEventListener("input", (e) => {
+        const q = e.target.value.trim().toLowerCase();
+        render(students.filter((s) => s.name.toLowerCase().includes(q)));
+      });
+
+      document.getElementById("sortMarks").addEventListener("click", () => {
+        sortMarksAsc = !sortMarksAsc;
+        const arr = [...students].sort((a, b) =>
+          sortMarksAsc ? a.marks - b.marks : b.marks - a.marks
+        );
+        render(arr);
+      });
+
+      document.getElementById("sortAge").addEventListener("click", () => {
+        sortAgeAsc = !sortAgeAsc;
+        const arr = [...students].sort((a, b) =>
+          sortAgeAsc ? a.age - b.age : b.age - a.age
+        );
+        render(arr);
+      });
+    </script>
+  </body>
+</html>

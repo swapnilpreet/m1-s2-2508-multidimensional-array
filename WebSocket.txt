@@ -1,0 +1,288 @@
+Q1. What is a WebSocket?
+✅ Definition
+    A WebSocket is a communication protocol that creates a persistent, 
+    full-duplex (two-way) connection between the client and server over a single TCP connection.
+
+    protocol:
+         protocol is a set of rules that establishes a persistent, full-duplex communication channel between a client and a server over a single TCP connection.
+    
+    TCP connection:
+        A Transmission Control Protocol (TCP) connection is a reliable, ordered, and error-checked communication channel established between two devices using the Transmission Control Protocol (TCP). Before data is sent, a "three-way handshake" occurs to ensure both devices are ready to communicate
+    
+    Three-way handshake:
+        1 The process involves a client sending a SYN (synchronize) packet, 
+        2 the server responding with a SYN-ACK (synchronize-acknowledge) packet, 
+        3 and the client acknowledging the server's response with an ACK (acknowledge) packet. 
+        This ensures both sides are ready to communicate and agree on the initial sequence numbers for data transfer.
+
+    Q http has handshakes?:
+        No, the basic HTTP protocol does not have a handshake, 
+        but its secure counterpart, HTTPS, uses a handshake to establish a secure connection. The secure version relies on a TLS handshake (or its predecessor, SSL) which is crucial for verifying the server and agreeing on encryption keys. 
+        However, both HTTP and HTTPS connections are built on top of TCP, which does use a foundational three-way handshake to establish the connection before any data is sent. 
+
+    🔍 Explanation:
+        Unlike HTTP where the client sends request → server responds → connection closes,
+        WebSocket keeps the connection open so both sides can send data anytime.
+
+    Example Code (Node.js server)
+        const WebSocket = require("ws");
+        const server = new WebSocket.Server({ port: 3000 });
+
+        server.on("connection", socket => {
+        console.log("Client Connected");
+
+        socket.on("message", msg => {
+            console.log("Received:", msg);
+            socket.send("Hello from server!");
+        });
+        });
+
+    Q: Why WebSocket is better than HTTP long-polling?
+        Long-polling sends repeated HTTP requests → extra overhead
+        WebSocket uses one persistent connection → less latency
+        Real-time applications need instant updates → WebSocket fits better
+
+Q2. What is Full-Duplex Communication?
+    Full-duplex means both parties can send/receive data at the same time.
+
+    🔍 Explanation
+        WebSocket allows real-time communication just like a phone call → continuous, interactive.
+
+    Q: Is HTTP full-duplex? Why or why not?
+        Answer: No, HTTP is half-duplex because the client must send a request before receiving a response.
+
+Q3. How does a WebSocket Connection Start?
+    ✔ Definition:
+        WebSocket begins as an HTTP handshake using the Upgrade header.
+
+    🔍 Explanation:
+        Client → “Upgrade to WebSocket?”
+        Server → “Yes, upgrading…”
+
+        After that, protocol switches from HTTP → WebSocket.
+
+Q4. What is the WebSocket URL Format?
+    ✔ Definition
+        ws:// → normal
+        wss:// → secure (SSL)
+
+    Example:
+        ws://localhost:5000
+        wss://myapp.com
+
+    📌 Follow-up
+        Q: What is the difference between ws:// and wss://?
+
+    Answer:
+        wss:// encrypts data (like https)
+        ws:// is not encrypted and less secure
+
+Q5. What is a WebSocket Server?
+    ✔ Definition
+        A program that accepts WebSocket connections and communicates with clients.
+
+    Example Code:
+        const WebSocket = require("ws");
+        const server = new WebSocket.Server({ port: 3000 });
+
+    📌 Follow-up:
+    Q: Can Express.js directly handle WebSockets?
+        Answer: No, but we can attach WebSocket server to an HTTP server created by Express.
+
+Q6. What is a WebSocket Client?
+    ✔ Definition:
+        A browser or app that connects to a WebSocket server.
+
+    Example Browser Code
+        const socket = new WebSocket("ws://localhost:3000");
+        socket.onopen = () => console.log("Connected");
+        socket.onmessage = e => console.log("Message:", e.data);
+
+    Follow-up
+        Q: What event triggers when connection closes?
+            socket.onclose = () => console.log("Closed");
+
+Q7. What are WebSocket Events?
+    ✔ Definition
+        Events that fire during connection lifecycle:
+    open
+    message
+    error
+    close
+
+    Example:
+        socket.onopen = () => {};
+        socket.onmessage = () => {};
+        socket.onerror = () => {};
+        socket.onclose = () => {};
+
+    Follow-up:
+    Q: What causes a WebSocket error?
+        Answer: Server crash, network failure, invalid frames.
+
+Q8. What is a WebSocket Message?
+    ✔ Definition
+        Data sent by client/server using .send().
+
+    Example:
+        socket.send("Hello");
+
+    Follow-up:
+        Q: Can WebSocket send JSON?
+            Yes, WebSockets can send JSON data. While WebSockets primarily handle text and binary data, JSON, being a text-based data format, can be easily transmitted over a WebSocket connection.
+           
+            socket.send(JSON.stringify({ name: "Swapnil" }));
+
+Q9. What Data Types can WebSocket Send?
+    ✔ Types
+        String
+        JSON
+        Binary (ArrayBuffer, Blob)
+
+    Example Binary
+        socket.send(new Blob(["Hello"]));
+
+    Follow-up:
+
+        Q: Why use binary data?
+            Answer: Faster for media files, images, audio, video.
+
+Q10. What is Ping/Pong in WebSockets?
+    ✔ Definition:
+        Heartbeat signals to check if client is active.
+
+    Example:
+    socket.ping();
+
+    Follow-up
+    Q: What happens if no pong is received?
+        Answer: Server closes the connection.
+
+Q11. What is a WebSocket Frame?
+    ✔ Definition
+        Small packet of data inside WebSocket protocol.
+
+    Follow-up
+    Q: Does a developer manually handle frames?
+        Answer: No, library handles it.
+
+Q12. What is the WebSocket ReadyState?
+    Values:
+
+    0 → CONNECTING
+    1 → OPEN
+    2 → CLOSING
+    3 → CLOSED
+
+    Example:
+        if (socket.readyState === 1) socket.send("Hi");
+
+    Follow-up
+
+    Q: What if readyState is 0?
+        Answer: Connection not open, message cannot be sent.
+
+Q13. What is the Purpose of Sec-WebSocket-Key?
+    ✔ Definition
+        Used to validate handshake and prevent fake WebSocket requests.
+
+    Follow-up
+
+    Q: Why base64 encoded?
+        Answer: WebSocket protocol requirement.
+
+Q14. What is the Sec-WebSocket-Accept Header?
+    Server computes hash of Sec-WebSocket-Key + magic string.
+
+    Example Algorithm
+        HMAC SHA-1 + Base64.
+
+    Follow-up
+
+    Q: Why do we need this?
+        Answer: To confirm real WebSocket handshake, avoid spoofing.
+
+Q15. What is Broadcast Messaging in WebSockets?
+    ✔ Definition
+        Sending one message to all connected clients.
+
+    Example:
+        server.clients.forEach(c => c.send("Broadcast msg"));
+
+    Follow-up:
+        Q: When is broadcast used?
+        Answer: Chat apps, live score updates, notifications.
+
+Q16. What is Room/Channel in WebSocket?
+    ✔ Definition
+        Grouping clients (like chat rooms).(Not built-in; must implement manually.)
+
+    Follow-up
+
+    Q: Does WebSocket provide built-in rooms like Socket.io?
+        Answer: No, custom logic required.
+
+Q17. What is the Difference Between WebSocket and Socket.io?
+    WebSocket	          Socket.io
+    Protocol	          Library
+    No fallback	          Has fallback (polling)
+    Pure communication	  Adds rooms, retries
+
+    Follow-up
+
+    Q: Is Socket.io same as WebSocket?
+        Answer: No, Socket.io uses WebSocket internally but adds features.
+
+Q19. What is a WebSocket Heartbeat?
+    ✔ Definition
+        Periodic ping to keep connection alive.
+
+    Example:
+        setInterval(() => socket.ping(), 30000);
+
+    Follow-up
+
+    Q: Why heartbeat needed?
+        Answer: Prevents idle disconnects.
+
+Q21. What Port Do WebSockets Use?
+    Default:
+    ws → 80
+    wss → 443
+
+    Follow-up
+
+    Q: Can WebSocket run on custom port?
+
+        Answer: Yes, any open port.
+
+Q22. What is CORS in WebSockets?
+    ✔ Definition
+        WebSocket also requires origin validation to prevent cross-site attacks.
+
+    Follow-up
+
+    Q: Does WebSocket support CORS headers?
+        Answer: Not in the same way as HTTP; server checks Origin header manually.
+
+Q23. What is a WebSocket Proxy?
+    ✔ Definition
+        Proxy server sits between client & server to route WebSocket traffic.
+
+    Follow-up
+
+    Q: Example when needed?
+        Answer: Load balancers like NGINX.
+
+Q25. Real-world Use Cases of WebSocket?
+    ✔ Chat apps
+    ✔ Multiplayer gaming
+    ✔ Stock price updates
+    ✔ Live dashboard
+    ✔ GPS tracking
+
+    Follow-up
+
+    Q: Which apps should NOT use WebSocket?
+
+        Answer: Simple CRUD apps that don’t need real-time updates.

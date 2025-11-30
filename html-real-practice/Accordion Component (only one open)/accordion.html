@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Accordion</title>
+    <style>
+      body {
+        font-family: Arial;
+        padding: 20px;
+      }
+      .item {
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        margin-bottom: 8px;
+        overflow: hidden;
+      }
+      .head {
+        padding: 12px;
+        background: #f7f7f7;
+        cursor: pointer;
+      }
+      .body {
+        padding: 12px;
+        display: none;
+      }
+      .body.show {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="item">
+      <div class="head">Q1: What is X?</div>
+      <div class="body">Answer 1</div>
+    </div>
+    <div class="item">
+      <div class="head">Q2: What is Y?</div>
+      <div class="body">Answer 2</div>
+    </div>
+    <div class="item">
+      <div class="head">Q3: What is Z?</div>
+      <div class="body">Answer 3</div>
+    </div>
+
+    <script>
+      document.querySelectorAll(".head").forEach((h) => {
+        h.addEventListener("click", () => {
+          document
+            .querySelectorAll(".body")
+            .forEach((b) => b.classList.remove("show"));
+          h.nextElementSibling.classList.toggle("show");
+        });
+      });
+    </script>
+  </body>
+</html>

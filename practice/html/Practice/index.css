@@ -1,0 +1,18 @@
+#suggestion-box {
+  border: 1px solid #ccc;
+  width: 250px;
+  background: #fff;
+  position: absolute;
+  top: 40px;
+  left: 0;
+  display: none;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
+  z-index: 100;
+}
+#suggestion-box div {
+  padding: 6px;
+  cursor: pointer;
+}
+#suggestion-box div:hover {
+  background: #f0f0f0;
+}

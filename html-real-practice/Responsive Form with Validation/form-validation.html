@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Responsive Form with Validation</title>
+<style>
+  body{font-family:Arial;margin:20px;display:flex;justify-content:center}
+  .container{max-width:700px;width:100%;padding:20px;border:1px solid #ddd;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.05)}
+  .row{display:flex;gap:12px;flex-wrap:wrap}
+  label{display:block;margin-bottom:6px;font-weight:600}
+  input[type="text"], input[type="email"], input[type="password"], select {width:100%;padding:10px;border:1px solid #ccc;border-radius:6px}
+  .field{flex:1 1 220px;min-width:220px;margin-bottom:12px}
+  .actions{display:flex;gap:10px;align-items:center}
+  .error{color:#d00;font-size:0.9rem}
+  .success{color:green;font-size:1rem;font-weight:600;margin-top:10px}
+  @media(max-width:520px){ .row{flex-direction:column} .field{min-width:100%} }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h2>Sign Up</h2>
+    <form id="form" novalidate>
+      <div class="row">
+        <div class="field">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" required />
+          <div class="error" id="err-name"></div>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required />
+          <div class="error" id="err-email"></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" required />
+          <div class="error" id="err-password"></div>
+        </div>
+        <div class="field">
+          <label>Gender</label>
+          <label><input type="radio" name="gender" value="male" checked /> Male</label>
+          <label><input type="radio" name="gender" value="female" /> Female</label>
+          <label><input type="radio" name="gender" value="other" /> Other</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>Skills</label>
+          <label><input type="checkbox" name="skills" value="html" /> HTML</label>
+          <label><input type="checkbox" name="skills" value="css" /> CSS</label>
+          <label><input type="checkbox" name="skills" value="js" /> JS</label>
+        </div>
+        <div class="field">
+          <label for="country">Country</label>
+          <select id="country" name="country">
+            <option value="india">India</option>
+            <option value="usa">USA</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit">Submit</button>
+        <button type="reset">Reset</button>
+      </div>
+    </form>
+
+    <div id="output" class="success" style="display:none"></div>
+  </div>
+
+<script>
+  const form = document.getElementById('form');
+  const out = document.getElementById('output');
+
+  function isValidEmail(email){
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  function isStrongPassword(p){
+    // 8+ chars, 1 uppercase, 1 digit, 1 special
+    return /^(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/.test(p);
+  }
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    // clear
+    document.querySelectorAll('.error').forEach(el=>el.textContent='');
+
+    const name = form.name.value.trim();
+    const email = form.email.value.trim();
+    const password = form.password.value;
+    const gender = form.gender.value;
+    const skills = Array.from(form.querySelectorAll('input[name="skills"]:checked')).map(i=>i.value);
+    const country = form.country.value;
+
+    let ok = true;
+    if(name.length < 1){ document.getElementById('err-name').textContent = 'Name is required'; ok=false; }
+    if(!isValidEmail(email)){ document.getElementById('err-email').textContent = 'Invalid email'; ok=false; }
+    if(!isStrongPassword(password)){ document.getElementById('err-password').textContent = 'Password must be 8+ chars, include uppercase, number and special char'; ok=false; }
+
+    if(!ok) return;
+
+    // show on screen
+    out.style.display = 'block';
+    out.textContent = `Submitted: ${name} | ${email} | ${gender} | Skills: ${skills.join(', ') || 'None'} | Country: ${country}`;
+    form.reset();
+  });
+</script>
+</body>
+</html>

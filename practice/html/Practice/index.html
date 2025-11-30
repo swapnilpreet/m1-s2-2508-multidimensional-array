@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Suggestion Demo</title>
+    <link rel="stylesheet" href="index.css" />
+    <style>
+            body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      width: 350px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 { text-align: center; }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin: 6px 0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+      border-radius: 5px;
+    }
+
+    .toggle-btn {
+      background: #555;
+      margin-top: 15px;
+    }
+
+    .radio-group, .checkbox-group {
+      margin: 10px 0;
+    }
+
+    #signup { display: none; }
+  </style>
+    </style>
+  </head>
+  <body>
+    <div style="position: relative; width: 250px">
+      <!-- <input
+        type="text"
+        id="suggestion-input"
+        placeholder="Type something..."
+      /> -->
+      <div id="suggestion-box"></div>
+      <div id="product-details"></div>  <!-- ----------------For showing product on same page---------------- -->
+    </div>
+
+    <div class="container">
+      <!-- ---------------- SIGNUP FORM ---------------- -->
+      <div id="signup">
+        <h2>Signup Form</h2>
+        <input type="text" id="s_name" placeholder="Full Name" />
+        <input type="email" id="s_email" placeholder="Email" />
+        <input type="password" id="s_password" placeholder="Password" />
+        <textarea id="s_address" rows="3" placeholder="Address"></textarea>
+        <label>Gender:</label>
+        <div class="radio-group">
+          <input type="radio" name="gender" value="male" /> Male
+          <input type="radio" name="gender" value="female" /> Female
+        </div>
+        <label>Skills:</label>
+        <div class="checkbox-group">
+          <input type="checkbox" id="html" /> HTML
+          <input type="checkbox" id="css" /> CSS
+          <input type="checkbox" id="js" /> JavaScript
+        </div>
+        <label>Country:</label>
+        <select id="s_country">
+          <option value="India">India</option>
+          <option value="USA">USA</option>
+          <option value="Japan">Japan</option>
+        </select>
+        <button onclick="handleSignup()">Signup</button>
+        <button class="toggle-btn" onclick="showLogin()">
+          Already have account? Login
+        </button>
+      </div>
+
+      <!-- ---------------- LOGIN FORM ---------------- -->
+      <div id="login">
+        <h2>Login Form</h2>
+        <input type="email" id="l_email" placeholder="Email" />
+        <input type="password" id="l_password" placeholder="Password" />
+        <button onclick="handleLogin()">Login</button>
+        <button class="toggle-btn" onclick="showSignup()">
+          New user? Signup
+        </button>
+      </div>
+    </div>
+<script>
+  function showSignup() {
+    document.getElementById("signup").style.display = "block";
+    document.getElementById("login").style.display = "none";
+  }
+
+  function showLogin() {
+    document.getElementById("signup").style.display = "none";
+    document.getElementById("login").style.display = "block";
+  }
+
+  /* -------------------------------------------------
+        VALIDATION FUNCTIONS
+  -------------------------------------------------- */
+  function isValidEmail(email) {
+    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return pattern.test(email);
+  }
+
+  function isStrongPassword(password) {
+    // At least 6 chars, 1 number, 1 letter
+    const pattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+    return pattern.test(password);
+  }
+
+  /* -------------------------------------------------
+        SIGNUP FUNCTION WITH VALIDATION
+  -------------------------------------------------- */
+  async function handleSignup() {
+    const name = document.getElementById("s_name").value.trim();
+    const email = document.getElementById("s_email").value.trim();
+    const password = document.getElementById("s_password").value.trim();
+    const address = document.getElementById("s_address").value.trim();
+    const country = document.getElementById("s_country").value;
+    const gender = document.querySelector("input[name='gender']:checked")?.value;
+
+    const skills = [];
+    if (document.getElementById("html").checked) skills.push("HTML");
+    if (document.getElementById("css").checked) skills.push("CSS");
+    if (document.getElementById("js").checked) skills.push("JavaScript");
+
+    /* ---------------- Validation ---------------- */
+    if (name === "") {
+      return alert("Name is required!");
+    }
+
+    if (!isValidEmail(email)) {
+      return alert("Enter a valid email like: test@example.com");
+    }
+
+    if (!isStrongPassword(password)) {
+      return alert("Password must contain:\n• Minimum 6 characters\n• At least 1 number\n• At least 1 letter");
+    }
+
+    if (address === "") {
+      return alert("Address is required!");
+    }
+
+    if (!gender) {
+      return alert("Please select gender!");
+    }
+
+    if (skills.length === 0) {
+      return alert("Please select at least one skill!");
+    }
+
+    if (country === "") {
+      return alert("Please select a country!");
+    }
+
+    /* ---------------- Create User Object ---------------- */
+    const user = {
+      name,
+      email,
+      password,
+      address,
+      gender,
+      skills,
+      country
+    };
+
+    console.log("Sending Signup Data:", user);
+
+    /* ---------------- Fake API ---------------- */
+    const res = await fetch("https://jsonplaceholder.typicode.com/users", {
+      method: "POST",
+      body: JSON.stringify(user),
+      headers: { "Content-Type": "application/json" }
+    });
+
+    const data = await res.json();
+
+    alert("Signup Successful!");
+    console.log("API Response:", data);
+
+    showLogin();
+  }
+
+  /* -------------------------------------------------
+        LOGIN FUNCTION WITH VALIDATION
+  -------------------------------------------------- */
+  async function handleLogin() {
+    const email = document.getElementById("l_email").value.trim();
+    const password = document.getElementById("l_password").value.trim();
+
+    if (!isValidEmail(email)) {
+      return alert("Enter a valid email!");
+    }
+
+    if (password.length < 6) {
+      return alert("Password must be at least 6 characters!");
+    }
+
+    const loginData = { email, password };
+
+    console.log("Login Data:", loginData);
+
+    /* ---------------- Fake API ---------------- */
+    const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
+      method: "POST",
+      body: JSON.stringify(loginData),
+      headers: { "Content-Type": "application/json" }
+    });
+
+    const data = await res.json();
+
+    alert("Login Successful!");
+    console.log("API Response:", data);
+  }
+</script>
+    <script src="index.js"></script>
+  </body>
+</html>

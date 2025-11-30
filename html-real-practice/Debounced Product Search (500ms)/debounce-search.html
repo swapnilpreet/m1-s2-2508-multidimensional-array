@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Debounced Search</title>
+    <style>
+      body {
+        font-family: Arial;
+        padding: 20px;
+      }
+      input {
+        padding: 8px;
+        width: 320px;
+      }
+      ul {
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>Search Products (debounced 500ms)</h3>
+    <input id="q" placeholder="Type product name..." />
+    <ul id="results"></ul>
+
+    <script>
+      const products = [
+        { id: 1, name: "Laptop" },
+        { id: 2, name: "Keyboard" },
+        { id: 3, name: "Mouse" },
+        { id: 4, name: "Charger" },
+        { id: 5, name: "Laptop Sleeve" },
+        { id: 6, name: "USB Cable" },
+      ];
+
+      function debounce(fn, wait) {
+        let t;
+        return (...args) => {
+          clearTimeout(t);
+          t = setTimeout(() => fn(...args), wait);
+        };
+      }
+
+      const input = document.getElementById("q");
+      const list = document.getElementById("results");
+
+      function render(items) {
+        list.innerHTML =
+          items.map((i) => `<li>${i.name}</li>`).join("") ||
+          "<li>No results</li>";
+      }
+
+      function search(value) {
+        const v = value.trim().toLowerCase();
+        if (!v) {
+          render([]);
+          return;
+        }
+        const matched = products.filter((p) =>
+          p.name.toLowerCase().includes(v)
+        );
+        render(matched);
+      }
+
+      input.addEventListener(
+        "input",
+        debounce((e) => search(e.target.value), 500)
+      );
+    </script>
+  </body>
+</html>
